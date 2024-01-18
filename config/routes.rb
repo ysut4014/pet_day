@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
+  root 'public/homes#top'
+
   # 顧客用
   # URL /customers/sign_in ...
-  devise_for :users, skip: [:passwords, :registrations], controllers: {
-    sessions: 'public/sessions'
-  }
   
+  devise_for :users, skip: [:passwords], controllers: {
+  registrations: "public/registrations",
+  sessions: 'public/sessions'
+}
+
   # フォロー関連
   resources :follows, only: [:create, :destroy]
 
@@ -18,9 +22,11 @@ Rails.application.routes.draw do
   resources :comments, only: [:create, :destroy] do
     resources :comment_replies, only: [:create, :destroy], shallow: true
   end
-  
+
   # 通知関連
   resources :notifications, only: [:index, :destroy]
+  
+
 
   # 管理者用
   # URL /admin/sign_in ...

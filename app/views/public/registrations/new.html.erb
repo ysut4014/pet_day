@@ -4,7 +4,7 @@
   <h5 class="p-5">新規会員登録</h5>
   
 
-<%= form_for(@resource, as: @resource_name, url: user_registration_path(@resource_name)) do |f| %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <div class="row">
       <div class="col-md-3 mb-3">
         <%= f.label :name, "ネーム" %>

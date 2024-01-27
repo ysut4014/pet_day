@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   root 'public/homes#top'
 
   # 顧客用
@@ -6,7 +7,7 @@ Rails.application.routes.draw do
     registrations: "public/registrations",
     sessions: 'public/sessions'
   }
-
+ namespace :public do
   # フォロー関連
   resources :follows, only: [:create, :destroy]
 
@@ -22,7 +23,12 @@ Rails.application.routes.draw do
   end
 
   # 通知関連
-  resources :notifications, only: [:index, :destroy]
+  resources :notifications, only: [:index, :new, :create]
+  
+  resources :posts
+end
+  
+  get 'home/about', to: 'homes#about', as: 'user_homes_about'
 
   # 管理者用
   devise_for :admins, skip: [:registrations, :passwords], controllers: {
@@ -39,10 +45,12 @@ Rails.application.routes.draw do
     resources :follows, only: [:create, :destroy]
 
     # ユーザー関連
-    resources :users, only: [:show, :edit, :update]
+    resources :users, only: [:index, :show, :edit, :update]
 
     # いいね関連
     resources :likes, only: [:create, :destroy]
+    
+    resources :posts
 
     # コメント関連
     resources :comments, only: [:create, :destroy] do

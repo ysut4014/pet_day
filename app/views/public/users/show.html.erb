@@ -1,0 +1,8 @@
+<!-- app/views/users/show.html.erb -->
+
+<h1>マイページ</h1>
+<p>Name: <%= @user.name %></p>
+<p>Email: <%= @user.email %></p>
+<!-- 他のユーザー情報を表示 -->
+
+<%= link_to "編集", edit_public_user_path(@user) %>

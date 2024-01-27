@@ -16,8 +16,6 @@
                              public_user GET    /public/users/:id(.:format)                                                                       public/users#show
                                          PATCH  /public/users/:id(.:format)                                                                       public/users#update
                                          PUT    /public/users/:id(.:format)                                                                       public/users#update
-                            public_likes POST   /public/likes(.:format)                                                                           public/likes#create
-                             public_like DELETE /public/likes/:id(.:format)                                                                       public/likes#destroy
           public_comment_comment_replies POST   /public/comments/:comment_id/comment_replies(.:format)                                            public/comment_replies#create
                     public_comment_reply DELETE /public/comment_replies/:id(.:format)                                                             public/comment_replies#destroy
                          public_comments POST   /public/comments(.:format)                                                                        public/comments#create
@@ -25,6 +23,8 @@
                     public_notifications GET    /public/notifications(.:format)                                                                   public/notifications#index
                                          POST   /public/notifications(.:format)                                                                   public/notifications#create
                  new_public_notification GET    /public/notifications/new(.:format)                                                               public/notifications#new
+                       public_post_likes POST   /public/posts/:post_id/likes(.:format)                                                            public/likes#create
+                        public_post_like DELETE /public/posts/:post_id/likes/:id(.:format)                                                        public/likes#destroy
                             public_posts GET    /public/posts(.:format)                                                                           public/posts#index
                                          POST   /public/posts(.:format)                                                                           public/posts#create
                          new_public_post GET    /public/posts/new(.:format)                                                                       public/posts#new

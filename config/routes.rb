@@ -15,7 +15,6 @@ Rails.application.routes.draw do
   resources :users, only: [:show, :edit, :update]
 
   # いいね関連
-  resources :likes, only: [:create, :destroy]
 
   # コメント関連
   resources :comments, only: [:create, :destroy] do
@@ -25,7 +24,9 @@ Rails.application.routes.draw do
   # 通知関連
   resources :notifications, only: [:index, :new, :create]
   
-  resources :posts
+  resources :posts do
+    resources :likes, only: [:create, :destroy]
+  end
 end
   
   get 'home/about', to: 'homes#about', as: 'user_homes_about'

@@ -1,0 +1,2 @@
+// 更新が成功したらいいねの表示を変更
+document.getElementById("like-box").innerHTML = '<%= escape_javascript(render partial: 'shared/likes', locals: { post: @post }) %>';

@@ -18,6 +18,7 @@ class Public::PostsController < ApplicationController
 
   def index
     @posts = Post.all
+    @post = Post.new  # または @post = Post.first などで最初の投稿を代入するなど
   end
 
   private

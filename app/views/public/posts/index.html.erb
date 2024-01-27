@@ -1,15 +1,16 @@
-
 <h1>投稿一覧</h1>
 
 <% @posts.each do |post| %>
   <div class="post">
-    <h2><%= post.title %></h2>
-    <p><%= post.content %></p>
+<h2><%= link_to post.title, public_post_path(post) %></h2>
+<p><%= post.content %></p>
     
     <% if post.image.attached? %>
       <%= image_tag post.image.variant(resize: "300x300") %>
     <% end %>
     
     <p>投稿者: <%= post.user.name %></p>
+
+    <%= render 'likes/like_button', post: post %>
   </div>
 <% end %>

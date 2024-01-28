@@ -17,8 +17,12 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.all
-    @post = Post.new  # または @post = Post.first などで最初の投稿を代入するなど
+    @post = Post.new  
+    if params[:search].present?
+      @posts = Post.where("title LIKE ? OR content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
+    else
+      @posts = Post.all
+    end
   end
 
   private

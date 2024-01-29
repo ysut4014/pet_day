@@ -3,10 +3,9 @@ Rails.application.routes.draw do
   root 'public/homes#top'
 
   # 顧客用
-  devise_for :users, skip: [:passwords], controllers: {
-    registrations: "public/registrations",
-    sessions: 'public/sessions'
-  }
+devise_for :users, controllers: {
+  sessions: 'public/sessions'
+}
  namespace :public do
   # フォロー関連
   resources :follows, only: [:create, :destroy]
@@ -32,9 +31,9 @@ end
   get 'home/about', to: 'homes#about', as: 'user_homes_about'
 
   # 管理者用
-  devise_for :admins, skip: [:registrations, :passwords], controllers: {
-    sessions: "admin/sessions"
-  }
+devise_for :admins, controllers: {
+  sessions: 'admin/sessions'
+}
 
   # 管理者用のルート
   namespace :admin do

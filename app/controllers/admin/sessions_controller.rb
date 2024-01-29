@@ -1,10 +1,9 @@
-# frozen_string_literal: true
-
+# app/controllers/admin/sessions_controller.rb
 class Admin::SessionsController < Devise::SessionsController
   private
 
   def after_sign_in_path_for(resource)
-    admin_top_path
+    admin_users_path
   end
 
   def after_sign_out_path_for(resource)

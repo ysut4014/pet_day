@@ -1,0 +1,20 @@
+<!-- app/views/admin/users/index.html.erb -->
+
+<h1>ユーザー一覧</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>名前</th>
+      <th>Email</th>
+      <th>アクティブ</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <%= render partial: 'user', locals: { user: user } %>
+    <% end %>
+  </tbody>
+</table>

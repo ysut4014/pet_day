@@ -4,4 +4,9 @@ class Public::UsersController < ApplicationController
     @user = current_user  
     @user = User.find(params[:id])
   end
+  
+  def index
+    @user = current_user
+    @posts = @user.posts
+  end  
 end

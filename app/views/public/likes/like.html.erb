@@ -1,0 +1,6 @@
+<!-- app/views/public/likes/index.html.erb -->
+<h1>Likes for <%= @post.title %></h1>
+
+<% @likes.each do |like| %>
+  <p><%= like.user.name %> liked this post on <%= like.created_at.strftime('%B %d, %Y at %I:%M %p') %></p>
+<% end %>

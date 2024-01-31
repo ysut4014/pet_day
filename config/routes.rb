@@ -11,7 +11,7 @@ devise_for :users, controllers: {
   resources :follows, only: [:create, :destroy]
 
   # ユーザー関連
-  resources :users, only: [:show, :edit, :update]
+  resources :users, only: [:show, :edit, :update, :index,]
 
   # いいね関連
 
@@ -24,7 +24,7 @@ devise_for :users, controllers: {
   resources :notifications, only: [:index, :new, :create]
   
   resources :posts do
-    resources :likes, only: [:create, :destroy]
+   resources :likes, only: [:index, :create, :destroy]
   end
 end
   

@@ -1,0 +1,15 @@
+<!-- app/views/public/users/index.html.erb -->
+<h2><%= @user.name %>'s Posts</h2>
+
+<% if @posts.present? %>
+  <% @posts.each do |post| %>
+    <h3><%= post.title %></h3>
+    <p><%= post.content %></p>
+    <p><strong>いいね数: <%= post.likes.count %></strong></p>
+    <!-- 他の投稿の情報も表示できるように適宜追加 -->
+
+    <hr>
+  <% end %>
+<% else %>
+  <p>No posts available for <%= @user.name %>.</p>
+<% end %>

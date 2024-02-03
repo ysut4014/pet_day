@@ -17,6 +17,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
+    @users = User.paginate(page: params[:page], per_page: 10)
     @post = Post.new  
     if params[:search].present?
       @posts = Post.where("title LIKE ? OR content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")

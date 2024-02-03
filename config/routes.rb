@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   
   # 顧客用
 devise_for :users, controllers: {
+  registrations: "public/registrations",
   sessions: 'public/sessions'
 }
 
@@ -22,6 +23,7 @@ devise_for :admins, controllers: {
 
     # ユーザー関連
   resources :users, only: [:show, :edit, :update, :index] do
+    
 
   end
     
@@ -55,6 +57,7 @@ devise_for :admins, controllers: {
 
     # ユーザー関連
     resources :users do
+      resources :posts
       member do
         patch 'toggle_active', to: 'users#toggle_active'
       end

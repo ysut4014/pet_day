@@ -6,8 +6,6 @@
   <td><%= user.email %></td>
   <td>
     <%= link_to '詳細', admin_user_path(user) %>
-    |
-    <%= link_to '削除', admin_user_path(user), method: :delete, data: { confirm: '本当に削除しますか？' } %>
   </td>
   <td>
     <%= form_for [:admin, user], url: toggle_active_admin_user_path(user), remote: true, method: :patch, class: 'toggle-active-form' do |f| %>

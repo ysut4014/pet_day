@@ -4,12 +4,22 @@
   <td><%= user.id %></td>
   <td><%= user.name %></td>
   <td><%= user.email %></td>
-  <td><%= user.is_active? ? 'Yes' : 'No' %></td>
   <td>
     <%= link_to '詳細', admin_user_path(user) %>
     |
-    <%= link_to '編集', edit_admin_user_path(user) %>
-    |
     <%= link_to '削除', admin_user_path(user), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+  </td>
+  <td>
+    <%= form_for [:admin, user], url: toggle_active_admin_user_path(user), remote: true, method: :patch, class: 'toggle-active-form' do |f| %>
+      <%= f.radio_button :is_active, true, id: "activate-radio", onchange: "submitForm();" %>
+      <%= label_tag "activate-radio", "会員" %>
+
+      <%= f.radio_button :is_active, false, id: "deactivate-radio", onchange: "submitForm();" %>
+      <%= label_tag "deactivate-radio", "退会" %>
+
+      <%= f.hidden_field :is_active, value: user.is_active? %>
+
+      <%= f.submit "Update", class: "update-button" %>
+    <% end %>
   </td>
 </tr>

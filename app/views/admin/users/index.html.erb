@@ -8,8 +8,8 @@
       <th>ID</th>
       <th>名前</th>
       <th>Email</th>
-      <th>アクティブ</th>
       <th>操作</th>
+      <th>アクティブ</th>
     </tr>
   </thead>
   <tbody>
@@ -18,3 +18,5 @@
     <% end %>
   </tbody>
 </table>
+<%= will_paginate @users %>
+

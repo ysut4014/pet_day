@@ -1,11 +1,42 @@
 # app/controllers/admin/users_controller.rb
-
 class Admin::UsersController < ApplicationController
-  before_action :authenticate_admin!
+  before_action :authenticate_admin! # Add this if authentication is required
 
   def index
     @users = User.all
+    @users = User.paginate(page: params[:page], per_page: 10)
+
   end
 
-  # 他のアクション（show, edit, update, destroy）も必要に応じて追加
+  def show
+    @user = User.find(params[:id])
+    # Additional code for displaying user details
+  end
+
+  def edit
+    @user = User.find(params[:id]) 
+  end
+
+  def update
+    @user = User.find(params[:id]) # Replace 'User' with your actual user model
+
+    if @user.update(user_params)
+      redirect_to admin_users_path, notice: 'User was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
+def toggle_active
+  @user = User.find(params[:id])
+  @user.update(is_active: !@user.is_active)
+
+end
+  
+  private
+
+  def user_params
+    # Add your user params here
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end  
 end

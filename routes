@@ -1,29 +1,31 @@
- Prefix Verb   URI Pattern                                                                                       Controller#Action
+   Prefix Verb   URI Pattern                                                                                       Controller#Action
                                     root GET    /                                                                                                 public/homes#top
                         new_user_session GET    /users/sign_in(.:format)                                                                          public/sessions#new
                             user_session POST   /users/sign_in(.:format)                                                                          public/sessions#create
                     destroy_user_session DELETE /users/sign_out(.:format)                                                                         public/sessions#destroy
-                cancel_user_registration GET    /users/cancel(.:format)                                                                           public/registrations#cancel
-                   new_user_registration GET    /users/sign_up(.:format)                                                                          public/registrations#new
-                  edit_user_registration GET    /users/edit(.:format)                                                                             public/registrations#edit
-                       user_registration PATCH  /users(.:format)                                                                                  public/registrations#update
-                                         PUT    /users(.:format)                                                                                  public/registrations#update
-                                         DELETE /users(.:format)                                                                                  public/registrations#destroy
-                                         POST   /users(.:format)                                                                                  public/registrations#create
+                       new_user_password GET    /users/password/new(.:format)                                                                     devise/passwords#new
+                      edit_user_password GET    /users/password/edit(.:format)                                                                    devise/passwords#edit
+                           user_password PATCH  /users/password(.:format)                                                                         devise/passwords#update
+                                         PUT    /users/password(.:format)                                                                         devise/passwords#update
+                                         POST   /users/password(.:format)                                                                         devise/passwords#create
+                cancel_user_registration GET    /users/cancel(.:format)                                                                           devise/registrations#cancel
+                   new_user_registration GET    /users/sign_up(.:format)                                                                          devise/registrations#new
+                  edit_user_registration GET    /users/edit(.:format)                                                                             devise/registrations#edit
+                       user_registration PATCH  /users(.:format)                                                                                  devise/registrations#update
+                                         PUT    /users(.:format)                                                                                  devise/registrations#update
+                                         DELETE /users(.:format)                                                                                  devise/registrations#destroy
+                                         POST   /users(.:format)                                                                                  devise/registrations#create
                           public_follows POST   /public/follows(.:format)                                                                         public/follows#create
                            public_follow DELETE /public/follows/:id(.:format)                                                                     public/follows#destroy
+                     public_user_follows DELETE /public/users/:user_id/follows(.:format)                                                          public/users/follows#destroy
+                                         POST   /public/users/:user_id/follows(.:format)                                                          public/users/follows#create
+                            public_users GET    /public/users(.:format)                                                                           public/users#index
                         edit_public_user GET    /public/users/:id/edit(.:format)                                                                  public/users#edit
                              public_user GET    /public/users/:id(.:format)                                                                       public/users#show
                                          PATCH  /public/users/:id(.:format)                                                                       public/users#update
                                          PUT    /public/users/:id(.:format)                                                                       public/users#update
-          public_comment_comment_replies POST   /public/comments/:comment_id/comment_replies(.:format)                                            public/comment_replies#create
-                    public_comment_reply DELETE /public/comment_replies/:id(.:format)                                                             public/comment_replies#destroy
-                         public_comments POST   /public/comments(.:format)                                                                        public/comments#create
-                          public_comment DELETE /public/comments/:id(.:format)                                                                    public/comments#destroy
-                    public_notifications GET    /public/notifications(.:format)                                                                   public/notifications#index
-                                         POST   /public/notifications(.:format)                                                                   public/notifications#create
-                 new_public_notification GET    /public/notifications/new(.:format)                                                               public/notifications#new
-                       public_post_likes POST   /public/posts/:post_id/likes(.:format)                                                            public/likes#create
+                       public_post_likes GET    /public/posts/:post_id/likes(.:format)                                                            public/likes#index
+                                         POST   /public/posts/:post_id/likes(.:format)                                                            public/likes#create
                         public_post_like DELETE /public/posts/:post_id/likes/:id(.:format)                                                        public/likes#destroy
                             public_posts GET    /public/posts(.:format)                                                                           public/posts#index
                                          POST   /public/posts(.:format)                                                                           public/posts#create
@@ -33,10 +35,29 @@
                                          PATCH  /public/posts/:id(.:format)                                                                       public/posts#update
                                          PUT    /public/posts/:id(.:format)                                                                       public/posts#update
                                          DELETE /public/posts/:id(.:format)                                                                       public/posts#destroy
+          public_comment_comment_replies POST   /public/comments/:comment_id/comment_replies(.:format)                                            public/comment_replies#create
+                    public_comment_reply DELETE /public/comment_replies/:id(.:format)                                                             public/comment_replies#destroy
+                         public_comments POST   /public/comments(.:format)                                                                        public/comments#create
+                          public_comment DELETE /public/comments/:id(.:format)                                                                    public/comments#destroy
+                    public_notifications GET    /public/notifications(.:format)                                                                   public/notifications#index
+                                         POST   /public/notifications(.:format)                                                                   public/notifications#create
+                 new_public_notification GET    /public/notifications/new(.:format)                                                               public/notifications#new
                         user_homes_about GET    /home/about(.:format)                                                                             homes#about
                        new_admin_session GET    /admins/sign_in(.:format)                                                                         admin/sessions#new
                            admin_session POST   /admins/sign_in(.:format)                                                                         admin/sessions#create
                    destroy_admin_session DELETE /admins/sign_out(.:format)                                                                        admin/sessions#destroy
+                      new_admin_password GET    /admins/password/new(.:format)                                                                    devise/passwords#new
+                     edit_admin_password GET    /admins/password/edit(.:format)                                                                   devise/passwords#edit
+                          admin_password PATCH  /admins/password(.:format)                                                                        devise/passwords#update
+                                         PUT    /admins/password(.:format)                                                                        devise/passwords#update
+                                         POST   /admins/password(.:format)                                                                        devise/passwords#create
+               cancel_admin_registration GET    /admins/cancel(.:format)                                                                          devise/registrations#cancel
+                  new_admin_registration GET    /admins/sign_up(.:format)                                                                         devise/registrations#new
+                 edit_admin_registration GET    /admins/edit(.:format)                                                                            devise/registrations#edit
+                      admin_registration PATCH  /admins(.:format)                                                                                 devise/registrations#update
+                                         PUT    /admins(.:format)                                                                                 devise/registrations#update
+                                         DELETE /admins(.:format)                                                                                 devise/registrations#destroy
+                                         POST   /admins(.:format)                                                                                 devise/registrations#create
                               admin_root GET    /admin(.:format)                                                                                  admin/homes#top
                                admin_top GET    /admin/top(.:format)                                                                              admin/homes#top
                            admin_follows POST   /admin/follows(.:format)                                                                          admin/follows#create

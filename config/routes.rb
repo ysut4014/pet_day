@@ -1,6 +1,8 @@
 # config/routes.rb
 Rails.application.routes.draw do
   
+  get 'relationships/followings'
+  get 'relationships/followers'
   # 顧客用
 devise_for :users, controllers: {
   registrations: "public/registrations",
@@ -17,32 +19,34 @@ devise_for :admins, controllers: {
 
 
   
-  namespace :public do
-    # フォロー関連
-    resources :follows, only: [:create, :destroy]
-
-    # ユーザー関連
+namespace :public do
+  # フォロー関連
+  resources :relationships, only: [:create, :destroy]
+  # ユーザー関連
   resources :users, only: [:show, :edit, :update, :index] do
-    
-
+    resource :relationships, only: [:create, :destroy]
+    get 'followings' => 'relationships#followings', as: 'followings'
+    get 'followers' => 'relationships#followers', as: 'followers'
   end
-    
-    # いいね関連
-    resources :posts do
-      resources :likes, only: [:index, :create, :destroy]
-    end
 
-    # コメント関連
-    resources :comments, only: [:create, :destroy] do
-      resources :comment_replies, only: [:create, :destroy], shallow: true
-    end
-
-    # 通知関連
-    resources :notifications, only: [:index, :new, :create]
+  # いいね関連
+  resources :posts do
+    resources :likes, only: [:index, :create, :destroy]
+    # 必要に応じて追加の投稿関連のルートを追加できます
   end
-  
+
+  # コメント関連
+  resources :comments, only: [:create, :destroy] do
+    resources :comment_replies, only: [:create, :destroy], shallow: true
+  end
+
+  # 通知関連
+  resources :notifications, only: [:index, :new, :create]
+
+  # 'homes' コントローラー内の 'about' ルートを追加
+end
+
   get 'home/about', to: 'homes#about', as: 'user_homes_about'
-
   # 管理者用
 
 

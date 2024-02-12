@@ -16,15 +16,26 @@ class Public::PostsController < ApplicationController
     @post = Post.find(params[:id])
   end
 
-  def index
-    @users = User.paginate(page: params[:page], per_page: 10)
-    @post = Post.new  
-    if params[:search].present?
-      @posts = Post.where("title LIKE ? OR content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
-    else
-      @posts = Post.all
-    end
+def index
+  if params[:search].present?
+    @posts = Post.where("title LIKE ? OR content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%").paginate(page: params[:page], per_page: 10)
+  else
+    @posts = Post.paginate(page: params[:page], per_page: 10)
   end
+  @post = Post.new  
+end
+  
+  def follow
+    @user = User.find(params[:id])
+    current_user.followees << @user unless current_user.followees.include?(@user)
+    redirect_to @user
+  end
+
+  def unfollow
+    @user = User.find(params[:id])
+    current_user.followees.delete(@user)
+    redirect_to @user
+  end  
 
   private
 

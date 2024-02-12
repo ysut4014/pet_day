@@ -1,0 +1,9 @@
+// app/views/public/follows/create.js.erb
+
+<% if @followed %>
+  // Update the link text or any other DOM manipulation for "フォロー解除"
+  $('.follow-link').text('フォロー解除');
+<% else %>
+  // Update the link text or any other DOM manipulation for "フォローする"
+  $('.follow-link').text('フォローする');
+<% end %>

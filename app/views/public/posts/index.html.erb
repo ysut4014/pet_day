@@ -1,4 +1,6 @@
 <h1>投稿一覧</h1>
+
+
 <%= form_with(url: public_posts_path, method: :get) do |form| %>
   <%= form.text_field :search, placeholder: '投稿を検索' %>
   <%= form.submit '検索' %>
@@ -6,16 +8,28 @@
 
 <% @posts.each do |post| %>
   <div class="post">
-<h2><%= link_to post.title, public_post_path(post) %></h2>
-<p><%= post.content %></p>
-    
+    <h2><%= link_to post.title, public_post_path(post) %></h2>
+    <p><%= post.content %></p>
+
     <% if post.image.attached? %>
       <%= image_tag post.image.variant(resize: "300x300") %>
     <% end %>
-    
+
     <p>投稿者: <%= post.user.name %></p>
+        <p>いいね数: <%= post.likes.count %></p> <!-- ここでいいね数を表示 -->
 
     <%= render 'likes/like_button', post: post %>
+
+    <% unless post.user == current_user %> <!-- ユーザーが自分でない場合のみフォローリンクを表示 -->
+      <% if current_user.following?(post.user) %>
+        <%= link_to "フォロー外す", public_user_relationships_path(post.user), method: :delete, class: "btn btn-danger" %>
+      <% else %>
+        <%= link_to "フォローする", public_user_relationships_path(post.user), method: :post, class: "btn btn-primary" %>
+
+      <% end %>
+    <% end %>
   </div>
 <% end %>
-<%= will_paginate @users %>
+
+
+<%= will_paginate @posts %>

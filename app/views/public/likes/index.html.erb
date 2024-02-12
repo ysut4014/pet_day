@@ -19,4 +19,5 @@
   <p>いいねした投稿はありません。</p>
 <% end %>
 <%= will_paginate @users %>
+<%= link_to "Back", public_user_path(id: current_user.id), class: "btn btn-secondary" %>
 

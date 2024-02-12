@@ -1,0 +1,6 @@
+ <!--app/views/public/relationships/followings.html.erb-->
+<h1>フォローしているユーザー一覧</h1>
+
+<% @followings.each do |user| %>
+  <p><%= link_to user.name, public_user_path(user) %></p>
+<% end %>

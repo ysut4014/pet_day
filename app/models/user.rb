@@ -1,3 +1,4 @@
+# app/models/user.rb
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
@@ -7,10 +8,21 @@ class User < ApplicationRecord
   
   has_many :posts
   has_many :likes, dependent: :destroy  
-  has_many :followees, foreign_key: :follower_id, class_name: 'Follow'
-  has_many :following, through: :followees, source: :followee
+  has_many :relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
+  has_many :reverse_of_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
+  has_many :followings, through: :relationships, source: :followed
+  has_many :followers, through: :reverse_of_relationships, source: :follower
+
+  def follow(user_id)
+    relationships.create(followed_id: user_id)
+  end
+
+def unfollow(user_id)
+  relationship = relationships.find_by(followed_id: user_id)
+  relationship&.destroy if relationship
+end
 
   def following?(user)
-    following.include?(user)
+    followings.include?(user)
   end
 end

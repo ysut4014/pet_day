@@ -1,0 +1,8 @@
+
+<!-- app/views/admin/users/toggle_active.js.erb -->
+
+// Update the status text
+document.querySelector("#user-status").textContent = "<%= j(@user.is_active? ? '会員' : '退会') %>";
+
+// Reset the form
+document.querySelector("form").reset();

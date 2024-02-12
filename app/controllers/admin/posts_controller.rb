@@ -12,6 +12,9 @@ class Admin::PostsController < ApplicationController
                Post.all
              end.paginate(page: params[:page], per_page: 10)
   end
+  def show
+    @post = Post.find(params[:id])
+  end  
   
   def destroy
     @post = Post.find(params[:id])

@@ -1,0 +1,29 @@
+<h1><%= @post.title %></h1>
+
+<p><strong>Content:</strong> <%= @post.content %></p>
+
+<p><strong>Author:</strong> <%= link_to @post.user.name, admin_user_path(@post.user) %></p>
+
+<p><strong>Created At:</strong> <%= @post.created_at %></p>
+
+<% if @post.image.attached? %>
+  <%= image_tag @post.image, style: 'max-width: 300px; max-height: 300px;' %>
+<% end %>
+
+<h2>Comments</h2>
+<% @post.comments.each do |comment| %>
+  <div class="comment">
+    <p>
+      <strong><%= comment.user.name %>:</strong> 
+      <%= comment.posted_text %>
+    </p>
+    <!-- Delete link -->
+      <%= link_to "消去", public_comment_path(@post, comment), method: :delete, data: { confirm: "Are you sure you want to delete this comment?" } %>
+  </div>
+<% end %>
+
+
+
+
+
+<%= button_to "Back", admin_posts_path, method: :get, class: "btn btn-secondary" %>

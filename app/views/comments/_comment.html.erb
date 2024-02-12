@@ -1,0 +1,11 @@
+<% comments.each do |comment| %>
+  <div class="comment">
+    <p>
+      <strong><%= comment.user.name %>:</strong> 
+      <span style="<%= comment.user == comment.post.user ? 'background-color: #f2f2f2;' : '' %>">
+        <%= comment.posted_text %>
+      </span>
+    </p>
+    <!-- Add more details if needed -->
+  </div>
+<% end %>

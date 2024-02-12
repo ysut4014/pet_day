@@ -2,3 +2,29 @@
 <p><%= @post.content %></p>
 <p>投稿者: <%= @post.user.name %></p>
 <%= render 'likes/like_button', post: @post %>
+
+<h2>コメント</h2>
+<% @post.comments.each do |comment| %>
+  <div>
+    <strong><%= comment.user.name %>:</strong>
+    <span style="<% if comment.user == @post.user %>background-color: #f2f2f2;<% end %>">
+      <%= comment.posted_text %>
+    </span>
+    <% if comment.user == current_user %>
+      <%= link_to '削除', public_comment_path(comment), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+    <% end %>
+  </div>
+<% end %>
+
+
+<%= form_with(model: [@post, @post.comments.build], url: public_comments_path, local: true) do |form| %>
+  <%= form.hidden_field :post_id, value: @post.id %>
+
+  <div class="field">
+    <%= form.label :posted_text %>
+    <%= form.text_area :posted_text, rows: 4 %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Post Comment" %>
+  </div>
+<% end %>

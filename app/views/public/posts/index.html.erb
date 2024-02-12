@@ -1,35 +1,47 @@
 <h1>投稿一覧</h1>
 
-
-<%= form_with(url: public_posts_path, method: :get) do |form| %>
-  <%= form.text_field :search, placeholder: '投稿を検索' %>
-  <%= form.submit '検索' %>
-<% end %>
-
 <% @posts.each do |post| %>
   <div class="post">
     <h2><%= link_to post.title, public_post_path(post) %></h2>
     <p><%= post.content %></p>
-
     <% if post.image.attached? %>
       <%= image_tag post.image.variant(resize: "300x300") %>
     <% end %>
-
     <p>投稿者: <%= post.user.name %></p>
-        <p>いいね数: <%= post.likes.count %></p> <!-- ここでいいね数を表示 -->
+    <p>いいね数: <%= post.likes.count %></p>
 
     <%= render 'likes/like_button', post: post %>
 
-    <% unless post.user == current_user %> <!-- ユーザーが自分でない場合のみフォローリンクを表示 -->
+    <%= link_to "コメント数: #{post.comments.count}", "#", class: "comment-toggler", data: { post_id: post.id } %>
+
+    <% unless post.user == current_user %>
       <% if current_user.following?(post.user) %>
         <%= link_to "フォロー外す", public_user_relationships_path(post.user), method: :delete, class: "btn btn-danger" %>
       <% else %>
         <%= link_to "フォローする", public_user_relationships_path(post.user), method: :post, class: "btn btn-primary" %>
-
       <% end %>
     <% end %>
+
+    <div class="comments" id="comments_<%= post.id %>" style="display: none;">
+      <%= render partial: 'comments/comment', locals: { comments: post.comments } %>
+    </div>
   </div>
 <% end %>
 
-
 <%= will_paginate @posts %>
+
+<script>
+  document.querySelectorAll('.comment-toggler').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+      var postId = event.target.dataset.postId;
+      var commentsDiv = document.querySelector('#comments_' + postId);
+
+      if (commentsDiv.style.display === 'none') {
+        commentsDiv.style.display = 'block';
+      } else {
+        commentsDiv.style.display = 'none';
+      }
+    });
+  });
+</script>

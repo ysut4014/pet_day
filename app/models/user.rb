@@ -6,6 +6,8 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { maximum: 50 }
   validates_inclusion_of :is_active, in: [true, false]
   
+  belongs_to :user
+  
   has_many :posts
   has_many :likes, dependent: :destroy  
   has_many :relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy

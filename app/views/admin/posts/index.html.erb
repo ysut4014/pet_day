@@ -9,7 +9,7 @@
   <% if @posts.present? %>
     <% @posts.each do |post| %>
       <li>
-        <strong>Title:</strong> <%= post.title %><br>
+        <strong>Title:</strong> <%= link_to post.title, admin_post_path(post) %><br>
         <strong>Content:</strong> <%= post.content %><br>
         <strong>Author:</strong> <%= link_to post.user.name, admin_user_path(post.user) %><br>
         <strong>Created At:</strong> <%= post.created_at %><br>

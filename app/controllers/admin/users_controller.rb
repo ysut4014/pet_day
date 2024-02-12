@@ -23,20 +23,18 @@ class Admin::UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to admin_users_path, notice: 'User was successfully updated.'
     else
-      render :edit
+      redirect_to admin_users_path, notice: 'User was successfully updated.'
+
     end
   end
 
-def toggle_active
-  @user = User.find(params[:id])
-  @user.update(is_active: !@user.is_active)
+ 
 
-end
   
   private
 
   def user_params
     # Add your user params here
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :is_active)
   end  
 end

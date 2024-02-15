@@ -14,13 +14,16 @@
 
     <%= link_to "コメント数: #{post.comments.count}", "#", class: "comment-toggler", data: { post_id: post.id } %>
 
-    <% unless post.user == current_user %>
-      <% if current_user.following?(post.user) %>
-        <%= link_to "フォロー外す", public_user_relationships_path(post.user), method: :delete, class: "btn btn-danger" %>
-      <% else %>
-        <%= link_to "フォローする", public_user_relationships_path(post.user), method: :post, class: "btn btn-primary" %>
-      <% end %>
+<% unless current_user.nil? %>
+  <% unless post.user == current_user %>
+    <% if current_user.following?(post.user) %>
+      <%= link_to "フォロー外す", public_user_relationships_path(post.user), method: :delete, class: "btn btn-danger" %>
+    <% else %>
+      <%= link_to "フォローする", public_user_relationships_path(post.user), method: :post, class: "btn btn-primary" %>
     <% end %>
+  <% end %>
+<% end %>
+
 
     <div class="comments" id="comments_<%= post.id %>" style="display: none;">
       <%= render partial: 'comments/comment', locals: { comments: post.comments } %>

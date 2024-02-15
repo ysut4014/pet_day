@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_12_124229) do
+ActiveRecord::Schema.define(version: 2024_02_15_061506) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -62,10 +62,11 @@ ActiveRecord::Schema.define(version: 2024_02_12_124229) do
   create_table "comments", force: :cascade do |t|
     t.integer "user_id", null: false
     t.text "posted_text", null: false
-    t.text "reply", null: false
+    t.text "reply"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "post_id", null: false
+    t.integer "parent_comment_id"
     t.index ["post_id"], name: "index_comments_on_post_id"
   end
 
@@ -114,6 +115,16 @@ ActiveRecord::Schema.define(version: 2024_02_12_124229) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "replies", force: :cascade do |t|
+    t.text "posted_text"
+    t.integer "user_id", null: false
+    t.integer "comment_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["comment_id"], name: "index_replies_on_comment_id"
+    t.index ["user_id"], name: "index_replies_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.text "introduction", default: ""
@@ -135,6 +146,7 @@ ActiveRecord::Schema.define(version: 2024_02_12_124229) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comment_replies", "comments"
   add_foreign_key "comment_replies", "users"
+  add_foreign_key "comments", "comments", column: "parent_comment_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "follows", "users", column: "followee_id"
@@ -147,4 +159,6 @@ ActiveRecord::Schema.define(version: 2024_02_12_124229) do
   add_foreign_key "notifications", "users", column: "visited_id"
   add_foreign_key "notifications", "users", column: "visitor_id"
   add_foreign_key "posts", "users"
+  add_foreign_key "replies", "comments"
+  add_foreign_key "replies", "users"
 end

@@ -32,12 +32,15 @@ namespace :public do
   # いいね関連
   resources :posts do
     resources :likes, only: [:index, :create, :destroy]
+    resources :comments, only: [:create, :destroy] do
+     resources :replies, only: [:create]  # 返信用のルーティングを追加
+    end
     # 必要に応じて追加の投稿関連のルートを追加できます
   end
 
   # コメント関連
   resources :comments, only: [:create, :destroy] do
-    resources :comment_replies, only: [:create, :destroy], shallow: true
+    resources :replies, only: [:create]  # 返信用のルーティングを追加
   end
 
   # 通知関連

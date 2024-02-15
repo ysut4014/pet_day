@@ -14,17 +14,45 @@
       <%= link_to '削除', public_comment_path(comment), method: :delete, data: { confirm: '本当に削除しますか？' } %>
     <% end %>
   </div>
+
+<!-- 返信フォーム -->
+<%= form_with(model: [comment, comment.replies.build], url: public_comment_replies_path(comment), local: true) do |form| %>
+  <div class="field">
+    <%= form.label :posted_text, "返信する" %>
+    <%= form.text_area :posted_text, rows: 2 %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Post Reply" %>
+  </div>
 <% end %>
 
+<!-- 返信一覧 -->
+<% comment.replies.each do |reply| %>
+  <div>
+    <% if reply.user == current_user %>
+      <strong><%= current_user.name %>:</strong>
+    <% elsif reply.user %>
+      <strong><%= reply.user.name %>:</strong>
+    <% else %>
+      <strong>Unknown User:</strong>
+    <% end %>
+    <%= reply.posted_text %>
+  </div>
+<% end %>
+
+
+
+
+<% end %>
 
 <%= form_with(model: [@post, @post.comments.build], url: public_comments_path, local: true) do |form| %>
   <%= form.hidden_field :post_id, value: @post.id %>
 
   <div class="field">
-    <%= form.label :posted_text %>
+    <%= form.label :posted_text, "コメントする" %>
     <%= form.text_area :posted_text, rows: 4 %>
   </div>
   <div class="actions">
-    <%= form.submit "Post Comment" %>
+    <%= form.submit "コメントする" %>
   </div>
 <% end %>

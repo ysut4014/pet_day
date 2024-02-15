@@ -16,6 +16,9 @@ class Public::CommentsController < ApplicationController
     @comment.destroy
     redirect_back fallback_location: root_path, notice: 'コメントを削除しました。'
   end
+  def index
+    # コメントの一覧を取得するロジックをここに追加する
+  end
   private
 
 def comment_params

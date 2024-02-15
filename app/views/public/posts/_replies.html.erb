@@ -1,0 +1,22 @@
+<% comment.replies.each do |reply| %>
+  <div>
+    <% if reply.user == current_user %>
+      <strong><%= current_user.name %>:</strong>
+    <% elsif reply.user %>
+      <strong><%= reply.user.name %>:</strong>
+    <% else %>
+      <strong>Unknown User:</strong>
+    <% end %>
+    <%= reply.posted_text %>
+  </div>
+<% end %>
+
+<%= form_with(model: [comment, comment.replies.build], url: public_comment_replies_path(comment), local: true, remote: true) do |form| %>
+  <div class="field">
+    <%= form.label :posted_text, "返信する" %>
+    <%= form.text_area :posted_text, rows: 2 %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Post Reply" %>
+  </div>
+<% end %>

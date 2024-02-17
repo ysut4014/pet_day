@@ -26,14 +26,17 @@
   </div>
 
   <div class="field">
+    <%= form.label :public_email %>
+    <%= form.check_box :public_email %>
+    <%= form.label :public_email, "公開する" %>
+  </div>
+
+  <div class="field">
     <%= form.label :password %>
     <%= form.password_field :password %>
   </div>
 
-  <div class="field">
-    <%= form.label :password_confirmation %>
-    <%= form.password_field :password_confirmation %>
-  </div>
+
 
   <div class="actions">
     <%= form.submit "Update" %>

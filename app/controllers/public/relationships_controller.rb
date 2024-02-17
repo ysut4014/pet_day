@@ -12,15 +12,15 @@ class Public::RelationshipsController < ApplicationController
     redirect_to request.referer  
   end
   # フォロー一覧
-  def followings
-    @user = User.find(params[:user_id])
-    @followings = @user.followings
-  end
+def followings
+  @user = User.find(params[:user_id])
+  @followings = @user.followings.distinct
+end
 
   # フォロワー一覧
   def followers
-    user = User.find(params[:user_id])
-    @users = user.followers
+    @user = User.find(params[:user_id])
+    @users = @user.followers.distinct
   end
   def show
     # ここでusersを定義する

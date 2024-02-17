@@ -17,7 +17,7 @@ devise_for :admins, controllers: {
 
   root 'public/homes#top'
 
-
+get '/users/search', to: 'public/users#search'
   
 namespace :public do
   # フォロー関連
@@ -48,6 +48,7 @@ namespace :public do
 end
 
   get 'home/about', to: 'homes#about', as: 'user_homes_about'
+
   # 管理者用
 
 

@@ -1,5 +1,17 @@
 <div class="plate mx-auto" id="cork">
   <span>Welcome!!</span>
+<% if alert %>
+  <div class="alert alert-warning">
+    <%= alert %>
+  </div>
+<% end %>
+
+<% if notice %>
+  <div class="alert alert-success">
+    <%= notice %>
+  </div>
+<% end %>
+
 <div class="home-box mx-auto my-3">
     <p class="home-text">ようこそ、ながのCAKEへ！<br>
     このサイトは、ケーキ販売のECサイトになります。

@@ -1,0 +1,57 @@
+<h1>投稿検索結果</h1>
+
+<form action="/users/search" method="GET">
+  <input type="text" name="query" placeholder="ユーザーを検索">
+  <button type="submit">検索</button>
+</form>
+<% if @posts.any? %>
+  <% @posts.each do |post| %>
+    <div class="post">
+      <h2><%= link_to post.title, public_post_path(post) %></h2>
+      <p><%= post.content %></p>
+      <% if post.image.attached? %>
+        <%= image_tag post.image.variant(resize: "300x300") %>
+      <% end %>
+      <p>投稿者: <%= post.user.name %></p>
+      <p>いいね数: <%= post.likes.count %></p>
+
+      <%= render 'likes/like_button', post: post %>
+
+      <%= link_to "コメント数: #{post.comments.count}", "#", class: "comment-toggler", data: { post_id: post.id } %>
+
+      <% unless current_user.nil? %>
+        <% unless post.user == current_user %>
+          <% if current_user.following?(post.user) %>
+            <%= link_to "フォロー外す", public_user_relationships_path(post.user), method: :delete, class: "btn btn-danger" %>
+          <% else %>
+            <%= link_to "フォローする", public_user_relationships_path(post.user), method: :post, class: "btn btn-primary" %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <div class="comments" id="comments_<%= post.id %>" style="display: none;">
+        <%= render partial: 'comments/comment', locals: { comments: post.comments } %>
+      </div>
+    </div>
+  <% end %>
+
+  <%= will_paginate @posts %>
+<% else %>
+  <p>該当する投稿は見つかりませんでした。</p>
+<% end %>
+
+<script>
+  document.querySelectorAll('.comment-toggler').forEach(function(button) {
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+      var postId = event.target.dataset.postId;
+      var commentsDiv = document.querySelector('#comments_' + postId);
+
+      if (commentsDiv.style.display === 'none') {
+        commentsDiv.style.display = 'block';
+      } else {
+        commentsDiv.style.display = 'none';
+      }
+    });
+  });
+</script>

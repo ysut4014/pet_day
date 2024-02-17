@@ -2,7 +2,7 @@
 
 <h1>マイページ</h1>
 <p>Name: <%= @user.name %></p>
-<p>Email: <%= @user.email %></p>
+<p>Email: <%= @user.public_email ? @user.email : "非公開" %></p>
 
 <td>フォロー数: <%= @user.followings.count %></td>
 <td>フォロワー数: <%= @user.followers.count %></td>

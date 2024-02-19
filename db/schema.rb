@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_17_154057) do
+ActiveRecord::Schema.define(version: 2024_02_19_152007) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -90,13 +90,14 @@ ActiveRecord::Schema.define(version: 2024_02_17_154057) do
     t.integer "visitor_id", null: false
     t.integer "visited_id", null: false
     t.integer "comment_id", null: false
-    t.integer "like_id", null: false
-    t.integer "follower_id", null: false
+    t.integer "like_id"
+    t.integer "follower_id"
     t.string "action", null: false
     t.boolean "is_checked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "memo"
+    t.boolean "viewed", default: false
   end
 
   create_table "posts", force: :cascade do |t|
@@ -105,6 +106,7 @@ ActiveRecord::Schema.define(version: 2024_02_17_154057) do
     t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "viewed", default: false
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -123,6 +125,19 @@ ActiveRecord::Schema.define(version: 2024_02_17_154057) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["comment_id"], name: "index_replies_on_comment_id"
     t.index ["user_id"], name: "index_replies_on_user_id"
+  end
+
+  create_table "user_notifications", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "sender_id", null: false
+    t.integer "post_id", null: false
+    t.string "notification_type"
+    t.boolean "read"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["post_id"], name: "index_user_notifications_on_post_id"
+    t.index ["sender_id"], name: "index_user_notifications_on_sender_id"
+    t.index ["user_id"], name: "index_user_notifications_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -162,4 +177,7 @@ ActiveRecord::Schema.define(version: 2024_02_17_154057) do
   add_foreign_key "posts", "users"
   add_foreign_key "replies", "comments"
   add_foreign_key "replies", "users"
+  add_foreign_key "user_notifications", "posts"
+  add_foreign_key "user_notifications", "senders"
+  add_foreign_key "user_notifications", "users"
 end

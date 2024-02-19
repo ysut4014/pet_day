@@ -1,7 +1,12 @@
 class Public::NotificationsController < ApplicationController
-  def index
-    @notifications = Notification.all
+def index
+  @notifications = current_user.notifications.where(viewed: false)
+  
+  # 未読の通知を閲覧したときに閲覧状態を更新する
+  @notifications.each do |notification|
+    notification.update(viewed: true)
   end
+end
 
   def new
     @notification = Notification.new

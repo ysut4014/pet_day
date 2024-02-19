@@ -10,9 +10,9 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy  
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
   has_many :followings, through: :relationships, source: :followed
-  
+  has_many :followed_relationships, foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy
+  has_many :followers, through: :followed_relationships, source: :follower
   has_many :reverse_relationships, foreign_key: "followed_id", class_name: "Relationship", dependent: :destroy
-  has_many :followers, through: :reverse_relationships, source: :follower
   def active?
     is_active
   end
@@ -28,4 +28,8 @@ class User < ApplicationRecord
   def following?(user)
     followings.include?(user)
   end
+  def followed_posts
+    Post.where(user_id: follower_ids)
+  end
+  
 end

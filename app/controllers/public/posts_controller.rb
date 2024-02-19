@@ -14,7 +14,8 @@ class Public::PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-  end
+    @post.update(viewed: true) unless @post.viewed
+  end    
 
 def index
   if params[:search].present?

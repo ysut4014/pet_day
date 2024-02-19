@@ -1,9 +1,7 @@
-<h1>Notifications</h1>
+<!-- app/views/notifications/index.html.erb -->
 
-<ul>
-  <% @notifications.each do |notification| %>
-    <li><%= notification.memo %></li>
-  <% end %>
-</ul>
-
-<%= link_to 'New Notification', new_public_notification_path %>
+<% current_user.notifications.where(viewed: false).each do |notification| %>
+  <div class="alert alert-info">
+    <%= notification.content %>
+  </div>
+<% end %>

@@ -1,7 +1,7 @@
-<!-- app/views/notifications/index.html.erb -->
-
-<% current_user.notifications.where(viewed: false).each do |notification| %>
-  <div class="alert alert-info">
-    <%= notification.content %>
-  </div>
+<% notifications = @notifications.where.not(visitor_id: current_user.id) %>
+<% if notifications.exists? %>
+  <%= render notifications %>
+  <%= paginate notifications %>
+<% else %>
+  <p>通知はありません</p>
 <% end %>

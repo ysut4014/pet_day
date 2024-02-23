@@ -1,2 +1,2 @@
-module Public::RelationshipsHelper
+module Public:: RelationshipsHelper
 end

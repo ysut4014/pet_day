@@ -1,4 +1,4 @@
- Prefix Verb   URI Pattern                                                                                       Controller#Action
+  Prefix Verb   URI Pattern                                                                                       Controller#Action
                 relationships_followings GET    /relationships/followings(.:format)                                                               relationships#followings
                  relationships_followers GET    /relationships/followers(.:format)                                                                relationships#followers
                         new_user_session GET    /users/sign_in(.:format)                                                                          public/sessions#new
@@ -32,6 +32,7 @@
                                          DELETE /admins(.:format)                                                                                 devise/registrations#destroy
                                          POST   /admins(.:format)                                                                                 devise/registrations#create
                                     root GET    /                                                                                                 public/homes#top
+                            users_search GET    /users/search(.:format)                                                                           public/users#search
                     public_relationships POST   /public/relationships(.:format)                                                                   public/relationships#create
                      public_relationship DELETE /public/relationships/:id(.:format)                                                               public/relationships#destroy
                public_user_relationships DELETE /public/users/:user_id/relationships(.:format)                                                    public/relationships#destroy
@@ -45,7 +46,7 @@
                                          PUT    /public/users/:id(.:format)                                                                       public/users#update
                        public_post_likes GET    /public/posts/:post_id/likes(.:format)                                                            public/likes#index
                                          POST   /public/posts/:post_id/likes(.:format)                                                            public/likes#create
-                        public_post_like DELETE /public/posts/:post_id/likes/:id(.:format)                                                        public/likes#destroy
+                        public_post_like DELETE /public/posts/:post_id/likes/:id(.:format)                                                        public/lik s#destroy
                     public_post_comments POST   /public/posts/:post_id/comments(.:format)                                                         public/comments#create
                      public_post_comment DELETE /public/posts/:post_id/comments/:id(.:format)                                                     public/comments#destroy
                             public_posts GET    /public/posts(.:format)                                                                           public/posts#index
@@ -64,7 +65,6 @@
                     public_notifications GET    /public/notifications(.:format)                                                                   public/notifications#index
                                          POST   /public/notifications(.:format)                                                                   public/notifications#create
                  new_public_notification GET    /public/notifications/new(.:format)                                                               public/notifications#new
-                     public_users_search GET    /public/users/search(.:format)                                                                    public/public/users#search
                         user_homes_about GET    /home/about(.:format)                                                                             homes#about
                               admin_root GET    /admin(.:format)                                                                                  admin/homes#top
                                admin_top GET    /admin/top(.:format)                                                                              admin/homes#top
@@ -87,8 +87,8 @@
                                          PATCH  /admin/users/:id(.:format)                                                                        admin/users#update
                                          PUT    /admin/users/:id(.:format)                                                                        admin/users#update
                                          DELETE /admin/users/:id(.:format)                                                                        admin/users#destroy
-                             admin_likes POST   /admin/likes(.:format)                                                                            admin/likes#create
-                              admin_like DELETE /admin/likes/:id(.:format)                                                                        admin/likes#destroy
+                        admin_post_likes POST   /admin/posts/:post_id/likes(.:format)                                                             admin/likes#create
+                         admin_post_like DELETE /admin/posts/:post_id/likes/:id(.:format)                                                         admin/likes#destroy
                              admin_posts GET    /admin/posts(.:format)                                                                            admin/posts#index
                                          POST   /admin/posts(.:format)                                                                            admin/posts#create
                           new_admin_post GET    /admin/posts/new(.:format)                                                                        admin/posts#new
@@ -102,7 +102,8 @@
                           admin_comments POST   /admin/comments(.:format)                                                                         admin/comments#create
                            admin_comment DELETE /admin/comments/:id(.:format)                                                                     admin/comments#destroy
                      admin_notifications GET    /admin/notifications(.:format)                                                                    admin/notifications#index
-                      admin_notification DELETE /admin/notifications/:id(.:format)                                                                admin/notifications#destroy
+                      admin_notification GET    /admin/notifications/:id(.:format)                                                                admin/notifications#show
+                                         DELETE /admin/notifications/:id(.:format)                                                                admin/notifications#destroy
                      admin_registrations GET    /admin/registrations(.:format)                                                                    admin/registrations#index
            rails_postmark_inbound_emails POST   /rails/action_mailbox/postmark/inbound_emails(.:format)                                           action_mailbox/ingresses/postmark/inbound_emails#create
               rails_relay_inbound_emails POST   /rails/action_mailbox/relay/inbound_emails(.:format)                                              action_mailbox/ingresses/relay/inbound_emails#create
@@ -130,3 +131,4 @@ new_rails_conductor_inbound_email_source GET    /rails/conductor/action_mailbox/
                       rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                                       active_storage/disk#show
                update_rails_disk_service PUT    /rails/active_storage/disk/:encoded_token(.:format)                                               active_storage/disk#update
                     rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                                    active_storage/direct_uploads#create
+ec2-user:~/environment/pet_d

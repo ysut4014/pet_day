@@ -1,0 +1,33 @@
+<% visitor = notification.visitor %>
+<% visited = notification.visited %>
+<div class="col-md-6 mx-auto">
+  <div class="form-inline">
+    <span>
+      <%= link_to root_path(visitor) do %>
+        <strong>
+          <%= visitor.name %>
+        </strong>
+      <% end %>
+      さんが
+      <% case notification.action %>
+      <% when 'follow' then %>
+        あなたをフォローしました
+      <% when 'like' then %>
+        あなたの投稿にいいねしました
+      <% when 'comment' then %>
+        <% if notification.post %>
+          <% if notification.post.user_id == visited.id %>
+            あなたの投稿にコメントしました
+          <% else %>
+            <%= notification.post.user.name %>さんの投稿にコメントしました
+          <% end %>
+        <% else %>
+          <!-- 投稿が存在しない場合の処理 -->
+          コメントを削除しました
+        <% end %>
+      <% end %>
+      <%# タイムスタンプを追加 %>
+      <span class="timestamp"><%= notification.created_at.strftime("%Y-%m-%d %H:%M:%S") %></span>
+    </span>
+  </div>
+</div>

@@ -19,26 +19,16 @@
     購入には会員登録が必要になります。
     </p>
   </div>
+<%= button_to '全ての通知を削除', delete_all_notifications_path, method: :delete, data: { confirm: '本当に全ての通知を削除しますか？' }, class: 'btn btn-danger mb-3' %>
+  <!-- 通知を表示する部分 -->
+<% @notifications.each do |notification| %>
+  <div class="notification">
+    <%= render partial: 'notification', locals: { notification: notification } %>
+
+  </div>
   
-  <% if user_signed_in? && current_user.followers.any? %>
-    <% if current_user.followers.any? { |follower| follower.posts.where(viewed: false).any? } %>
-      <div class="container mt-4">
-        <h2>フォロワーからの新しい投稿があります</h2>
-        <ul>
-          <% current_user.followers.each do |follower| %>
-            <% follower.posts.order(created_at: :desc).limit(5).each do |post| %>
-              <% unless post.viewed %>
-                <li>
-                  <%= "#{follower.name} からの新しい投稿: " %><%= link_to "#{post.title}", public_post_path(post) %>
-                </li>
-                <% post.update(viewed: true) %>
-              <% end %>
-            <% end %>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-  <% end %>
+<% end %>
+
 
 
   <div class="all-items-show-button"><%= link_to "全ての投稿を見る", public_posts_path %></div>

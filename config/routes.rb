@@ -42,13 +42,17 @@ namespace :public do
   end
 
   # 通知関連
-  resources :notifications, only: [:index, :new, :create]
+  resources :notifications, only: [:index, :destroy, :create] do
+    collection do
+      delete :destroy_all
+    end
+  end
 
   # 'homes' コントローラー内の 'about' ルートを追加
 end
 
   get 'home/about', to: 'homes#about', as: 'user_homes_about'
-
+  delete '/notifications/delete_all', to: 'notifications#delete_all', as: 'delete_all_notifications'
   # 管理者用
 
 
@@ -69,9 +73,9 @@ end
       end
     end
     # いいね関連
-    resources :likes, only: [:create, :destroy]
-    
-    resources :posts
+    resources :posts do
+      resources :likes, only: [:create, :destroy]
+    end
 
     # コメント関連
     resources :comments, only: [:create, :destroy] do
@@ -79,7 +83,7 @@ end
     end
 
     # 通知関連
-    resources :notifications, only: [:index, :destroy]
+    resources :notifications, only: [:index, :destroy, :show]
   end
   
   # その他のルートも追加...

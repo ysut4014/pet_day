@@ -5,7 +5,6 @@
   <button type="submit">検索</button>
 </form>
 
-
 <% @posts.each do |post| %>
   <div class="post">
     <h2><%= link_to post.title, public_post_path(post) %></h2>

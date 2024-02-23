@@ -8,16 +8,35 @@ class Public::LikesController < ApplicationController
     @users = User.paginate(page: params[:page], per_page: 10)
   end
   
-  def create
-    @post = Post.find(params[:post_id])
-    current_user.likes.create(post: @post)
-    redirect_back fallback_location: public_posts_path
-  end
+def create
+  @post = Post.find(params[:post_id])
+  @like = @post.likes.build(user_id: current_user.id)
+  
+if @like.save
+  # いいねが保存された場合の処理
+  flash[:notice] = 'いいねしました'
+else
+  # いいねが保存されなかった場合の処理
+  flash[:alert] = 'いいねに失敗しました'
+end
+redirect_back fallback_location: public_post_path(@post)
 
-  def destroy
-    @post = Post.find(params[:post_id])
-    like = current_user.likes.find_by(post: @post)
-    like.destroy
-    redirect_back fallback_location: public_posts_path
-  end
+end
+
+
+
+
+def destroy
+  @post = Post.find(params[:post_id])
+  like = current_user.likes.find_by(post: @post)
+  like.destroy
+  redirect_back fallback_location: public_posts_path
+end
+
+private
+
+def like_params
+  params.require(:like).permit(:user_id, :post_id)
+end
+
 end

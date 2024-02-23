@@ -4,6 +4,12 @@ class Public::HomesController < ApplicationController
   def about
   end
 
-  def top
+def top
+  if user_signed_in?
+    @notifications = current_user.notifications
+  else
+    @notifications = []
   end
+end
+
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_19_152007) do
+ActiveRecord::Schema.define(version: 2024_02_23_190346) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -89,15 +89,15 @@ ActiveRecord::Schema.define(version: 2024_02_19_152007) do
   create_table "notifications", force: :cascade do |t|
     t.integer "visitor_id", null: false
     t.integer "visited_id", null: false
-    t.integer "comment_id", null: false
+    t.integer "comment_id"
     t.integer "like_id"
-    t.integer "follower_id"
     t.string "action", null: false
     t.boolean "is_checked", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "memo"
-    t.boolean "viewed", default: false
+    t.integer "post_id"
+    t.boolean "checked"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -171,7 +171,6 @@ ActiveRecord::Schema.define(version: 2024_02_19_152007) do
   add_foreign_key "likes", "users"
   add_foreign_key "notifications", "comments"
   add_foreign_key "notifications", "likes"
-  add_foreign_key "notifications", "users", column: "follower_id"
   add_foreign_key "notifications", "users", column: "visited_id"
   add_foreign_key "notifications", "users", column: "visitor_id"
   add_foreign_key "posts", "users"

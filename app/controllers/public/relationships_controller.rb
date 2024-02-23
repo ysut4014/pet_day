@@ -2,10 +2,22 @@ class Public::RelationshipsController < ApplicationController
   before_action :authenticate_user! # ログインしていないユーザーをリダイレクトする
 
   # フォローするとき
-  def create
-    current_user.follow(params[:user_id])
-    redirect_to request.referer
+def create
+  current_user.follow(params[:user_id])
+  
+  if params[:relationship].present? && params[:relationship][:following_id].present?
+    @user = User.find(params[:relationship][:following_id])
+    current_user.follow!(@user)
+    @user.create_notification_follow!(current_user)
+  else
+    # パラメータが正しくない場合の処理を記述する
   end
+  
+  redirect_to request.referer
+end
+
+  
+  
 
   def destroy
     current_user.unfollow(params[:user_id])
@@ -26,4 +38,6 @@ end
     # ここでusersを定義する
     @users = User.all
   end  
+  
+  
 end

@@ -1,33 +1,123 @@
-<h1>投稿検索結果</h1>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>投稿検索結果</title>
+  <style>
+    .post-container {
+      text-align: center;
+    }
 
-<form action="/users/search" method="GET">
-  <input type="text" name="query" placeholder="ユーザーを検索">
-  <button type="submit">検索</button>
-</form>
-<% if @posts.any? %>
-  <% @posts.each do |post| %>
-    <div class="post">
-      <h2><%= link_to post.title, public_post_path(post) %></h2>
+    .post {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 20px;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .post-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .like-count {
+      margin-left: 10px;
+      color: #777;
+    }
+
+    .like-button {
+      display: inline-block;
+      padding: 5px 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .comment-toggler {
+      margin-top: 10px;
+      display: inline-block;
+      text-decoration: none;
+      color: #007bff;
+    }
+
+    .comment-toggler:hover {
+      text-decoration: underline;
+    }
+
+    .follow-button {
+      display: inline-block;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .follow-button.following {
+      background-color: #dc3545;
+      color: #fff;
+    }
+
+    .follow-button.following:hover {
+      background-color: #c82333;
+    }
+
+    .follow-button:not(.following) {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .follow-button:not(.following):hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="post-container">
+    <h1>投稿検索結果</h1>
+
+    <form action="/users/search" method="GET">
+      <input type="text" name="query" placeholder="ユーザーを検索">
+      <button type="submit">検索</button>
+    </form>
+
+    <% if @posts.any? %>
+      <% @posts.each do |post| %>
+        <div class="post">
+          <div class="post-header">
+            <h2><%= link_to post.title, public_post_path(post) %></h2>
+            <p class="post-date">投稿日時: <%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
+          </div>
+
       <p><%= post.content %></p>
       <% if post.image.attached? %>
         <%= image_tag post.image.variant(resize: "300x300") %>
       <% end %>
       <p>投稿者: <%= post.user.name %></p>
-      <p>いいね数: <%= post.likes.count %></p>
 
-      <%= render 'likes/like_button', post: post %>
+  <!-- いいねボタン -->
+  <%= render 'likes/like_button', post: post %>
 
-      <%= link_to "コメント数: #{post.comments.count}", "#", class: "comment-toggler", data: { post_id: post.id } %>
 
-      <% unless current_user.nil? %>
-        <% unless post.user == current_user %>
-          <% if current_user.following?(post.user) %>
-            <%= link_to "フォロー外す", public_user_relationships_path(post.user), method: :delete, class: "btn btn-danger" %>
-          <% else %>
-            <%= link_to "フォローする", public_user_relationships_path(post.user), method: :post, class: "btn btn-primary" %>
-          <% end %>
-        <% end %>
-      <% end %>
+
+      <%= link_to "コメント: #{post.comments.count}", "#", class: "comment-toggler", data: { post_id: post.id } %>
+
+<% unless current_user.nil? %>
+  <% unless post.user == current_user %>
+    <% if current_user.following?(post.user) %>
+      <%= link_to raw('<i class="fa-solid fa-user-plus"></i> 外す'), public_user_relationships_path(post.user), method: :delete %>
+    <% else %>
+      <%= link_to raw('<i class="fa-solid fa-plus"></i> '), public_user_relationships_path(post.user), method: :post %>
+    <% end %>
+  <% end %>
+<% end %>
+
 
       <div class="comments" id="comments_<%= post.id %>" style="display: none;">
         <%= render partial: 'comments/comment', locals: { comments: post.comments } %>
@@ -35,23 +125,27 @@
     </div>
   <% end %>
 
-  <%= will_paginate @posts %>
-<% else %>
-  <p>該当する投稿は見つかりませんでした。</p>
-<% end %>
 
-<script>
-  document.querySelectorAll('.comment-toggler').forEach(function(button) {
-    button.addEventListener('click', function(event) {
-      event.preventDefault();
-      var postId = event.target.dataset.postId;
-      var commentsDiv = document.querySelector('#comments_' + postId);
+      <%= will_paginate @posts %>
+    <% else %>
+      <p>該当する投稿は見つかりませんでした。</p>
+    <% end %>
+  </div>
 
-      if (commentsDiv.style.display === 'none') {
-        commentsDiv.style.display = 'block';
-      } else {
-        commentsDiv.style.display = 'none';
-      }
+  <script>
+    document.querySelectorAll('.comment-toggler').forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        event.preventDefault();
+        var postId = event.target.dataset.postId;
+        var commentsDiv = document.querySelector('#comments_' + postId);
+
+        if (commentsDiv.style.display === 'none') {
+          commentsDiv.style.display = 'block';
+        } else {
+          commentsDiv.style.display = 'none';
+        }
+      });
     });
-  });
-</script>
+  </script>
+</body>
+</html>

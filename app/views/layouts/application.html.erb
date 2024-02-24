@@ -41,9 +41,6 @@
               <%= link_to "新規投稿", new_public_post_path, method: :get, class: 'nav-link text-dark' %>
             </li>            
             <li class="nav-item">
-              <%= link_to "About", user_homes_about_path, method: :get, class: 'nav-link text-dark' %>
-            </li>
-            <li class="nav-item">
               <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-dark' %>
             </li>
         <% elsif admin_signed_in? %>
@@ -62,9 +59,6 @@
             </li>
             <li class="nav-item">
               <%= link_to "新規登録", new_user_registration_path, method: :get, class: 'nav-link text-dark' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "About", user_homes_about_path, method: :get, class: 'nav-link text-dark' %>
             </li>
             <li class="nav-item">
               <%= link_to "ログイン", new_user_session_path, method: :get, class: 'nav-link text-dark' %>

@@ -1,28 +1,30 @@
 <!-- app/views/posts/new.html.erb -->
-<h1>New Post</h1>
+<div style="text-align: center;">
+  <h1>新しい投稿をする</h1>
 
-<%= form_with model: @post, url: public_posts_path, multipart: true do |form| %>
-  <p>
-    <%= form.label :title %><br>
-    <%= form.text_field :title %>
-  </p>
+  <%= form_with model: @post, url: public_posts_path, multipart: true do |form| %>
+    <p>
+      <%= form.label :タイトル %><br>
+      <%= form.text_field :title %>
+    </p>
 
-  <p>
-    <%= form.label :content %><br>
-    <%= form.text_area :content %>
-  </p>
+    <p>
+      <%= form.label :投稿文 %><br>
+      <%= form.text_area :content, rows: 5, cols: 30 %> <!-- 高さ5行、幅30文字に設定 -->
+    </p>
 
-  <p>
-    <%= form.hidden_field :user_id, value: current_user.id %>
-  </p>
+    <p>
+      <%= form.hidden_field :user_id, value: current_user.id %>
+    </p>
 
-  <p>
-    <%= form.label :image %><br>
-    <%= form.file_field :image %>
-  </p>
+    <p>
+      <%= form.label :ペットの写真 %><br>
+      <%= form.file_field :image %>
+    </p>
 
-  <p>
-    <%= form.submit %>
-  </p>
-<% end %>
-<%= link_to "Back", public_user_path(id: current_user.id), class: "btn btn-secondary" %>
+    <p>
+      <%= form.submit "投稿する" %>
+    </p>
+  <% end %>
+  <%= link_to "Back", public_user_path(id: current_user.id), class: "btn btn-secondary" %>
+</div>

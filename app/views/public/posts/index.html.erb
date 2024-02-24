@@ -1,55 +1,93 @@
-<h1>投稿一覧</h1>
+<style>
+  .post-container {
+    text-align: center; /* 投稿を中央に配置 */
+  }
 
-<form action="/users/search" method="GET">
-  <input type="text" name="query" placeholder="ユーザーを検索">
-  <button type="submit">検索</button>
-</form>
+  .post {
+    border: 1px solid #ccc; /* 枠組みを追加 */
+    border-radius: 5px; /* 角丸にする */
+    padding: 10px; /* 枠内の余白を追加 */
+    margin-bottom: 20px; /* 投稿間の間隔を追加 */
+    width: 80%; /* 必要に応じて幅を調整 */
+    margin-left: auto; /* 左右のマージンを自動調整して中央に寄せる */
+    margin-right: auto;
+  }
 
-<% @posts.each do |post| %>
-  <div class="post">
-    <h2><%= link_to post.title, public_post_path(post) %></h2>
-    <p><%= post.content %></p>
-    <% if post.image.attached? %>
-      <%= image_tag post.image.variant(resize: "300x300") %>
-    <% end %>
-    <p>投稿者: <%= post.user.name %></p>
-    <p>いいね数: <%= post.likes.count %></p>
+  .like-count {
+    margin-left: 10px; /* いいね数とボタンの間隔を調整 */
+    color: #777; /* いいね数の色 */
+  }
 
-    <%= render 'likes/like_button', post: post %>
+  .like-button {
+    display: inline-block; /* ボタンをインラインブロック要素にする */
+    padding: 5px 10px; /* ボタンの余白を追加 */
+    background-color: #007bff; /* ボタンの背景色 */
+    color: #fff; /* ボタンのテキスト色 */
+    border: none; /* ボーダーをなくす */
+    border-radius: 5px; /* 角丸にする */
+    cursor: pointer; /* カーソルをポインターにする */
+  }
+</style>
 
-    <%= link_to "コメント数: #{post.comments.count}", "#", class: "comment-toggler", data: { post_id: post.id } %>
+<div class="post-container">
+  <h1>投稿一覧</h1>
+
+  <form action="/users/search" method="GET">
+    <input type="text" name="query" placeholder="ユーザーを検索">
+    <button type="submit">検索</button>
+  </form>
+
+  <% @posts.each do |post| %>
+    <div class="post">
+      <div class="post-header">
+        <h2><%= link_to post.title, public_post_path(post) %></h2>
+        <p class="post-date">投稿日時: <%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
+      </div>
+      <p><%= post.content %></p>
+      <% if post.image.attached? %>
+        <%= image_tag post.image.variant(resize: "300x300") %>
+      <% end %>
+      <p>投稿者: <%= post.user.name %></p>
+
+  <!-- いいねボタン -->
+  <%= render 'likes/like_button', post: post %>
+
+
+
+      <%= link_to "コメント: #{post.comments.count}", "#", class: "comment-toggler", data: { post_id: post.id } %>
 
 <% unless current_user.nil? %>
   <% unless post.user == current_user %>
     <% if current_user.following?(post.user) %>
-      <%= link_to "フォロー外す", public_user_relationships_path(post.user), method: :delete, class: "btn btn-danger" %>
+      <%= link_to raw('<i class="fa-solid fa-user-plus"></i> 外す'), public_user_relationships_path(post.user), method: :delete %>
     <% else %>
-      <%= link_to "フォローする", public_user_relationships_path(post.user), method: :post, class: "btn btn-primary" %>
+      <%= link_to raw('<i class="fa-solid fa-plus"></i> '), public_user_relationships_path(post.user), method: :post %>
     <% end %>
   <% end %>
 <% end %>
 
 
-    <div class="comments" id="comments_<%= post.id %>" style="display: none;">
-      <%= render partial: 'comments/comment', locals: { comments: post.comments } %>
+      <div class="comments" id="comments_<%= post.id %>" style="display: none;">
+        <%= render partial: 'comments/comment', locals: { comments: post.comments } %>
+      </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
 
-<%= will_paginate @posts %>
+  <%= will_paginate @posts %>
 
-<script>
-  document.querySelectorAll('.comment-toggler').forEach(function(button) {
-    button.addEventListener('click', function(event) {
-      event.preventDefault();
-      var postId = event.target.dataset.postId;
-      var commentsDiv = document.querySelector('#comments_' + postId);
+  <script>
+    document.querySelectorAll('.comment-toggler').forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        event.preventDefault();
+        var postId = event.target.dataset.postId;
+        var commentsDiv = document.querySelector('#comments_' + postId);
 
-      if (commentsDiv.style.display === 'none') {
-        commentsDiv.style.display = 'block';
-      } else {
-        commentsDiv.style.display = 'none';
-      }
+        if (commentsDiv.style.display === 'none') {
+          commentsDiv.style.display = 'block';
+        } else {
+          commentsDiv.style.display = 'none';
+        }
+      });
     });
-  });
-</script>
+  </script>
+</div>

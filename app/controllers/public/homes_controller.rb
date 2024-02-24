@@ -10,6 +10,8 @@ def top
   else
     @notifications = []
   end
+  
+  
 end
 
 end

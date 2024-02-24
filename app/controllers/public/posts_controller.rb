@@ -17,14 +17,16 @@ class Public::PostsController < ApplicationController
     @post.update(viewed: true) unless @post.viewed
   end    
 
+
 def index
   if params[:search].present?
-    @posts = Post.where("title LIKE ? OR content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%").paginate(page: params[:page], per_page: 10)
+    @posts = Post.where("title LIKE ? OR content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%").order(created_at: :desc).paginate(page: params[:page], per_page: 10)
   else
-    @posts = Post.paginate(page: params[:page], per_page: 10)
+    @posts = Post.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
   end
   @post = Post.new  
 end
+
   
   def follow
     @user = User.find(params[:id])

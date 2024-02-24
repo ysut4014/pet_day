@@ -52,5 +52,17 @@ class Post < ApplicationRecord
     notification.save if notification.valid?
   end
 
+  private
 
+  def send_notifications_to_followers
+    followers = self.user.followers
+    followers.each do |follower|
+      Notification.create(
+        user_id: follower.id,
+        post_id: self.id,
+        action: "new_post"
+        # 他に必要な情報を追加する
+      )
+    end
+  end
 end

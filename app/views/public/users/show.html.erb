@@ -1,16 +1,88 @@
-<!-- app/views/users/show.html.erb -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マイページ</title>
+  <style>
+    table {
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 5px;
+      margin-top: 20px;
+      margin-left: 100px;
+      width: 20%;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .user-links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .user-links a {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .user-links a:hover {
+      background-color: #0056b3;
+    }
+    .user-info-table {
+      width: 35%; /* テーブル全体の幅を使用 */
+      text-align: left;
+    }
+    .user-info-table td:first-child {
+      width: 20%; /* 左側のセルの幅を設定 */
+      background-color: #f2f2f2; /* 右側のセルの背景色を変更 */
+    }
+    .user-info-table td:last-child {
+      width: 40%; /* 右側のセルの幅を設定 */
+    }
+  </style>
+</head>
+<body>
+  <h1>マイページ</h1>
+  <div class="table-container">
+    <table class="user-info-table">
+      <tr>
+        <td>ネーム</td>
+        <td><%= @user.name %></td>
+      </tr>
+      <tr>
+        <td>メールアドレス</td>
+        <td class="highlighted-cell"><%= @user.public_email ? @user.email : "非公開" %></td>
+      </tr>
+      <tr>
+        <td>フォロー数</td>
+        <td><%= @user.followings.count %></td>
+      </tr>
+      <tr>
+        <td>フォロワー数</td>
+        <td><%= @user.followers.count %></td>
+      </tr>
+    </table>
+  </div>
 
-<h1>マイページ</h1>
-<p>Name: <%= @user.name %></p>
-<p>Email: <%= @user.public_email ? @user.email : "非公開" %></p>
-
-<td>フォロー数: <%= @user.followings.count %></td>
-<td>フォロワー数: <%= @user.followers.count %></td>
-
-<!-- 他のユーザー情報を表示 -->
-
-<%= link_to "投稿一覧", public_users_path(@user) %>
-<%= link_to "いいね一覧", public_post_likes_path(@user) %>
-<%= link_to "フォロワー一覧", public_user_followers_path(@user) %>
-<%= link_to "フォローしている人一覧", public_user_followings_path(@user) %>
-<%= link_to "編集", edit_public_user_path(@user) %>
+  <div class="user-links">
+    <%= link_to "投稿一覧", public_users_path(@user) %>
+    <%= link_to "いいね一覧", public_post_likes_path(@user) %>
+    <%= link_to "フォロワー一覧", public_user_followers_path(@user) %>
+    <%= link_to "フォローしている人一覧", public_user_followings_path(@user) %>
+    <%= link_to "編集", edit_public_user_path(@user) %>
+  </div>
+</body>
+</html>

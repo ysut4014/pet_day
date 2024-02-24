@@ -1,33 +1,27 @@
 <div class="plate mx-auto" id="cork">
   <span>Welcome!!</span>
-  <% if alert %>
-    <div class="alert alert-warning">
-      <%= alert %>
-    </div>
-  <% end %>
 
-  <% if notice %>
-    <div class="alert alert-success">
-      <%= notice %>
-    </div>
-  <% end %>
 
   <div class="home-box mx-auto my-3">
-    <p class="home-text">ようこそ、ながのCAKEへ！<br>
-    このサイトは、ケーキ販売のECサイトになります。
-    会員でない方も商品の閲覧はできますが、<br>
-    購入には会員登録が必要になります。
+    <p class="home-text">ようこそ、PET DAYへ！<br>
+    このサイトは、ペット向けのSNSサイトになります。
+    自分のペットの投稿をしたり、他のユーザーと共有したりしてください。<br>
+    投稿には会員登録が必要になります。
     </p>
+
   </div>
 <%= button_to '全ての通知を削除', delete_all_notifications_path, method: :delete, data: { confirm: '本当に全ての通知を削除しますか？' }, class: 'btn btn-danger mb-3' %>
   <!-- 通知を表示する部分 -->
-<% @notifications.each do |notification| %>
-  <div class="notification">
-    <%= render partial: 'notification', locals: { notification: notification } %>
-
-  </div>
-  
+<% if @notifications.present? %>
+  <% @notifications.each do |notification| %>
+    <div class="notification">
+      <%= render partial: 'notification', locals: { notification: notification } %>
+    </div>
+  <% end %>
+<% else %>
+  <p>通知はありません。</p>
 <% end %>
+
 
 
 

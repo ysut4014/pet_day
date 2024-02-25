@@ -1,13 +1,9 @@
-class Public::CommentsController < ApplicationController
-  before_action :authenticate_user!, only: [:destroy]
-  before_action :authenticate_admin!, only: [:destroy]
-
-  # 他のアクションと同様のコード
-
+class Admin::CommentsController < ApplicationController
+  before_action :authenticate_admin!
+  
   def destroy
-    @post = Post.find(params[:post_id])
-    @comment = @post.comments.find(params[:id])
+    @comment = Comment.find(params[:id])
     @comment.destroy
-    redirect_to public_post_path(@post), notice: 'Comment was successfully deleted.'
+    redirect_to admin_post_path(@comment.post), notice: 'コメントが削除されました'
   end
 end

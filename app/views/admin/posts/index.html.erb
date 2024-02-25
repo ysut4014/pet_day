@@ -1,30 +1,56 @@
-<h1>Admin Posts</h1>
+<h1>管理者用投稿一覧</h1>
 
 <%= form_tag admin_posts_path, method: :get do %>
-  <%= text_field_tag :search, params[:search], placeholder: 'Search posts...' %>
-  <%= submit_tag 'Search' %>
+  <%= text_field_tag :search, params[:search], placeholder: '投稿を検索...' %>
+  <%= submit_tag '検索' %>
 <% end %>
 
-<ul>
-  <% if @posts.present? %>
-    <% @posts.each do |post| %>
-      <li>
-        <strong>Title:</strong> <%= link_to post.title, admin_post_path(post) %><br>
-        <strong>Content:</strong> <%= post.content %><br>
-        <strong>Author:</strong> <%= link_to post.user.name, admin_user_path(post.user) %><br>
-        <strong>Created At:</strong> <%= post.created_at %><br>
+<%= button_to '全ての投稿を削除', delete_all_admin_posts_path, method: :delete, data: { confirm: '本当に全ての投稿を削除しますか？' }, class: 'btn btn-danger mb-3' %>
 
-        <!-- Display the image with smaller dimensions -->
-        <% if post.image.attached? %>
-          <%= image_tag post.image, style: 'max-width: 100px; max-height: 100px;' %><br>
-        <% end %>
-
-        <%= link_to "消去", admin_post_path(post), method: :delete, data: { confirm: 'Are you sure you want to delete this post?' } %>
-      </li>
+<table class="table">
+  <thead>
+    <tr>
+      <th>タイトル</th>
+      <th>投稿者</th>
+      <th>画像</th>
+      <th>作成日時</th>
+      <th>投稿文</th>
+      <th>コメント数</th>
+      <th>いいね数</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @posts.present? %>
+      <% @posts.each do |post| %>
+        <tr>
+          <td><%= link_to post.title, admin_post_path(post) %></td>
+          <td><%= link_to post.user.name, admin_user_path(post.user) %></td>
+          <td>
+            <% if post.image.attached? %>
+              <%= image_tag post.image, style: 'max-width: 100px; max-height: 100px;' %>
+            <% end %>
+          </td>
+          <td><%= post.created_at %></td>
+          <td>
+            <div style="max-width: 300px; word-wrap: break-word;">
+              <%= post.content %>
+            </div>
+          </td>
+          <td><%= post.comments.count %></td>
+          <td><%= post.likes.count %></td>
+          <td>
+            <%= link_to "削除", admin_post_path(post), method: :delete, data: { confirm: '本当にこの投稿を削除しますか？' } %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="8">投稿がありません</td>
+      </tr>
     <% end %>
-  <% else %>
-    <li>No posts available</li>
-  <% end %>
-</ul>
+  </tbody>
+</table>
 
 <%= will_paginate @posts %>
+

@@ -1,19 +1,20 @@
 <!-- app/views/admin/users/index.html.erb -->
 
 <h1>ユーザー一覧</h1>
-<%= form_tag admin_posts_path, method: :get do %>
-  <%= text_field_tag :search, params[:search], placeholder: 'Search posts...' %>
-  <%= submit_tag 'Search' %>
+
+<%= form_tag admin_users_path, method: :get do %>
+  <%= text_field_tag :search, params[:search], placeholder: 'ユーザーを検索...' %>
+  <%= submit_tag '検索' %>
 <% end %>
 
-<table>
+<table class="table">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>名前</th>
-      <th>Email</th>
-      <th>会員ステータス</th> <!-- 新しい列を追加 -->
-      <th>詳細</th>
+      <th scope="col">ID</th>
+      <th scope="col">名前</th>
+      <th scope="col">Email</th>
+      <th scope="col">会員ステータス</th>
+      <th scope="col">詳細</th>
     </tr>
   </thead>
   <tbody>
@@ -22,10 +23,8 @@
         <td><%= user.id %></td>
         <td><%= user.name %></td>
         <td><%= user.email %></td>
-        <td><%= user.is_active? ? '有効会員' : '退会済み' %></td> <!-- 会員ステータスを表示 -->
-        <td>
-          <%= link_to '詳細', admin_user_path(user) %>
-        </td>
+        <td><%= user.is_active? ? '有効会員' : '退会済み' %></td>
+        <td><%= link_to '詳細', admin_user_path(user) %></td>
       </tr>
     <% end %>
   </tbody>

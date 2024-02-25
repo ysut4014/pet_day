@@ -8,10 +8,11 @@ class Admin::UsersController < ApplicationController
 
   end
 
-  def show
-    @user = User.find(params[:id])
-    # Additional code for displaying user details
-  end
+def show
+  @user = User.find(params[:id])
+  @posts = @user.posts.paginate(page: params[:page], per_page: 10)
+end
+
 
   def edit
     @user = User.find(params[:id]) 

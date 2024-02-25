@@ -74,7 +74,9 @@ end
     end
     # いいね関連
     resources :posts do
+      delete :delete_all, on: :collection
       resources :likes, only: [:create, :destroy]
+      resources :comments, only: [:create, :destroy]
     end
 
     # コメント関連

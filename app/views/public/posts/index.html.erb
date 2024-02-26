@@ -1,4 +1,14 @@
 <style>
+  /* レスポンシブデザイン */
+  @media only screen and (max-width: 600px) {
+    .post-container {
+      padding: 0 10px; /* 左右の余白を調整 */
+    }
+
+    .like-button {
+      width: 100%; /* ボタンの幅を100%にする */
+    }
+  }
   .post-container {
     text-align: center; /* 投稿を中央に配置 */
   }
@@ -11,6 +21,7 @@
     width: 80%; /* 必要に応じて幅を調整 */
     margin-left: auto; /* 左右のマージンを自動調整して中央に寄せる */
     margin-right: auto;
+    max-width: 600px; /* 最大幅を設定 */
   }
 
   .like-count {
@@ -27,7 +38,15 @@
     border-radius: 5px; /* 角丸にする */
     cursor: pointer; /* カーソルをポインターにする */
   }
+
+  .post p {
+    word-break: break-all; /* 単語の区切りで折り返す */
+    max-width: 24em; /* 24文字までの最大幅を設定 */
+    margin: 0 auto; /* 中央に配置 */
+    text-align: left; /* 左揃えにする */
+  }
 </style>
+
 
 <div class="post-container">
   <h1>投稿一覧</h1>
@@ -49,23 +68,20 @@
       <% end %>
       <p>投稿者: <%= post.user.name %></p>
 
-  <!-- いいねボタン -->
-  <%= render 'likes/like_button', post: post %>
-
-
+      <!-- いいねボタン -->
+      <%= render 'likes/like_button', post: post %>
 
       <%= link_to "コメント: #{post.comments.count}", "#", class: "comment-toggler", data: { post_id: post.id } %>
 
-<% unless current_user.nil? %>
-  <% unless post.user == current_user %>
-    <% if current_user.following?(post.user) %>
-      <%= link_to raw('<i class="fa-solid fa-user-plus"></i> 外す'), public_user_relationships_path(post.user), method: :delete %>
-    <% else %>
-      <%= link_to raw('<i class="fa-solid fa-plus"></i> '), public_user_relationships_path(post.user), method: :post %>
-    <% end %>
-  <% end %>
-<% end %>
-
+      <% unless current_user.nil? %>
+        <% unless post.user == current_user %>
+          <% if current_user.following?(post.user) %>
+            <%= link_to raw('<i class="fa-solid fa-user-plus"></i> 外す'), public_user_relationships_path(post.user), method: :delete %>
+          <% else %>
+            <%= link_to raw('<i class="fa-solid fa-plus"></i> '), public_user_relationships_path(post.user), method: :post %>
+          <% end %>
+        <% end %>
+      <% end %>
 
       <div class="comments" id="comments_<%= post.id %>" style="display: none;">
         <%= render partial: 'comments/comment', locals: { comments: post.comments } %>

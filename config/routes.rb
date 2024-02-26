@@ -24,7 +24,9 @@ namespace :public do
   resources :relationships, only: [:create, :destroy]
   # ユーザー関連
   resources :users, only: [:show, :edit, :update, :index] do
+    resources :posts, only: [:index]
     resource :relationships, only: [:create, :destroy]
+    
     get 'followings' => 'relationships#followings', as: 'followings'
     get 'followers' => 'relationships#followers', as: 'followers'
   end
@@ -67,7 +69,6 @@ end
 
     # ユーザー関連
     resources :users do
-      resources :posts
       member do
         patch 'toggle_active', to: 'users#toggle_active'
       end

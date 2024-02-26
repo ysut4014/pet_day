@@ -3,16 +3,30 @@
 
 <% if @posts.present? %>
   <% @posts.each do |post| %>
-    <h3><%= post.title %></h3>
-    <p><%= post.content %></p>
-    <p><strong>いいね数: <%= post.likes.count %></strong></p>
-    <!-- 他の投稿の情報も表示できるように適宜追加 -->
+    <div class="post">
+      <h3><%= link_to post.title, public_post_path(post) %></h3>
+      <!-- 投稿の作成日時を表示 -->
+      <p>投稿日時: <%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
+      
+      
+      
+      <% if post.image.attached? %>
+        <%= image_tag post.image.variant(resize: "300x300") %>
+      <% end %>    
+            <p><strong>投稿文:</strong></p><p><%= post.content %></p>
+      
+      <p><strong>いいね数: <%= post.likes.count %></strong></p>
+      
+      <!-- 削除ボタン -->
+      <% if current_user == post.user %>
+        <%= link_to "削除", public_post_path(post), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
+      <% end %>
 
-    <hr>
+      <hr>
+    </div>
   <% end %>
 <% else %>
   <p>No posts available for <%= @user.name %>.</p>
 <% end %>
 <%= will_paginate @posts %>
 <%= link_to "Back", public_user_path(id: current_user.id), class: "btn btn-secondary" %>
-

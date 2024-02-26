@@ -1,37 +1,95 @@
-<h1><%= @post.title %></h1>
-<p><%= @post.content %></p>
-<p>投稿者: <%= link_to @post.user.name, public_user_path(@post.user) %></p>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= @post.title %></title>
+  <style>
+    /* レイアウト整形用のスタイル */
 
-<% if @post.image.attached? %>
-  <%= image_tag @post.image.variant(resize: "300x300") %>
-<% end %>
+    body {
+      text-align: center; /* 全体を中央に配置 */
+    }
 
+    h1 {
+      color: #333;
+    }
+    p {
+      margin-bottom: 10px;
+    }
+    strong {
+      color: #666;
+    }
+    .comment-box {
+      margin-top: 20px;
+    }
+    .comment {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    .comment-author {
+      font-weight: bold;
+    }
+    .own-comment {
+      background-color: #f2f2f2;
+    }
+    /* いいねボタンのスタイル */
+    .like-button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    
+  /* レスポンシブデザイン */
+  @media only screen and (max-width: 600px) {
+    .post-container {
+      padding: 0 10px; /* 左右の余白を調整 */
+    }
 
-
-<h2>コメント</h2>
-<% @post.comments.each do |comment| %>
+    .like-button {
+      width: 100%; /* ボタンの幅を100%にする */
+    }
+  }    
+  </style>
+</head>
+<body>
   <div>
-    <strong><%= comment.user.name %>:</strong>
-    <span style="<%= 'background-color: #f2f2f2;' if comment.user == @post.user %>">
-      <%= comment.posted_text %>
-    </span>
-    <% if comment.user == current_user %>
-      <%= link_to '削除', public_comment_path(comment), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+    <h1><%= @post.title %></h1>
+    <p><strong>作成日時:</strong> <%= @post.created_at %></p>
+    <p><strong>投稿者:</strong> <%= link_to @post.user.name, admin_user_path(@post.user) %></p>
+    
+    <% if @post.image.attached? %>
+      <%= image_tag @post.image.variant(resize: "300x300") %>
+    <% end %>
+    <p><strong>投稿文:</strong></p>
+<div style="max-width: 300px; word-wrap: break-word; margin: 0 auto; text-align: left;"> <!-- 中央に配置 -->
+  <%= @post.content %>
+</div>
+  </div>
+
+  <!-- いいねボタン -->
+  <br><%= render 'likes/like_button', post: @post %><br>
+
+  <br><h5>コメント</h5>
+  <div class="comment-box">
+    <% @post.comments.each do |comment| %>
+      <div class="comment <%= 'own-comment' if comment.user == @post.user %>">
+        <span class="comment-author"><%= comment.user.name %>:</span>
+        <span><%= comment.posted_text %></span>
+        <% if comment.user == current_user %>
+          <%= link_to '削除', public_comment_path(comment), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+        <% end %>
+      </div>
     <% end %>
   </div>
 
 
-<% end %>
-
-<%= form_with(model: [@post, @post.comments.build], url: public_comments_path, local: true) do |form| %>
-  <%= form.hidden_field :post_id, value: @post.id %>
-  <div class="field">
-    <%= form.text_area :posted_text, rows: 4 %>
-  </div>
-  <div class="actions">
-    <%= form.submit "コメントする" %>
-  </div>
-  <%= render 'likes/like_button', post: @post %>
-
-<% end %>
-
+  <!-- 戻るボタン -->
+  <%= button_to '戻る', admin_posts_path, method: :get, class: 'btn btn-secondary', style: 'margin-bottom: 20px;' %>
+</body>
+</html>

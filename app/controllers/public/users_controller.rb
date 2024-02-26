@@ -3,9 +3,11 @@ class Public::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
 
   def show
-    @user = current_user
     @user = User.find(params[:id])
+    @post = @user.posts.first
+    @posts = @user.posts.paginate(page: params[:page], per_page: 10)
   end
+ 
   
   def index
     @user = current_user

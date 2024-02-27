@@ -4,72 +4,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= @post.title %></title>
-  <style>
-    /* レイアウト整形用のスタイル */
+<style>
+  @media (max-width: 576px) {
+    .plate {
+      width: 100%;
+    }
+    .home-box {
+      padding: 0 10px;
+    }
+    .notification {
+      margin: 10px 0;
+    }
+  }
+  body {
+    text-align: center;
+  }
 
-    body {
-      text-align: center; /* 全体を中央に配置 */
-    }
+  h1, p, strong {
+    text-align: left;
+    margin-left: 20px; /* タイトルや情報の左マージンを追加 */
+  }
 
-    h1 {
-      color: #333;
-    }
-    p {
-      margin-bottom: 10px;
-    }
-    strong {
-      color: #666;
-    }
-    .comment-box {
-      margin-top: 20px;
-    }
-    .comment {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-      margin-top: 10px;
-    }
-    .comment-author {
-      font-weight: bold;
-    }
-    .own-comment {
-      background-color: #f2f2f2;
-    }
-    /* いいねボタンのスタイル */
-    .like-button {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-    
-  /* レスポンシブデザイン */
-  @media only screen and (max-width: 600px) {
-    .post-container {
-      padding: 0 10px; /* 左右の余白を調整 */
-    }
+  .post-container {
+    margin: 0 auto; /* 中央寄せ */
+    max-width: 700px; /* 最大幅を設定 */
+    text-align: left; /* 投稿内容を左寄せ */
+    padding: 0 10px; /* 左右の余白を調整 */
+  }
 
-    .like-button {
-      width: 100%; /* ボタンの幅を100%にする */
-    }
-  }    
-  </style>
+  .comment-box {
+    margin-top: 20px;
+  }
+  .comment {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  .comment-author {
+    font-weight: bold;
+  }
+  .own-comment {
+    background-color: #f2f2f2;
+  }
+  /* いいねボタンのスタイル */
+  .like-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+</style>
 </head>
 <body>
-  <div>
+  <div class="post-container">
     <h1><%= @post.title %></h1>
     <p><strong>作成日時:</strong> <%= @post.created_at %></p>
-    <p><strong>投稿者:</strong> <%= link_to @post.user.name, admin_user_path(@post.user) %></p>
+    <p><strong>投稿者:</strong> <%= link_to @post.user.name, public_user_path(@post.user) %></p>
     
     <% if @post.image.attached? %>
-      <%= image_tag @post.image.variant(resize: "300x300") %>
+      <div style="max-width: 700px; margin: 0 auto;">
+        <%= image_tag @post.image.variant(resize: "700x700") %>
+      </div>
     <% end %>
-    <p><strong>投稿文:</strong></p>
-<div style="max-width: 300px; word-wrap: break-word; margin: 0 auto; text-align: left;"> <!-- 中央に配置 -->
-  <%= @post.content %>
-</div>
+    
+    <p><strong>投稿文</strong></p>
+      <%= @post.content %>
   </div>
 
   <!-- いいねボタン -->
@@ -87,7 +89,6 @@
       </div>
     <% end %>
   </div>
-
 
   <!-- 戻るボタン -->
   <%= button_to '戻る', admin_posts_path, method: :get, class: 'btn btn-secondary', style: 'margin-bottom: 20px;' %>

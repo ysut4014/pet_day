@@ -2,6 +2,11 @@
 
 <h1>ユーザー一覧</h1>
 
+<style>
+  @media only screen and (max-width: 600px) {
+
+</style>
+
 <%= form_tag admin_users_path, method: :get do %>
   <%= text_field_tag :search, params[:search], placeholder: 'ユーザーを検索...' %>
   <%= submit_tag '検索' %>

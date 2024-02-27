@@ -1,32 +1,3 @@
-<style>
-  /* ボタンのデフォルトスタイル */
-  .nav-link {
-    transition: background-color 0.3s ease; /* ホバー時のアニメーション効果を追加 */
-    font-family: 'Pop', sans-serif; /* ポップ体のフォントを適用 */
-    font-size: 20px; /* 文字サイズを大きくする */
-    line-height: 40px; /* ボタンの高さと同じになるように設定 */
-    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1); /* 立体的な影を追加 */
-    border: none; /* ボーダーを削除 */
-    padding: 10px 20px; /* パディングを設定 */
-    border-radius: 5px; /* 角丸にする */
-  }
-
-  /* ボタンのホバー時のスタイル */
-  .nav-link:hover {
-    background-color: white; /* ホバー時の背景色を変更 */
-  }
-
-  /* ナビゲーションバーのブランド名のスタイル */
-  .navbar-brand span {
-    font-family: 'Indie Flower', cursive; /* ブランド名のフォントを設定 */
-    font-size: 3.5rem; /* ブランド名のフォントサイズを設定 */
-    font-weight: bold; /* ブランド名のフォントウェイトを太字に設定 */
-    text-shadow: 2px 2px 5px white; /* 外枠の色を設定 */
-  }
-</style>
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,23 +10,57 @@
   <script src="https://kit.fontawesome.com/853b12f8a1.js" crossorigin="anonymous"></script>
   <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  <style>
+    /* ボタンのデフォルトスタイル */
+    .nav-link {
+      transition: background-color 0.3s ease;
+      font-family: 'Pop', sans-serif;
+      font-size: 20px;
+      line-height: 40px;
+      box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
+    /* ボタンのホバー時のスタイル */
+    .nav-link:hover {
+      background-color: white;
+    }
+
+    /* ナビゲーションバーのブランド名のスタイル */
+    .navbar-brand span {
+      font-family: 'Indie Flower', cursive;
+      font-size: 3.5rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px white;
+    }
+
+    .header-bg {
+      background-image: url('/assets/696668.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 150px; /* ヘッダーの高さを固定値に設定 */
+    }
+  
+    
+  </style>
 </head>
 <body class="d-flex flex-column vh-100">
-  <header class="shadow-sm" style="background-image: url('/assets/new_year_s_card_18_without_text.jpg'); background-size: cover; background-position: center; height: 200px;">
+  <header class="shadow-sm header-bg">
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container">
         <%= link_to "/", class: 'navbar-brand' do %>
-          <span style="font-size: 3.5rem; font-weight: bold; font-family: 'Indie Flower', cursive;">PET DAY</span>
+          <span>PET DAY</span>
         <% end %>
 
-        <!-- トグルボタン -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- メニュー -->
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav ml-auto" style="margin-bottom: 100px; ">
+          <ul class="navbar-nav ml-auto">
             <% if user_signed_in? %>              
               <li class="nav-item">
                 <%= link_to "マイページ", public_user_path(id: current_user.id), method: :get, class: 'nav-link text-dark' %>

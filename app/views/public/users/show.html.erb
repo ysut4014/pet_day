@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= @user.name %>さんのページ</title>
   <style>
-    table {
-      border-collapse: separate;
-      border-spacing: 0;
-      border-radius: 5px;
-      margin-top: 20px;
-      margin-left: 100px;
-      width: 20%;
+    /* 以前のCSSコードはそのまま残します */
+    /* スマートフォン用のスタイルを追加 */
+  @media only screen and (max-width: 600px) {
+      .table-container {
+        overflow-x: auto; /* テーブルが画面に収まらない場合、横スクロール可能にする */
+      }
+      table {
+        width: 100%; /* テーブルを幅いっぱいに広げる */
+        margin-left: 0; /* 左側のマージンを解除 */
+      }
+      .post-container {
+        margin-left: 0; /* 左側のマージンを解除 */
+        width: 100%; /* 幅いっぱいに広げる */
+      }
+      .post {
+        max-width: 100%; /* 投稿を幅いっぱいに広げる */
+        margin-left: 0; /* 左側のマージンを解除 */
+        margin-right: 0; /* 右側のマージンを解除 */
+      }
     }
+
     th, td {
       border: 1px solid #ddd;
       padding: 8px;
@@ -52,17 +64,7 @@
     .user-info-table td:last-child {
       width: 40%; /* 右側のセルの幅を設定 */
     }
-    .post-container {
-      margin-top: 40px;
-      margin-left: 100px;
-      width: 80%;
-    }
-    .post {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-      margin-bottom: 20px;
-    }
+
     .post-header {
       margin-bottom: 10px;
     }
@@ -105,6 +107,7 @@
       <%= link_to "フォローしている人一覧", public_user_followings_path(@user) %>
       <%= link_to "編集", edit_public_user_path(@user) %>
       <%= link_to "投稿消去", public_users_path(@user) %>
+      
     <% end %>
   </div>
 

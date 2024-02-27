@@ -1,28 +1,43 @@
-<div class="plate mx-auto" id="cork" style="text-align: center;">
+<style>
+  @media only screen and (max-width: 600px) {
+    .plate {
+      width: 100%; /* 幅を100%に設定 */
+    }
+    .home-box {
+      padding: 0 10px; /* 左右のパディングを追加 */
+    }
+    .notification {
+      margin: 10px 0; /* 通知の間のマージンを追加 */
+    }
+  }
+</style>
+
+<div class="plate mx-auto" id="cork" style="background-image: url('/assets/chubby-domestic-cat-leaning-brown-puppy-lying-white-surface.jpg'); background-size: cover; background-position: center; text-align: center; height: 100vh;">
   <div style="display: inline-block; text-align: left;">
     <span style="font-size: 36px;">Welcome!!</span>
 
     <div class="home-box mx-auto my-3" style="text-align: left;">
-        <p class="home-text">ようこそ、PET DAYへ！<br>
+      <p class="home-text">ようこそ、PET DAYへ！<br>
         このサイトは、ペット向けのSNSサイトになります。
         自分のペットの投稿をしたり、他のユーザーと共有したりしてください。<br>
         投稿には会員登録が必要になります。
-        </p>
+      </p>
     </div>
+
+    <a href="https://jp.freepik.com/free-photo/chubby-domestic-cat-leaning-on-a-brown-puppy-lying-on-a-white-surface_17247032.htm#fromView=search&page=3&position=14&uuid=4ad9b7de-9abd-4957-af8b-82b73e041311">背景 著作者：wirestock／出典：Freepik</a>
 
     <%= button_to '全ての通知を削除', delete_all_notifications_path, method: :delete, data: { confirm: '本当に全ての通知を削除しますか？' }, class: 'btn btn-danger mb-3' %>
 
     <!-- 通知を表示する部分 -->
     <% if @notifications.present? %>
-      <% @notifications.each do |notification| %>
-        <div class="notification">
-          <%= render partial: 'notification', locals: { notification: notification } %>
-        </div>
-      <% end %>
+    <% @notifications.each do |notification| %>
+    <div class="notification">
+      <%= render partial: 'notification', locals: { notification: notification } %>
+    </div>
+    <% end %>
     <% else %>
-      <p>通知はありません。</p>
+    <p>通知はありません。</p>
     <% end %>
 
-    <div class="all-items-show-button"><%= link_to "全ての投稿を見る", public_posts_path %></div>
   </div>
 </div>

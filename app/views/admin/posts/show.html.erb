@@ -9,7 +9,7 @@
   <%= @post.content %>
 </div>
 
-<p><strong>著者:</strong> <%= link_to @post.user.name, admin_user_path(@post.user) %></p>
+<p><strong>投稿者:</strong> <%= link_to @post.user.name, admin_user_path(@post.user) %></p>
 
 <p><strong>作成日時:</strong> <%= @post.created_at %></p>
 

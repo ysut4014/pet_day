@@ -28,8 +28,13 @@
     .nav-link:hover {
       background-color: white;
     }
-
-    /* ナビゲーションバーのブランド名のスタイル */
+    
+/* スマートフォンのタッチ操作時のスタイル */
+@media (hover: none) and (pointer: coarse) {
+  .nav-link:hover {
+    background-color: white;
+  }
+}
     .navbar-brand span {
       font-family: 'Indie Flower', cursive;
       font-size: 3.5rem;
@@ -41,10 +46,19 @@
       background-image: url('/assets/696668.jpg');
       background-size: cover;
       background-position: center;
-      height: 150px; /* ヘッダーの高さを固定値に設定 */
+      height: 130px; /* ヘッダーの高さを固定値に設定 */
     }
-  
-    
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000; /* 必要に応じて z-index を調整 */
+      width: 100%;
+    }
+    main {
+      padding-top: 150px; /* ヘッダーの高さに基づいて値を調整 */
+    }    
   </style>
 </head>
 <body class="d-flex flex-column vh-100">

@@ -1,4 +1,6 @@
 class Post < ApplicationRecord
+    has_many :comments, dependent: :destroy
+
   belongs_to :user
   has_one_attached :image
   
@@ -51,17 +53,19 @@ class Post < ApplicationRecord
     end
     notification.save if notification.valid?
   end
+  
+  
 
   private
 
-  def send_notifications_to_followers
-    followers = self.user.followers
+  def create_notifications_for_followers
+    followers = user.followers
     followers.each do |follower|
       Notification.create(
-        user_id: follower.id,
-        post_id: self.id,
-        action: "new_post"
-        # 他に必要な情報を追加する
+        visitor_id: user_id,
+        visited_id: follower.id,
+        post_id: id,
+        action: 'new_post'
       )
     end
   end

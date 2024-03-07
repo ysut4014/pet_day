@@ -18,23 +18,23 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
+    <%= form.label :ネーム %>
     <%= form.text_field :name %>
   </div>
 
   <div class="field">
-    <%= form.label :email %>
+    <%= form.label :メールアドレス %>
     <%= form.email_field :email %>
   </div>
 
   <div class="field">
-    <%= form.label :public_email %>
+    <%= form.label :メールアドレスを公開する %>
     <%= form.check_box :public_email %>
     <%= form.label :public_email, "公開する" %>
   </div>
 
   <div class="field">
-    <%= form.label :password %>
+    <%= form.label :パスワード（６文字以上） %>
     <%= form.password_field :password %>
   </div>
 

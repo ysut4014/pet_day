@@ -30,7 +30,13 @@ namespace :public do
     get 'followings' => 'relationships#followings', as: 'followings'
     get 'followers' => 'relationships#followers', as: 'followers'
   end
-
+  
+  resources :users do
+    member do
+      delete 'destroy', action: :destroy 
+      put 'deactivate', action: :deactivate 
+    end
+  end
   # いいね関連
   resources :posts do
     resources :likes, only: [:index, :create, :destroy]

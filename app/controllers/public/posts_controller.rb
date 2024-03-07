@@ -3,14 +3,23 @@ class Public::PostsController < ApplicationController
     @post = Post.new
   end
 
-  def create
-    @post = Post.new(post_params)
-    if @post.save
-      redirect_to public_posts_path
-    else
-      render 'new'
+
+def create
+  @post = Post.new(post_params)
+  if @post.save
+    # 新しい投稿を作成したユーザーのフォロワーに通知を作成
+    @post.user.followers.each do |follower|
+      follower.notifications.create(
+        message: "新しい投稿があります",
+        action: "new_post",
+        post_id: @post.id
+      )
     end
+    redirect_to public_posts_path
+  else
+    render 'new'
   end
+end
 
   def show
     @post = Post.find(params[:id])
@@ -22,10 +31,10 @@ def index
   if params[:search].present?
     @posts = Post.where("title LIKE ? OR content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%").order(created_at: :desc).paginate(page: params[:page], per_page: 10)
   else
-    @posts = Post.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
+    @posts = Post.all.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
   end
-  @post = Post.new  
 end
+
 
   
   def follow
@@ -44,5 +53,17 @@ end
 
 def post_params
   params.require(:post).permit(:title, :content, :user_id, :image)
+end
+
+def create_notifications_for_followers(post)
+  followers = post.user.followers
+  followers.each do |follower|
+    Notification.create(
+      visitor_id: post.user_id,
+      visited_id: follower.id,
+      post_id: post.id,
+      action: 'new_post'
+    )
+  end
 end
 end

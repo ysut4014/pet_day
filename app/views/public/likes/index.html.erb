@@ -1,10 +1,14 @@
 <style>
   @media only screen and (max-width: 600px) {
-
+    /* ここにCSSルールを追加 */
+  }
 </style>
+
+
+
 <h1>あなたがいいねした投稿一覧</h1>
 
-<% if @likes.present? %>
+<% if @likes.any? %>
   <ul>
     <% @likes.each do |like| %>
       <li>
@@ -21,6 +25,8 @@
 <% else %>
   <p>いいねした投稿はありません。</p>
 <% end %>
-<%= will_paginate @users %>
-<%= link_to "Back", public_user_path(id: current_user.id), class: "btn btn-secondary" %>
 
+<% if @likes.present? && @likes.any? %>
+  <%= will_paginate @likes %>
+<% end %>
+<%= link_to "Back", public_user_path(id: current_user.id), class: "btn btn-secondary" %>

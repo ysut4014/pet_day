@@ -17,16 +17,14 @@
     }
   }
   body {
-    text-align: center;
+    text-align: left; /* すべてのテキストを左揃えにする */
   }
 
   h1, p, strong {
-    text-align: left;
-    margin-left: 20px; /* タイトルや情報の左マージンを追加 */
+    margin-left: 0; /* 左マージンをリセット */
   }
 
   .post-container {
-    margin: 0 auto; /* 中央寄せ */
     max-width: 700px; /* 最大幅を設定 */
     text-align: left; /* 投稿内容を左寄せ */
     padding: 0 10px; /* 左右の余白を調整 */
@@ -34,12 +32,14 @@
 
   .comment-box {
     margin-top: 20px;
+    margin-left: 0; /* 左マージンをリセット */
   }
   .comment {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
     margin-top: 10px;
+    margin-left: 0; /* 左マージンをリセット */
   }
   .comment-author {
     font-weight: bold;
@@ -64,22 +64,30 @@
     <p><strong>作成日時:</strong> <%= @post.created_at %></p>
     <p><strong>投稿者:</strong> <%= link_to @post.user.name, public_user_path(@post.user) %></p>
     
-    <% if @post.image.attached? %>
-      <div style="max-width: 700px; margin: 0 auto;">
-        <%= image_tag @post.image.variant(resize: "700x700") %>
+    <div class="post-content">
+      <% if @post.image.attached? %>
+        <div style="max-width: 700px; margin: 0 auto; float: left; margin-right: 10px;">
+          <%= image_tag @post.image.variant(resize: "700x700") %>
+        </div>
+      <% end %>
+      
+      <div class="post-text">
+        <p><strong>投稿文</strong></p>
+        <%= @post.content %>
       </div>
-    <% end %>
-    
-    <p><strong>投稿文</strong></p>
-      <%= @post.content %>
+    </div>
   </div>
+
+
 
   <!-- いいねボタン -->
   <br><%= render 'likes/like_button', post: @post %><br>
+<br>
+<h5>コメント</h5>
 
-  <br><h5>コメント</h5>
-  <div class="comment-box">
-    <% @post.comments.each do |comment| %>
+<div class="comment-box">
+  <% @post.comments.each do |comment| %>
+    <% if comment.user %>
       <div class="comment <%= 'own-comment' if comment.user == @post.user %>">
         <span class="comment-author"><%= comment.user.name %>:</span>
         <span><%= comment.posted_text %></span>
@@ -88,9 +96,22 @@
         <% end %>
       </div>
     <% end %>
+  <% end %>
+</div>
+
+<%= form_with(model: [@post, @post.comments.build], url: public_comments_path, local: true) do |form| %>
+  <%= form.hidden_field :post_id, value: @post.id %>
+  <div class="field">
+    <%= form.text_area :posted_text, rows: 4 %>
   </div>
+  <div class="actions">
+    <%= form.submit "コメントする" %>
+  </div>
+<% end %>  
+  
+
 
   <!-- 戻るボタン -->
-  <%= button_to '戻る', admin_posts_path, method: :get, class: 'btn btn-secondary', style: 'margin-bottom: 20px;' %>
+  <%= button_to '戻る', public_posts_path, method: :get, class: 'btn btn-secondary', style: 'margin-bottom: 20px;' %>
 </body>
 </html>

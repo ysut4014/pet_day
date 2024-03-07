@@ -1,0 +1,8 @@
+<div class="post">
+  <%= link_to "コメント: #{post.comments.count}", "#", class: "comment-toggler", data: { post_id: post.id } %>
+
+
+  <div class="comments" id="comments_<%= post.id %>" style="display: none;">
+    <%= render partial: 'comments/comment', locals: { comments: post.comments } %>
+  </div>
+</div>

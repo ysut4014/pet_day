@@ -1,0 +1,10 @@
+<% unless current_user.nil? %>
+  <% unless post.user == current_user %>
+    <% if current_user.following?(post.user) %>
+      <%= link_to raw('<i class="fa-solid fa-user-plus"></i> 外す'), public_user_relationships_path(post.user), method: :delete %>
+    <% else %>
+      <%=  "フォロー" %>
+      <%= link_to raw('<i class="fa-solid fa-plus"></i> '), public_user_relationships_path(post.user), method: :post %>
+    <% end %>
+  <% end %>
+<% end %>

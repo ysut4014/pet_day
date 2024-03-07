@@ -1,18 +1,18 @@
 # app/controllers/public/users_controller.rb
 class Public::UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :delete]
 
   def show
     @user = User.find(params[:id])
-    @post = @user.posts.first
-    @posts = @user.posts.paginate(page: params[:page], per_page: 10)
+    @post = @user.posts.order(created_at: :desc).first
+        @posts = @user.posts.paginate(page: params[:page], per_page: 10)
+
+    @posts = @user.posts.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
   end
- 
-  
+
   def index
     @user = current_user
-    @posts = @user.posts
-    @posts = @user.posts.paginate(page: params[:page], per_page: 10)
+    @posts = @user.posts.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
   end
   
   def edit
@@ -27,6 +27,12 @@ class Public::UsersController < ApplicationController
       render :edit
     end
   end
+  
+def deactivate
+  @user = User.find(params[:id])
+  @user.update(is_active: false)
+  redirect_to root_path, notice: 'アカウントが無効化されました。'
+end
 
   def search
     @query = params[:query]

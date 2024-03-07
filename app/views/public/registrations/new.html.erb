@@ -1,58 +1,42 @@
 <main class="container">
-  
-  
-  <h5 class="p-5">新規会員登録</h5>
-  
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h5 class="p-5">新規会員登録</h5>
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <div class="row">
-      <div class="col-md-3 mb-3">
-        <%= f.label :name, "ネーム" %>
-        <%= f.text_field :name, class: "form-control", placeholder: "ニックネーム", required: true %>
-      </div>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <div class="form-group">
+          <%= f.label :name, "ネーム" %>
+          <%= f.text_field :name, class: "form-control", placeholder: "ニックネーム", required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :name, "メールアドレス" %>
+          <%= f.email_field :email, class: "form-control", placeholder: "sample@example.com", required: true %>
+        </div>
+
+        <!-- 追加：非公開設定 -->
+        <div class="form-group">
+          <%= f.label :public_email, "メールアドレスを公開しない" %>
+          <%= f.check_box :public_email %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :name, "パスワード（６文字以上）" %>
+          <%= f.password_field :password, class: "form-control", required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :name, "パスワード（確認用）" %>
+          <%= f.password_field :password_confirmation, class: "form-control", required: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.button "新規登録", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
+      <h5 class="p-3">既に登録済みの方</h5>
+      <a href="<%= user_session_path %>">こちら</a>からログインしてください.
     </div>
-
-    <div class="row">
-
-      <div class="col-md-6 mb-3">
-        <%= f.label :name, "メールアドレス" %>
-        <%= f.email_field :email, class: "form-control", placeholder: "sample@example.com", required: true %>
-      </div>
-    </div>
-    
-    <!-- 追加：非公開設定 -->
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <%= f.label :public_email, "メールアドレスを公開しない" %>
-        <%= f.check_box :public_email %>
-      </div>
-    </div>
-
-
-    <div class="row">
-
-      <div class="col-md-6 mb-3">
-        <%= f.label :name, "パスワード" %>
-        <%= f.password_field :password, class: "form-control", required: true %>
-      </div>
-    </div>
-
-    <div class="row">
-  
-      <div class="col-md-6 mb-3">
-        <%= f.label :name, "パスワード（確認用）" %>
-        <%= f.password_field :password_confirmation, class: "form-control", required: true %>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-3 mb-3">
-      </div>
-      <div class="col-md-6 mb-3">
-        <%= f.button "新規登録", class: "btn btn-primary" %>
-      </div>
-    </div>
-  <% end %>
-  <h5 class="p-3">既に登録済みの方</h5>
-  <a href="<%=  user_session_path %>">こちら</a>からログインしてください.
+  </div>
 </main>

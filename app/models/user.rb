@@ -1,12 +1,17 @@
 # app/models/user.rb
 class User < ApplicationRecord
   
+  after_create :create_notification_for_followers
+
+  
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-         
+  has_many :comments, dependent: :destroy
   validates :name, presence: true, length: { maximum: 50 }
   validates_inclusion_of :is_active, in: [true, false]
-  
+  attr_accessor :delete_posts
+  belongs_to :user
+  has_many :notifications, dependent: :destroy  
   has_many :notifications, foreign_key: :visited_id
   has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
   has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
@@ -20,6 +25,16 @@ class User < ApplicationRecord
   def active?
     is_active
   end
+   # アカウントを有効化するメソッド
+  def activate_account
+    update(is_active: true)
+  end
+
+  # アカウントを無効化するメソッド
+  def deactivate_account
+    update(is_active: false)
+  end
+    
   
 # フォロー機能
   def follow(user_id)
@@ -39,16 +54,20 @@ class User < ApplicationRecord
   end
   
 # 通知機能
-  def create_notification_follow!(current_user)
-    temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ? ",current_user.id, id, 'follow'])
-    if temp.blank?
-      notification = current_user.active_notifications.new(
-        visited_id: id,
-        action: 'follow'
+
+  def create_notification_for_followers
+    followers.each do |follower|
+      Notification.create(
+        visitor_id: user.id,
+        visited_id: follower.id,
+        post_id: id,
+        action: 'post'
       )
-      notification.save if notification.valid?
     end
   end
-  
-  
+
+
+  def update_notifications_sender!(new_sender_id)
+    notifications.update_all(visitor_id: new_sender_id)
+  end  
 end

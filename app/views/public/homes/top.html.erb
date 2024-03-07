@@ -29,15 +29,14 @@
     <%= button_to '全ての通知を削除', delete_all_notifications_path, method: :delete, data: { confirm: '本当に全ての通知を削除しますか？' }, class: 'btn btn-danger mb-3' %>
 
     <!-- 通知を表示する部分 -->
-    <% if @notifications.present? %>
-    <% @notifications.each do |notification| %>
-    <div class="notification">
-      <%= render partial: 'notification', locals: { notification: notification } %>
-    </div>
-    <% end %>
-    <% else %>
-    <p>通知はありません。</p>
-    <% end %>
+<% if @notifications.present? %>
+  <% @notifications.each do |notification| %>
+    <%= render partial: 'shared/notification', locals: { notification: notification } %>
+  <% end %>
+<% else %>
+  <p>通知はありません。</p>
+<% end %>
+
 
   </div>
 </div>

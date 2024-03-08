@@ -1,10 +1,41 @@
 <style>
   @media only screen and (max-width: 600px) {
+    /* スマートフォン用の調整 */
+    h1 {
+      font-size: 24px; /* h1のフォントサイズを調整 */
+    }
+    div[style="max-width: 300px; word-wrap: break-word;"] {
+      max-width: 100%; /* コンテンツのdivがスマートフォン画面の幅をいっぱいに取るように調整 */
+    }
+  }
 
+  /* 追加のスタイル */
+  .comment-wrapper {
+    background-color: #f2f2f2; /* コメントの背景色 */
+    padding: 5px; /* コメントに余白を追加 */
+    margin-bottom: 10px; /* コメントの下にマージンを追加 */
+  }
+
+  .delete-button {
+    color: red; /* 削除ボタンの色 */
+  }
+  /* 画像のサイズを調整 */
+  .post-image {
+    max-width: 800px; /* 画像が親要素の幅を超えないようにする */
+    height: auto; /* アスペクト比を保持しつつ、高さは自動調整される */
+    display: block; /* 画像がブロック要素として扱われるようにする */
+  }  
+  
+  /* 投稿文を右側に表示 */
+  .post-content {
+    float: right; /* 右側に配置 */
+    max-width: 60%; /* 幅の調整 */
+  }
 </style>
 
+
 <h1><%= @post.title %></h1>
-<p><strong>内容:</strong></p>
+<p><strong>投稿文:</strong></p>
 <div style="max-width: 300px; word-wrap: break-word;">
   <%= @post.content %>
 </div>
@@ -14,8 +45,14 @@
 <p><strong>作成日時:</strong> <%= @post.created_at %></p>
 
 <% if @post.image.attached? %>
-  <%= image_tag @post.image.variant(resize: "300x300") %>
+  <%= link_to image_tag(@post.image, class: 'post-image'), @post.image, target: "_blank" %>
 <% end %>
+
+<p><strong>投稿文:</strong></p>
+<div style="max-width: 300px; word-wrap: break-word;">
+  <%= @post.content %>
+</div>
+
 
 <h2>コメント</h2>
 <% @post.comments.each do |comment| %>

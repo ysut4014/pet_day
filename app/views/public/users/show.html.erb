@@ -125,6 +125,7 @@
       <%= link_to "フォローしている人一覧", public_user_followings_path(@user) %>
       <%= link_to "編集", edit_public_user_path(@user) %>
       <%= link_to "投稿消去", public_users_path(@user) %>
+<%= link_to "退会", delete_public_user_path(@user) %>
     <% end %>
   </div>
 

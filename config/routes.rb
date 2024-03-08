@@ -32,10 +32,8 @@ namespace :public do
   end
   
   resources :users do
-    member do
-      delete 'destroy', action: :destroy 
-      put 'deactivate', action: :deactivate 
-    end
+    get 'delete', on: :member # 退会用のルート
+    delete 'destroy', on: :member # 退会アクション用のルート
   end
   # いいね関連
   resources :posts do
@@ -48,7 +46,11 @@ namespace :public do
   resources :comments, only: [:create, :destroy, :index] do
     resources :replies, only: [:create, :destroy] # 返信の作成と削除のみを許可
   end
-
+  # 退会機能
+  resources :users do
+    get 'delete', on: :member # 退会用のルート
+    delete 'destroy', on: :member # 退会アクション用のルート
+  end
   # 通知関連
   resources :notifications, only: [:index, :destroy, :create] do
     collection do

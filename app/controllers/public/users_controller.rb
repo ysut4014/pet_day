@@ -28,6 +28,17 @@ class Public::UsersController < ApplicationController
     end
   end
   
+  def destroy
+    # ユーザーに関連するレコードを削除
+    @user.posts.destroy_all
+    @user.comments.destroy_all
+    # 他にも削除すべき関連レコードがあれば追加する
+
+    # ユーザーを削除
+    @user.destroy
+
+    redirect_to root_path, notice: 'アカウントが削除されました。'
+  end  
 def deactivate
   @user = User.find(params[:id])
   @user.update(is_active: false)

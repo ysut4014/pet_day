@@ -1,4 +1,3 @@
-# app/controllers/public/users_controller.rb
 class Public::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :delete]
 
@@ -15,9 +14,7 @@ class Public::UsersController < ApplicationController
     @posts = @user.posts.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
   end
   
-  def edit
-    # 編集処理を実装する
-  end
+
   
   def update
     @user = User.find(params[:id])
@@ -28,26 +25,27 @@ class Public::UsersController < ApplicationController
     end
   end
   
-  def destroy
-    # ユーザーに関連するレコードを削除
-    @user.posts.destroy_all
-    @user.comments.destroy_all
-    # 他にも削除すべき関連レコードがあれば追加する
+def destroy
+  @user = current_user
 
-    # ユーザーを削除
-    @user.destroy
+  # ユーザーに関連するコメントを削除
+ # @user.comments.destroy_all
 
-    redirect_to root_path, notice: 'アカウントが削除されました。'
-  end  
-def deactivate
-  @user = User.find(params[:id])
-  @user.update(is_active: false)
-  redirect_to root_path, notice: 'アカウントが無効化されました。'
+  # ユーザーに関連する投稿を削除
+  #@user.posts.destroy_all
+
+  # ユーザーを削除
+  @user.destroy
+
+  redirect_to root_path, notice: '退会しました。またのご利用をお待ちしております。'
 end
+
 
   def search
     @query = params[:query]
     @posts = Post.joins(:user).where("posts.title LIKE ? OR posts.content LIKE ? OR users.name LIKE ?", "%#{@query}%", "%#{@query}%", "%#{@query}%").paginate(page: params[:page], per_page: 10)
+    @posts = Post.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
+ 
   end
   
  private

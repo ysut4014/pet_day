@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= @post.title %></title>
 <style>
-  @media (max-width: 576px) {
+  @media (max-width: 600px) {
     .plate {
       width: 100%;
     }
@@ -23,7 +23,12 @@
   h1, p, strong {
     margin-left: 0; /* 左マージンをリセット */
   }
-
+  h5 {
+        margin-left: 10px; /* 左マージンを追加 */
+  }
+  form {
+    margin-left: 10px;
+  }
   .post-container {
     max-width: 700px; /* 最大幅を設定 */
     text-align: left; /* 投稿内容を左寄せ */
@@ -39,7 +44,10 @@
     border-radius: 5px;
     padding: 10px;
     margin-top: 10px;
-    margin-left: 0; /* 左マージンをリセット */
+    margin-left: 10px; /* 左マージンを追加 */
+    padding: 0 10px; /* 左右の余白を調整 */
+    max-width: calc( 700px ); /* コメントの最大幅を設定 */
+    word-wrap: break-word; /* テキストがはみ出た場合に改行 */
   }
   .comment-author {
     font-weight: bold;
@@ -48,50 +56,85 @@
     background-color: #f2f2f2;
   }
   /* いいねボタンのスタイル */
-  .like-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
+  
+  .like {
+    margin-left: 10px; /* 左マージンを追加 */
+
   }
+  
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+    }
+
+    .popup-img {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 90%;
+      max-height: 90%;
+      z-index: 10000;
+    }
 </style>
+
 </head>
 <body>
-  <div class="post-container">
-    <h1><%= @post.title %></h1>
-    <p><strong>作成日時:</strong> <%= @post.created_at %></p>
-    <p><strong>投稿者:</strong> <%= link_to @post.user.name, public_user_path(@post.user) %></p>
-    
-    <div class="post-content">
-      <% if @post.image.attached? %>
-        <div style="max-width: 700px; margin: 0 auto; float: left; margin-right: 10px;">
-          <%= image_tag @post.image.variant(resize: "700x700") %>
-        </div>
-      <% end %>
-      
-      <div class="post-text">
-        <p><strong>投稿文</strong></p>
-        <%= @post.content %>
+<!-- 投稿内容のコンテナ -->
+<div class="post-container">
+  <h1><%= @post.title %></h1> <!-- 投稿のタイトルを表示 -->
+  <p><strong>作成日時:</strong> <%= @post.created_at %></p> <!-- 投稿の作成日時を表示 -->
+  <p><strong>投稿者:</strong> <%= link_to @post.user.name, public_user_path(@post.user) %></p> <!-- 投稿者の名前を表示 -->
+
+  <!-- 投稿内容の表示 -->
+  <div class="post-content">
+<!-- 画像ポップアップ用のオーバーレイと画像要素 -->
+<div class="popup-overlay" id="popupOverlay"></div>
+<img class="popup-img" id="popupImg">
+
+<!-- 投稿内容のコンテナ -->
+<div class="post-container">
+  <!-- 既存のコード -->
+
+  <!-- 投稿内容の表示 -->
+  <div class="post-content">
+    <% if @post.image.attached? %>
+      <!-- 画像をクリックしたらポップアップ表示 -->
+      <div style="max-width: 700px; margin: 0 auto; float: left; margin-right: 10px;">
+        <%= image_tag @post.image.variant(resize: "700x700"), class: "post-image", data: { original_image: url_for(@post.image) } %>
       </div>
+    <% end %>
+
+    <div class="post-text">
+      <p><strong>投稿文</strong></p>
+      <%= @post.content %>
     </div>
   </div>
+</div>
+
+<!-- いいねボタン -->
+<br><%= render 'likes/like_button', post: @post %><br>
+
+<!-- コメント欄 -->
 
 
-
-  <!-- いいねボタン -->
-  <br><%= render 'likes/like_button', post: @post %><br>
-<br>
 <h5>コメント</h5>
-
 <div class="comment-box">
   <% @post.comments.each do |comment| %>
     <% if comment.user %>
+      <!-- コメントの表示 -->
       <div class="comment <%= 'own-comment' if comment.user == @post.user %>">
-        <span class="comment-author"><%= comment.user.name %>:</span>
-        <span><%= comment.posted_text %></span>
-        <% if comment.user == current_user %>
+        <span class="comment-author"><%= comment.user.name %>:</span> <!-- コメントの投稿者の名前を表示 -->
+        <span><%= comment.posted_text %></span> <!-- コメントの内容を表示 -->
+        <!-- 自分のコメントまたはポストの投稿者の場合は削除リンクを表示 -->
+        <% if comment.user == current_user || @post.user == current_user %>
           <%= link_to '削除', public_comment_path(comment), method: :delete, data: { confirm: '本当に削除しますか？' } %>
         <% end %>
       </div>
@@ -99,6 +142,9 @@
   <% end %>
 </div>
 
+
+
+<!-- コメント投稿フォーム -->
 <%= form_with(model: [@post, @post.comments.build], url: public_comments_path, local: true) do |form| %>
   <%= form.hidden_field :post_id, value: @post.id %>
   <div class="field">
@@ -107,11 +153,30 @@
   <div class="actions">
     <%= form.submit "コメントする" %>
   </div>
-<% end %>  
-  
+<% end %>
 
+<!-- 投稿削除リンク -->
+<% if @post.user == current_user %>
+  <%= link_to '投稿を削除', public_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+<% end %>
 
-  <!-- 戻るボタン -->
-  <%= button_to '戻る', public_posts_path, method: :get, class: 'btn btn-secondary', style: 'margin-bottom: 20px;' %>
-</body>
-</html>
+<!-- 戻るボタン -->
+<%= button_to '戻る', public_posts_path, method: :get, class: 'btn btn-secondary', style: 'margin-bottom: 20px;' %>
+
+<script>
+  // 画像をクリックしたらポップアップ表示
+  document.querySelectorAll('.post-image').forEach(function(img) {
+    img.addEventListener('click', function() {
+      var originalImage = this.getAttribute('data-original_image');
+      document.getElementById('popupImg').src = originalImage;
+      document.getElementById('popupOverlay').style.display = 'block';
+      document.getElementById('popupImg').style.display = 'block';
+    });
+  });
+
+  // ポップアップを閉じる
+  document.getElementById('popupOverlay').addEventListener('click', function() {
+    document.getElementById('popupOverlay').style.display = 'none';
+    document.getElementById('popupImg').style.display = 'none';
+  });
+</script>

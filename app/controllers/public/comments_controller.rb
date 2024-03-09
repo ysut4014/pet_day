@@ -20,15 +20,22 @@ def create
   end
 end
 
+
 def destroy
   @comment = Comment.find(params[:id])
-  
+
   # コメントに関連する通知も削除する
   Notification.where(comment_id: @comment.id).destroy_all
-  
-  @comment.destroy
-  redirect_back fallback_location: root_path, notice: 'コメントを削除しました。'
+
+  # コメントの投稿者またはコメントの関連するポストの投稿者である場合にのみ削除を許可する
+  if @comment.user == current_user || @comment.post.user == current_user
+    @comment.destroy
+    redirect_back fallback_location: root_path, notice: 'コメントを削除しました。'
+  else
+    redirect_back fallback_location: root_path, alert: 'コメントを削除する権限がありません。'
+  end
 end
+
 
   def index
     # コメントの一覧を取得するロジックをここに追加する

@@ -10,11 +10,11 @@ def create
     # 新しい投稿を作成したユーザーのフォロワーに通知を作成
     @post.user.followers.each do |follower|
       follower.notifications.create(
-        message: "新しい投稿があります",
         action: "new_post",
-        post_id: @post.id
-      )
-    end
+       post_id: @post.id
+     )
+  end
+
     redirect_to public_posts_path
   else
     render 'new'
@@ -34,8 +34,11 @@ def index
     @posts = Post.all.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
   end
 end
-
-
+  def destroy
+    @post = Post.find(params[:id])
+    @post.destroy
+    redirect_to public_posts_path, notice: "投稿が削除されました"
+  end
   
   def follow
     @user = User.find(params[:id])

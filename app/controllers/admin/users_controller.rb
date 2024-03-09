@@ -1,41 +1,38 @@
-# app/controllers/admin/users_controller.rb
 class Admin::UsersController < ApplicationController
-  before_action :authenticate_admin! # Add this if authentication is required
+  before_action :authenticate_admin!
+  before_action :set_user, only: [:show, :edit, :update, :deactivate_account]
 
   def index
-    @users = User.all
     @users = User.paginate(page: params[:page], per_page: 10)
-
   end
 
-def show
-  @user = User.find(params[:id])
-  @posts = @user.posts.paginate(page: params[:page], per_page: 10)
-end
-
+  def show
+    @posts = @user.posts.paginate(page: params[:page], per_page: 10)
+  end
 
   def edit
-    @user = User.find(params[:id]) 
   end
 
   def update
-    @user = User.find(params[:id]) # Replace 'User' with your actual user model
-
     if @user.update(user_params)
-      redirect_to admin_users_path, notice: 'User was successfully updated.'
+      redirect_to admin_users_path, notice: 'ユーザーが正常に更新されました。'
     else
-      redirect_to admin_users_path, notice: 'User was successfully updated.'
-
+      render :edit
     end
   end
 
- 
+  def deactivate_account
+    @user.deactivate_account
+    redirect_to root_path, notice: 'ユーザーアカウントが無効化されました。'
+  end
 
-  
   private
 
+  def set_user
+    @user = User.find(params[:id])
+  end
+
   def user_params
-    # Add your user params here
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :is_active)
   end  
 end

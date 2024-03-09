@@ -5,33 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>投稿検索結果</title>
   <style>
-  @media only screen and (max-width: 600px) {
-  
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
     .post-container {
-      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center; 
     }
 
-    .post {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-      margin-bottom: 20px;
-      width: 80%;
-      margin-left: auto;
-      margin-right: auto;
+    h1 {
+      margin-bottom: 20px; /* タイトルとフォームの間 */
     }
 
-    .post-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    form {
+      margin-bottom: 20px; /* フォームの下 */
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      width: 60%;
     }
 
     .like-count {
       margin-left: 10px;
       color: #777;
     }
-
     .like-button {
       display: inline-block;
       padding: 5px 10px;
@@ -42,42 +45,52 @@
       cursor: pointer;
     }
 
-    .comment-toggler {
-      margin-top: 10px;
-      display: inline-block;
-      text-decoration: none;
-      color: #007bff;
+    .post-container {
+      text-align: center;
     }
-
-    .comment-toggler:hover {
-      text-decoration: underline;
-    }
-
-    .follow-button {
-      display: inline-block;
-      padding: 5px 10px;
-      border: none;
+    .post {
+      border: 1px solid #ccc;
       border-radius: 5px;
-      cursor: pointer;
+      padding: 10px;
+      margin-bottom: 20px;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 600px;
     }
 
-    .follow-button.following {
-      background-color: #dc3545;
-      color: #fff;
+    .post-header {
+      margin-bottom: 10px;
     }
 
-    .follow-button.following:hover {
-      background-color: #c82333;
+    .post-header h2 {
+      margin: 0;
     }
 
-    .follow-button:not(.following) {
-      background-color: #007bff;
-      color: #fff;
+    .post-date {
+      color: #777;
+      margin-top: 5px;
     }
 
-    .follow-button:not(.following):hover {
-      background-color: #0056b3;
+    .post img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 5px;
+      margin-top: 10px;
     }
+
+    .post p {
+      word-break: break-all;
+      max-width: 24em;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+
+
+
   </style>
 </head>
 <body>
@@ -88,45 +101,31 @@
       <input type="text" name="query" placeholder="ユーザーを検索">
       <button type="submit">検索</button>
     </form>
-
+<p>検索ワード: <%= params[:query] %></p>
     <% if @posts.any? %>
       <% @posts.each do |post| %>
         <div class="post">
           <div class="post-header">
             <h2><%= link_to post.title, public_post_path(post) %></h2>
+            <p>投稿者: <%= post.user.name %></p>
             <p class="post-date">投稿日時: <%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
           </div>
 
-      <p><%= post.content %></p>
-      <% if post.image.attached? %>
-        <%= image_tag post.image.variant(resize: "300x300") %>
+          <% if post.image.attached? %>
+            <%= link_to image_tag(post.image), post.image, target: "_blank" %>
+          <% end %>
+
+          <p><%= post.content %></p>
+
+          <!-- いいねボタン -->
+          <%= render 'likes/like_button', post: post %>
+          <!-- フォローボタン -->
+          <%= render 'follows/follow', post: post %>
+          <!-- コメントボタン -->
+          <%= render 'posts/comment', post: post %>
+          
+        </div>
       <% end %>
-      <p>投稿者: <%= post.user.name %></p>
-
-  <!-- いいねボタン -->
-  <%= render 'likes/like_button', post: post %>
-
-
-
-      <%= link_to "コメント: #{post.comments.count}", "#", class: "comment-toggler", data: { post_id: post.id } %>
-
-<% unless current_user.nil? %>
-  <% unless post.user == current_user %>
-    <% if current_user.following?(post.user) %>
-      <%= link_to raw('<i class="fa-solid fa-user-plus"></i> 外す'), public_user_relationships_path(post.user), method: :delete %>
-    <% else %>
-      <%= link_to raw('<i class="fa-solid fa-plus"></i> '), public_user_relationships_path(post.user), method: :post %>
-    <% end %>
-  <% end %>
-<% end %>
-
-
-      <div class="comments" id="comments_<%= post.id %>" style="display: none;">
-        <%= render partial: 'comments/comment', locals: { comments: post.comments } %>
-      </div>
-    </div>
-  <% end %>
-
 
       <%= will_paginate @posts %>
     <% else %>

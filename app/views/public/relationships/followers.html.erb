@@ -1,11 +1,19 @@
 <style>
   @media only screen and (max-width: 600px) {
 
+  }
 </style>
-<h1>フォロワー一覧</h1>
 
-<ul>
-  <% @users.each do |user| %>
-    <li><%= link_to user.name, public_user_path(user) %></li>
+<div style="padding-left: 10px;">
+  <h1>フォロワー一覧</h1>
+
+  <% if @users.present? %>
+    <ul>
+      <% @users.each do |user| %>
+        <li><%= link_to user.name, public_user_path(user) %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>フォロワーはいません</p>
   <% end %>
-</ul>
+</div>

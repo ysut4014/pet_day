@@ -1,7 +1,12 @@
-<style>
-  @media only screen and (max-width: 600px) {
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プロフィール編集</title>
+</head>
+<body style="padding-left: 10px;">
 
-</style>
 <h1>プロフィール編集</h1>
 
 <%= form_with(model: @user, url: public_user_path(@user), method: :patch) do |form| %>
@@ -38,11 +43,12 @@
     <%= form.password_field :password %>
   </div>
 
-
-
-  <div class="actions">
+  <div class="actions" >
     <%= form.submit "Update" %>
   </div>
 <% end %>
 
-<%= link_to 'Back', public_user_path(@user) %>
+<%= link_to '戻る', public_user_path(@user) %>
+
+</body>
+</html>

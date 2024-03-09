@@ -1,70 +1,80 @@
-<style>
-    @media only screen and (max-width: 600px) {
-      .post {
-        width: 90%;
-        padding: 8px;
-      }
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理者用投稿一覧</title>
+  <style>
+    /* CSSスタイルを追加 */
+    body {
+      font-family: Arial, sans-serif;
     }
-  .post img {
-    max-width: 100%;
-    height: auto; 
-    display: block;
-    margin: 0 auto; 
-  }   
-</style>
-<h1>管理者用投稿一覧</h1>
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .post-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    .post-item img {
+      max-width: 100px;
+      max-height: 100px;
+    }
+    .post-item .content {
+      max-width: 300px;
+      word-wrap: break-word;
+    }
+    .post-item .actions {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>管理者用投稿一覧</h1>
 
-<%= form_tag admin_posts_path, method: :get do %>
-  <%= text_field_tag :search, params[:search], placeholder: '投稿を検索...' %>
-  <%= submit_tag '検索' %>
-<% end %>
-
-<%= button_to '全ての投稿を削除', delete_all_admin_posts_path, method: :delete, data: { confirm: '本当に全ての投稿を削除しますか？' }, class: 'btn btn-danger mb-3' %>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>タイトル</th>
-      <th>投稿者</th>
-      <th>画像</th>
-      <th>作成日時</th>
-      <th>投稿文</th>
-      <th>コメント数</th>
-      <th>いいね数</th>
-      <th>操作</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if @posts.present? %>
-      <% @posts.each do |post| %>
-        <tr>
-          <td><%= link_to post.title, admin_post_path(post) %></td>
-          <td><%= link_to post.user.name, admin_user_path(post.user) %></td>
-          <td>
-      <% if post.image.attached? %>
-       <%= link_to image_tag(post.image), post.image, target: "_blank" %>
-      <% end %>
-          </td>
-          <td><%= post.created_at %></td>
-          <td>
-            <div style="max-width: 300px; word-wrap: break-word;">
-              <%= post.content %>
-            </div>
-          </td>
-          <td><%= post.comments.count %></td>
-          <td><%= post.likes.count %></td>
-          <td>
-            <%= link_to "削除", admin_post_path(post), method: :delete, data: { confirm: '本当にこの投稿を削除しますか？' } %>
-          </td>
-        </tr>
-      <% end %>
-    <% else %>
-      <tr>
-        <td colspan="8">投稿がありません</td>
-      </tr>
+    <%= form_tag admin_posts_path, method: :get do %>
+      <%= text_field_tag :search, params[:search], placeholder: '投稿を検索...' %>
+      <%= submit_tag '検索' %>
     <% end %>
-  </tbody>
-</table>
 
-<%= will_paginate @posts %>
+    <%= button_to '全ての投稿を削除', delete_all_admin_posts_path, method: :delete, data: { confirm: '本当に全ての投稿を削除しますか？' }, class: 'btn btn-danger mb-3' %>
 
+    <ul class="list-unstyled">
+      <% if @posts.present? %>
+        <% @posts.each do |post| %>
+          <li class="post-item">
+            <strong>タイトル:</strong> <%= link_to post.title, admin_post_path(post) %><br>
+            <strong>投稿者:</strong> <%= link_to post.user.name, admin_user_path(post.user) %><br>
+            
+            <% if post.image.attached? %>
+              <%= image_tag post.image %><br>
+            <% end %>
+            
+            <strong>作成日時:</strong> <%= post.created_at %><br>
+            
+            <strong>投稿文:</strong> 
+            <div class="content">
+              <%= post.content %>
+            </div>        
+            <br>
+
+            <strong>コメント数:</strong> <%= post.comments.count %>　|　<strong>いいね数:</strong> <%= post.likes.count %><br>
+            
+            <div class="actions">
+              <%= link_to "削除", admin_post_path(post), method: :delete, data: { confirm: '本当にこの投稿を削除しますか？' } %>
+            </div>
+          </li>
+        <% end %>
+      <% else %>
+        <li>投稿がありません</li>
+      <% end %>
+    </ul>
+
+    <%= will_paginate @posts %>
+  </div>
+</body>
+</html>

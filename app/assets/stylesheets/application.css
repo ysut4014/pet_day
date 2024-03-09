@@ -13,3 +13,8 @@
  *= require_tree .
  *= require_self
  */
+@media only screen and (max-width: 600px) {
+  body {
+    padding-left: 10px; /* 画面幅が600px以下の場合に全体的に左に余白を追加 */
+  }
+}

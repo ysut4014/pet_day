@@ -1,36 +1,125 @@
 <style>
+  /* スマートフォン用のスタイルを追加 */
   @media only screen and (max-width: 600px) {
-      <%= link_to "退会する", delete_public_user_path(@user) %>
+    .delete-user-link {
+      display: block;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  }
 
+  /* 投稿のスタイル */
+  .post {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  /* 投稿のタイトルスタイル */
+  .post h3 {
+    margin-top: 0;
+  }
+
+  /* 投稿の文章スタイル */
+  .post p {
+    margin: 0;
+  }
+
+  /* 画像のスタイル */
+  .post img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px auto;
+    border-radius: 5px;
+  }
+
+  /* 削除ボタンのスタイル */
+  .delete-button {
+    color: red;
+    margin-top: 10px;
+    display: inline-block;
+  }
+
+  /* ページネーションのスタイル */
+  .pagination {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  /* 戻るボタンのスタイル */
+  .back-button {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  /* 投稿テーブルのコンテナスタイル */
+  .post-table-container {
+    margin: 0 auto; /* 中央配置 */
+    padding: 0 20px; /* 左右の余白 */
+    max-width: 800px;
+  }
+
+  /* 投稿テーブルのスタイル */
+  .post-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  .post-table th, .post-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+  }
+
+  .post-table th {
+    background-color: #f2f2f2;
+  }
+
+  /* 投稿タイトルのスタイル */
+  .post-title {
+    text-align: center; /* タイトルを中央配置 */
+  }
 </style>
-<h2><%= @user.name %>'さんの投稿</h2>
 
-<% if @posts.present? %>
-  <% @posts.each do |post| %>
-    <div class="post">
-      <h3><%= link_to post.title, public_post_path(post) %></h3>
-      <!-- 投稿の作成日時を表示 -->
-      <p>投稿日時: <%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
-      
-      
-      
-      <% if post.image.attached? %>
-        <%= image_tag post.image.variant(resize: "300x300") %>
-      <% end %>    
-            <p><strong>投稿文:</strong></p><p><%= post.content %></p>
-      
-      <p><strong>いいね数: <%= post.likes.count %></strong></p>
-      
-      <!-- 削除ボタン -->
-      <% if current_user == post.user %>
-        <%= link_to "削除", public_post_path(post), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
-      <% end %>
+<div class="post-table-container">
+  <!-- 投稿タイトル -->
+  <h2 class="post-title"><%= @user.name %>さんの投稿</h2>
 
-      <hr>
-    </div>
+  <% if @posts.present? %>
+    <!-- 投稿テーブル -->
+    <table class="post-table">
+      <thead>
+        <tr>
+          <th>タイトル</th>
+          <th>作成日時</th>
+          <th>投稿文</th>
+          <th>いいね数</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @posts.each do |post| %>
+          <tr>
+            <td><%= link_to post.title, public_post_path(post) %></td>
+            <td><%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+            <td><%= post.content %></td>
+            <td><%= post.likes.count %></td>
+            <td>
+              <% if current_user == post.user %>
+                <%= link_to "削除", public_post_path(post), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "delete-button" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p><%= @user.name %>さんの投稿はありません。</p>
   <% end %>
-<% else %>
-  <p>No posts available for <%= @user.name %>.</p>
-<% end %>
-<%= will_paginate @posts %>
-<%= link_to "Back", public_user_path(id: current_user.id), class: "btn btn-secondary" %>
+
+  <%= will_paginate @posts %>
+  <%= link_to "戻る", public_user_path(id: current_user.id), class: "back-button" %>
+</div>

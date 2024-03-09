@@ -17,14 +17,15 @@
         <% else %>
           <%= link_to image_tag("no_image.jpg", width: 100, height: 100), public_post_path(like.post) %>
         <% end %>
-        <%= link_to "投稿タイトル: #{like.post.title}", public_post_path(like.post) %>
-        <!-- 他のいいねの情報を表示するためのコードを追加 -->
+        <%= link_to like.post.user.name, public_user_path(like.post.user) %>
+        <%= link_to like.post.title, public_post_path(like.post) %>
       </li>
     <% end %>
   </ul>
 <% else %>
   <p>いいねした投稿はありません。</p>
 <% end %>
+
 
 <% if @likes.present? && @likes.any? %>
   <%= will_paginate @likes %>

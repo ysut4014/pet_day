@@ -35,6 +35,13 @@ namespace :public do
     get 'delete', on: :member # 退会用のルート
     delete 'destroy', on: :member # 退会アクション用のルート
   end
+  
+resources :users do
+  member do
+    get 'edit_image'
+    patch 'update_image'
+  end
+end 
   # いいね関連
   resources :posts do
     resources :likes, only: [:index, :create, :destroy]
@@ -87,7 +94,14 @@ end
       resources :likes, only: [:create, :destroy]
       resources :comments, only: [:create, :destroy]
     end
+    
+    
+   resources :admin_comments, only: [:destroy]
 
+
+    resources :posts do
+      resources :comments, only: [:destroy]
+    end
     # コメント関連
     resources :comments, only: [:create, :destroy] do
       resources :comment_replies, only: [:create, :destroy], shallow: true

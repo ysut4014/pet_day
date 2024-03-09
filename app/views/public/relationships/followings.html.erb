@@ -1,9 +1,17 @@
 <style>
   @media only screen and (max-width: 600px) {
 
+  }
 </style>
-<h1>フォローしているユーザー一覧</h1>
 
-<% @followings.each do |user| %>
-  <p><%= link_to user.name, public_user_path(user) %></p>
-<% end %>
+<div style="padding-left: 10px;">
+  <h1>フォローしているユーザー一覧</h1>
+
+  <% if @followings.present? %>
+    <% @followings.each do |user| %>
+      <p><%= link_to user.name, public_user_path(user) %></p>
+    <% end %>
+  <% else %>
+    <p>フォローしているユーザーはいません</p>
+  <% end %>
+</div>

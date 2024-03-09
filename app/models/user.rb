@@ -52,16 +52,12 @@ class User < ApplicationRecord
   end
 
   # フォロワーに通知を作成するメソッド
-  def create_notification_for_followers
-    followers.each do |follower|
-      Notification.create(
-        visitor_id: user.id,
-        visited_id: follower.id,
-        post_id: id,
-        action: 'post'
-      )
-    end
+def create_notification_for_followers
+  followers.each do |follower|
+    follower.notifications.create(visitor: self)
   end
+end
+
 
   # 通知の送信者を更新するメソッド
   def update_notifications_sender!(new_sender_id)

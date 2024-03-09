@@ -1,4 +1,3 @@
-# app/controllers/admin/posts_controller.rb
 class Admin::PostsController < ApplicationController
   before_action :authenticate_admin!
   before_action :set_post, only: [:edit, :update, :destroy]
@@ -23,7 +22,6 @@ class Admin::PostsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
 
   private
 

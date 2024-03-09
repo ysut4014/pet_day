@@ -87,22 +87,23 @@
       margin: 0 auto;
       text-align: left;
     }
-
-
-
-
   </style>
 </head>
 <body>
   <div class="post-container">
     <h1>投稿検索結果</h1>
 
+    <!-- 検索フォーム -->
     <form action="/users/search" method="GET">
       <input type="text" name="query" placeholder="ユーザーを検索">
       <button type="submit">検索</button>
     </form>
-<p>検索ワード: <%= params[:query] %></p>
+
+    <!-- 検索ワード表示 -->
+    <p>検索ワード: <%= params[:query] %></p>
+
     <% if @posts.any? %>
+      <!-- 投稿がある場合 -->
       <% @posts.each do |post| %>
         <div class="post">
           <div class="post-header">
@@ -111,10 +112,12 @@
             <p class="post-date">投稿日時: <%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
           </div>
 
+          <!-- 画像がある場合の表示 -->
           <% if post.image.attached? %>
             <%= link_to image_tag(post.image), post.image, target: "_blank" %>
           <% end %>
 
+          <!-- 投稿内容表示 -->
           <p><%= post.content %></p>
 
           <!-- いいねボタン -->
@@ -123,16 +126,18 @@
           <%= render 'follows/follow', post: post %>
           <!-- コメントボタン -->
           <%= render 'posts/comment', post: post %>
-          
         </div>
       <% end %>
 
+      <!-- ページネーション -->
       <%= will_paginate @posts %>
     <% else %>
+      <!-- 投稿がない場合 -->
       <p>該当する投稿は見つかりませんでした。</p>
     <% end %>
   </div>
 
+  <!-- コメントトグル用のスクリプト -->
   <script>
     document.querySelectorAll('.comment-toggler').forEach(function(button) {
       button.addEventListener('click', function(event) {

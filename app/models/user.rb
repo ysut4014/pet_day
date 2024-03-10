@@ -18,7 +18,8 @@ class User < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 50 }
   validates_inclusion_of :is_active, in: [true, false]
-
+  validates :email, uniqueness: true
+  
   def active?
     is_active
   end
@@ -58,9 +59,15 @@ def create_notification_for_followers
   end
 end
 
-
+  def admin?
+    admin
+  end
+  
   # 通知の送信者を更新するメソッド
   def update_notifications_sender!(new_sender_id)
     notifications.update_all(visitor_id: new_sender_id)
   end
 end
+
+
+

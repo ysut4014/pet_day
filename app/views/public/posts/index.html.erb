@@ -84,15 +84,17 @@
 
     <!-- 投稿内容 -->
     <p><%= post.content %></p>
-
+  <% if current_user %>
     <!-- いいねボタン -->
     <%= render 'likes/like_button', post: post %>
     <!-- フォローボタン -->
     <%= render 'follows/follow', post: post %>
+  <% end %>
     <!-- コメントボタン -->
     <%= render 'posts/comment', post: post %>
     
   </div>
+  
 <% end %>
 
 <%= will_paginate @posts %>

@@ -7,6 +7,9 @@ class Post < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :comments, dependent: :destroy  
+  validates :title, presence: { message: "を入力してください" }
+  validate :content_or_image_presence
+  
   def liked_by?(user)
     likes.exists?(user_id: user.id)
   end
@@ -69,4 +72,10 @@ class Post < ApplicationRecord
       )
     end
   end
+  
+  def content_or_image_presence
+    unless content.present? || image.attached?
+      errors.add(:base, "投稿文か画像のいずれかを入力してください")
+    end
+  end  
 end

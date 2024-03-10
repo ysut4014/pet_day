@@ -15,14 +15,24 @@
   <h1>新しい投稿をする</h1>
 
   <%= form_with model: @post, url: public_posts_path, multipart: true do |form| %>
+    <% if @post.errors.any? %>
+      <div class="notification">
+        <ul>
+          <% @post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
     <p>
-      <%= form.label :タイトル %><br>
+      <%= form.label :title, "タイトル" %><br>
       <%= form.text_field :title %>
     </p>
 
     <p>
-      <%= form.label :投稿文 %><br>
-      <%= form.text_area :content, rows: 5, cols: 30 %> <!-- 高さ5行、幅30文字に設定 -->
+      <%= form.label :content, "投稿文" %><br>
+      <%= form.text_area :content, rows: 5, cols: 30 %>
     </p>
 
     <p>
@@ -30,7 +40,7 @@
     </p>
 
     <p>
-      <%= form.label :ペットの写真 %><br>
+      <%= form.label :image, "ペットの写真" %><br>
       <%= form.file_field :image %>
     </p>
 

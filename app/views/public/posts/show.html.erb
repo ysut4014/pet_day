@@ -117,11 +117,13 @@
   </div>
 </div>
 
-<!-- いいねボタン -->
-<br><%= render 'likes/like_button', post: @post %>
+<% if current_user %>
+  <!-- いいねボタン -->
+  <br><%= render 'likes/like_button', post: @post %>
 
-<!-- フォローボタン -->
-<%= render 'follows/follow', post: @post %><br>
+  <!-- フォローボタン -->
+  <%= render 'follows/follow', post: @post %><br>
+<% end %>
 
 <!-- コメント欄 -->
 <h5>コメント</h5>
@@ -142,7 +144,7 @@
     <% end %>
   <% end %>
 </div>
-
+<% if current_user %>
 <!-- コメント投稿フォーム -->
 <%= form_with(model: [@post, @post.comments.build], url: public_comments_path, local: true) do |form| %>
   <%= form.hidden_field :post_id, value: @post.id %>
@@ -153,7 +155,7 @@
     <%= form.submit "コメントする" %>
   </div>
 <% end %>
-
+<% end %>
 <!-- 投稿削除リンク -->
 <% if @post.user == current_user %>
 <%= link_to '投稿を削除', public_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'margin-left: 10px;' %>

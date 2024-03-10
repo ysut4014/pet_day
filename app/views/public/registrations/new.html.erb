@@ -1,7 +1,12 @@
-<main class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <h5 class="p-5">新規会員登録</h5>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <% if alert %>
+      <div class="alert alert-danger" role="alert">
+        <%= alert %>
+      </div>
+    <% end %>
+    <h5 class="p-5">新規会員登録</h5>
+
 
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
         <div class="form-group">
@@ -14,11 +19,6 @@
           <%= f.email_field :email, class: "form-control", placeholder: "sample@example.com", required: true %>
         </div>
 
-        <!-- 追加：非公開設定 -->
-        <div class="form-group">
-          <%= f.label :public_email, "メールアドレスを公開しない" %>
-          <%= f.check_box :public_email %>
-        </div>
 
         <div class="form-group">
           <%= f.label :name, "パスワード（６文字以上）" %>

@@ -25,7 +25,7 @@
     </div>
 
     <a href="https://jp.freepik.com/free-photo/chubby-domestic-cat-leaning-on-a-brown-puppy-lying-on-a-white-surface_17247032.htm#fromView=search&page=3&position=14&uuid=4ad9b7de-9abd-4957-af8b-82b73e041311">背景 著作者：wirestock／出典：Freepik</a>
-
+      <% if current_user %>
     <%= button_to '全ての通知を削除', delete_all_notifications_path, method: :delete, data: { confirm: '本当に全ての通知を削除しますか？' }, class: 'btn btn-danger mb-3' %>
 
     <!-- 通知を表示する部分 -->
@@ -36,7 +36,7 @@
 <% else %>
   <p>通知はありません。</p>
 <% end %>
-
+<% end %>
 
   </div>
 </div>

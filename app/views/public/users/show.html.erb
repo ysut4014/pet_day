@@ -197,12 +197,13 @@
         <% if post.image.attached? %>
           <%= link_to image_tag(post.image), post.image, target: "_blank" %>
         <% end %>
-
+      <% if current_user %>
         <!-- いいねボタン -->
         <br><%= render 'likes/like_button', post: post %>
 
         <%= render 'posts/comment', post: post %>
       </div>
+     <% end %>
     <% end %>
 
     <%= will_paginate @posts %>

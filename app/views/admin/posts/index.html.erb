@@ -41,7 +41,6 @@
       <%= submit_tag '検索' %>
     <% end %>
 
-    <%= button_to '全ての投稿を削除', delete_all_admin_posts_path, method: :delete, data: { confirm: '本当に全ての投稿を削除しますか？' }, class: 'btn btn-danger mb-3' %>
 
     <ul class="list-unstyled">
       <% if @posts.present? %>

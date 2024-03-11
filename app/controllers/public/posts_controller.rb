@@ -14,6 +14,10 @@ class Public::PostsController < ApplicationController
       render 'new'
     end
   end
+  
+  def edit
+    @post = Post.find(params[:id])
+  end  
 
   # 特定の投稿を表示するためのアクション
   def show
@@ -36,6 +40,15 @@ class Public::PostsController < ApplicationController
     @post.destroy
     redirect_to public_posts_path, notice: "投稿が削除されました"
   end
+  
+  def update
+    @post = Post.find(params[:id])
+    if @post.update(post_params)
+      redirect_to public_posts_path, notice: '投稿が更新されました'
+    else
+      render :edit
+    end
+  end  
   
   # ユーザーをフォローするためのアクション
   def follow

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+  .post-container {
+    /* 中央揃え */
+    margin: 0 auto;
+    /* 必要に応じて幅を指定 */
+    max-width: 800px;
+  }
+</style>
+</head>
+<body>
+
+
+<div class="post-container">
+  <div class="post-content">
+    <div class="form-container">
+      <h1>投稿を編集する</h1>
+        
+      <%= form_with(model: @post, url: public_post_path(@post), method: :patch) do |form| %>
+        <!-- タイトルの編集 -->
+        <div class="field">
+          <%= form.label :title, "タイトル" %>
+          <%= form.text_field :title, class: "form-control" %>
+        </div>
+
+        <!-- 投稿文の編集 -->
+        <div class="field">
+          <%= form.label :content, "投稿文" %>
+          <%= form.text_area :content, rows: 10, class: "form-control" %>
+        </div>
+
+        <!-- 更新ボタン -->
+        <div class="actions">
+          <%= form.submit "更新", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+

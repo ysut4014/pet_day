@@ -100,14 +100,23 @@
 
   <!-- 投稿内容表示 -->
   <div class="post-content">
-    <!-- 投稿された画像がある場合、画像をポップアップ表示 -->
-  <% if @post.image.attached? %>
-   <div style="max-width: 700px; margin: 0 auto; float: left; margin-right: 10px;">
-    <%= link_to url_for(@post.image), target: "_blank" do %>
-      <%= image_tag @post.image.variant(resize: "700x700"), class: "post-image", data: { original_image: url_for(@post.image) } %>
+    <!-- 投稿された画像がある場合、画像を表示 -->
+  <div style="max-width: 700px; margin: 0 auto; float: left; margin-right: 10px;">
+   <% if @post.image.attached? %>
+    <% begin %>
+      <% variant = @post.image.variant(resize: "700x700") %>
+      <% if variant.present? %>
+        <%= link_to url_for(@post.image), target: "_blank" do %>
+          <%= image_tag variant, class: "post-image", data: { original_image: url_for(@post.image) } %>
+        <% end %>
+      <% end %>
+    <% rescue ActiveStorage::InvariableError %>
+      <%= image_tag @post.image, class: "post-image" %>
     <% end %>
-   </div>
-  <% end %>
+   <% end %>
+  </div>
+
+
 
     <!-- 投稿のテキスト表示 -->
     <div class="post-text">
@@ -159,7 +168,7 @@
 <!-- 投稿削除リンク -->
 <% if @post.user == current_user %>
 <%= link_to '投稿を削除', public_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'margin-left: 10px;' %>
-<% end %>
+<!-- 投稿編集ページ -->
+<%= link_to '編集する', edit_public_post_path(@post) %>
 
-<!-- 戻るボタン -->
-<%= button_to '戻る', public_posts_path, method: :get, class: 'btn btn-secondary', style: 'margin-bottom: 20px;' %>
+<% end %>

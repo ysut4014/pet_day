@@ -1,0 +1,7 @@
+<div class="comment-container">
+  <% @comments.each do |comment| %>
+    <%= render partial: "comment", locals: { comment: comment } %>
+  <% end %>
+</div>
+
+<%= will_paginate @comments %>

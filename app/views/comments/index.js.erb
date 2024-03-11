@@ -1,0 +1,8 @@
+<% @comments.each do |comment| %>
+  $('.comment-container').append('<%= j render partial: "comment", locals: { comment: comment } %>');
+<% end %>
+<% if @comments.next_page %>
+  $('.pagination').html('<%= j will_paginate @comments %>');
+<% else %>
+  $('.pagination').remove();
+<% end %>

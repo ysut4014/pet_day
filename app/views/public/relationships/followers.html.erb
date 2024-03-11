@@ -7,13 +7,11 @@
 <div style="padding-left: 10px;">
   <h1>フォロワー一覧</h1>
 
-  <% if @users.present? %>
-    <ul>
-      <% @users.each do |user| %>
-        <li><%= link_to user.name, public_user_path(user) %></li>
-      <% end %>
-    </ul>
+  <% if @followers.present? %>
+    <% @followers.each do |user| %>
+      <p><%= link_to user.name, public_user_path(user) %></p>
+    <% end %>
   <% else %>
-    <p>フォロワーはいません</p>
+    <p>フォローしているユーザーはいません</p>
   <% end %>
 </div>

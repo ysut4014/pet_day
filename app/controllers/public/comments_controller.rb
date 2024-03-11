@@ -37,8 +37,12 @@ def destroy
 end
 
 
+
   def index
-    # コメントの一覧を取得するロジックをここに追加する
+    
+    @comments = Comment.all
+    
+    
   end
   private
 

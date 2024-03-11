@@ -95,7 +95,6 @@
         <tr>
           <th>タイトル</th>
           <th>作成日時</th>
-          <th>投稿文</th>
           <th>いいね数</th>
           <th>操作</th>
         </tr>
@@ -105,7 +104,6 @@
           <tr>
             <td><%= link_to post.title, public_post_path(post) %></td>
             <td><%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-            <td><%= post.content %></td>
             <td><%= post.likes.count %></td>
             <td>
               <% if current_user == post.user %>
@@ -121,5 +119,4 @@
   <% end %>
 
   <%= will_paginate @posts %>
-  <%= link_to "戻る", public_user_path(id: current_user.id), class: "back-button" %>
 </div>

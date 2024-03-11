@@ -14,7 +14,6 @@ devise_for :admins, controllers: {
   sessions: 'admin/sessions'
 }
 
-
   root 'public/homes#top'
 
 get '/users/search', to: 'public/users#search'
@@ -43,11 +42,10 @@ resources :users do
   end
 end 
   # いいね関連
-  resources :posts do
-    resources :likes, only: [:index, :create, :destroy]
-    resources :comments, only: [:create, :destroy] 
-    # 必要に応じて追加の投稿関連のルートを追加できます
-  end
+resources :posts, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+  resources :likes, only: [:index, :create, :destroy]
+  resources :comments, only: [:create, :destroy] 
+end
 
   # コメント関連
   resources :comments, only: [:create, :destroy, :index] do
@@ -64,6 +62,8 @@ end
       delete :destroy_all
     end
   end
+  
+
 
   # 'homes' コントローラー内の 'about' ルートを追加
 end

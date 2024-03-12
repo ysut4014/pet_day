@@ -1,26 +1,39 @@
-<style>
-  /* スクリーン幅が600px以下の場合のみ適用されるスタイル */
-  @media only screen and (max-width: 600px) {
-    table {
-      width: 100%; /* テーブルを横いっぱいに広げる */
-      border-collapse: collapse;
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>あなたがいいねした投稿一覧</title>
+  <style>
+    /* スクリーン幅が600px以下の場合のみ適用されるスタイル */
+    @media only screen and (max-width: 600px) {
+      table {
+        width: 100%; /* テーブルを横いっぱいに広げる */
+        border-collapse: collapse;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center; /* 中央に配置 */
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      .pagination {
+        display: inline-block;
+      }
     }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: center; /* 中央に配置 */
+    
+    /* ページ内の背景色を変更 */
+    body {
+      background-color: #f4ede6;; /* ページの背景色を設定 */
     }
-    th {
-      background-color: #f2f2f2;
-    }
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-.pagination {
-  display: inline-block;
-}
-  }
-</style>
+  </style>
+</head>
+<body>
 
 <h1 style="text-align: center;">あなたがいいねした投稿一覧</h1>
 
@@ -66,3 +79,6 @@
 <div class="pagination-container">
   <%= will_paginate @likes %>
 </div>
+
+</body>
+</html>

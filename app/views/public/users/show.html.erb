@@ -7,13 +7,24 @@
   <!-- スタイルシート -->
   <style>
     /* スマートフォン用のスタイルを追加 */
-    @media only screen and (max-width: 600px) {
-      .table-container {
-        overflow-x: auto;
-      }
+  @media only screen and (max-width: 600px) {
+    .table-container {
+      overflow-x: auto; /* テーブルの横スクロールを有効にする */
+      margin: 0 auto;
+    }
+    .user-info-table {
+      width: auto; /* 幅を自動調整 */
+      white-space: nowrap; /* テーブル内の要素が折り返されないようにする */
+    }
+    .user-info-table th, .user-info-table td {
+      min-width: 100px; /* 最小幅を設定して、テキストが折り返されないようにする */
+      padding: 10px; /* セルの余白を設定 */
+      text-align: center; /* テキストを中央寄せにする */
+    }
+
       table {
         width: 100%;
-        margin-left: 0;
+        margin-left: 10px;
       }
       .post-container {
         margin-left: 0;
@@ -98,23 +109,18 @@
       margin: 0 auto;
     }
 /* ページネーションリンクのスタイル */
-.pagination a {
-    color: #333;
-    padding: 3px 8px;
-    margin: 0 4px;
-    border: 1px solid #ccc;
-    text-decoration: none;
-}
-
-/* アクティブなページのスタイル */
-
-
+   .pagination a {
+     color: #333;
+     padding: 3px 8px;
+     margin: 0 4px;
+     border: 1px solid #ccc;
+     text-decoration: none;
+   }
 /* 無効なリンク（先頭や最後のページ）のスタイル */
 .pagination .disabled {
     color: #aaa;
     pointer-events: none;
 }
-
 /* ページネーションのコンテナのスタイル */
 .pagination {
     margin: 10px 0;
@@ -167,25 +173,32 @@
 <!-- ユーザーへのリンク -->
 <div class="user-links">
   <% if current_user == @user %>
-    <%= link_to "いいね一覧", public_post_likes_path(@user), class: "transparent-btn" %>
-    <%= link_to "フォロワー一覧", public_user_followers_path(@user), class: "transparent-btn" %>
-    <%= link_to "フォロー一覧", public_user_followings_path(@user), class: "transparent-btn" %>
-    <%= link_to "プロフィール編集", edit_public_user_path(@user), class: "transparent-btn" %>
-    <%= link_to 'プロフィール画像設定', edit_image_public_user_path(@user), class: "transparent-btn" %>
-    <%= link_to "退会", delete_public_user_path(@user), class: "transparent-btn" %>
+   <%= link_to "いいね一覧", public_post_likes_path(@user), class: "transparent-btn", style: "background-color: #fff; padding: 10px;" %>
+   <%= link_to "フォロワー一覧", public_user_followers_path(@user), class: "transparent-btn", style: "background-color: #fff; padding: 10px;" %>
+   <%= link_to "フォロー一覧", public_user_followings_path(@user), class: "transparent-btn", style: "background-color: #fff; padding: 10px;" %>
+   <%= link_to "プロフィール編集", edit_public_user_path(@user), class: "transparent-btn", style: "background-color: #fff; padding: 10px;" %>
+   <%= link_to 'プロフィール画像設定', edit_image_public_user_path(@user), class: "transparent-btn", style: "background-color: #fff; padding: 10px;" %>
+   <%= link_to "退会", delete_public_user_path(@user), class: "transparent-btn", style: "background-color: #fff; padding: 10px;" %>
   <% end %>
 </div>
+
 
 <!-- 投稿コンテナ -->
 <div class="post-container">
   <h2><%= @user.name %>さんの投稿一覧</h2>
   <style>
+  table {
+    background-color: #fff; /* テーブルの背景色を白に設定 */
+  }  
     .post-container {
       text-align: center; 
+      
+      
     }
 
     /* 投稿のスタイル */
     .post {
+      background-color: #fff; /* テーブルの背景色を白に設定 */
       border: 1px solid #ccc; 
       border-radius: 5px; 
       padding: 10px; /* 枠内の余白 */
@@ -221,26 +234,25 @@
 
   <div class="post-container">
     <!-- 投稿の表示 -->
-    <% @posts.each do |post| %>
-      <div class="post">
-        <div class="post-header">
-          <h2><%= link_to post.title, public_post_path(post) %></h2>
-          <p class="post-date">投稿日時: <%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
-        </div>
-        <p><%= post.content %></p>
-        <% if post.image.attached? %>
-          <%= link_to image_tag(post.image), post.image, target: "_blank" %>
-        <% end %>
-      <% if current_user %>
-        <!-- いいねボタン -->
-        <br><%= render 'likes/like_button', post: post %>
-
-        <%= render 'posts/comment', post: post %>
-      </div>
-     <% end %>
+<% @posts.order(created_at: :desc).each do |post| %>
+  <div class="post">
+    <div class="post-header">
+      <h2><%= link_to post.title, public_post_path(post) %></h2>
+      <p class="post-date">投稿日時: <%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
+    </div>
+    <p><%= post.content %></p>
+    <% if post.image.attached? %>
+      <%= link_to image_tag(post.image), post.image, target: "_blank" %>
     <% end %>
+    <% if current_user %>
+      <!-- いいねボタン -->
+      <br><%= render 'likes/like_button', post: post %>
+      <%= render 'posts/comment', post: post %>
+    <% end %>
+  </div>
+<% end %>
 
-    <%= will_paginate @posts %>
+<%= will_paginate @posts %>
   </div>
 </div>
 

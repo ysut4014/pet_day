@@ -14,8 +14,12 @@
 
 <div class="plate mx-auto" id="cork" style="background-image: url('/assets/chubby-domestic-cat-leaning-brown-puppy-lying-white-surface.jpg'); background-size: cover; background-position: center; text-align: center; height: 100vh;">
   <div style="display: inline-block; text-align: left;">
+        <% if flash[:alert] %>
+          <div class="alert alert-danger">
+            <%= flash[:alert] %>
+          </div>
+        <% end %>    
     <span style="font-size: 36px;">Welcome!!</span>
-
     <div class="home-box mx-auto my-3" style="text-align: left;">
       <p class="home-text">ようこそ、PET DAYへ！<br>
         このサイトは、ペット向けのSNSサイトになります。

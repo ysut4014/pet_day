@@ -20,6 +20,12 @@ class User < ApplicationRecord
   validates_inclusion_of :is_active, in: [true, false]
   validates :email, uniqueness: true
   
+  has_one_attached :profile_image
+  validates :profile_image, content_type: { in: %w[image/jpeg image/gif image/png],
+                    message: "有効なフォーマットではありません" },
+                    size: { less_than: 5.megabytes, message: " 5MBを超える画像はアップロードできません" }
+
+  after_initialize :set_default_profile_image
   def active?
     is_active
   end
@@ -67,6 +73,10 @@ end
   def update_notifications_sender!(new_sender_id)
     notifications.update_all(visitor_id: new_sender_id)
   end
+  
+  def set_default_profile_image
+    self.default_profile_image ||= "212979.jpg"
+  end  
 end
 
 

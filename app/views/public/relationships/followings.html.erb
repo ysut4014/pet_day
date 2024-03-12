@@ -2,16 +2,58 @@
   @media only screen and (max-width: 600px) {
 
   }
+/* ページネーションリンクのスタイル */
+.pagination a {
+    color: #333;
+    padding: 3px 8px;
+    margin: 0 4px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+}
+
+/* アクティブなページのスタイル */
+
+
+/* 無効なリンク（先頭や最後のページ）のスタイル */
+.pagination .disabled {
+    color: #aaa;
+    pointer-events: none;
+}
+
+/* ページネーションのコンテナのスタイル */
+.pagination {
+    margin: 10px 0;
+    text-align: center;
+}
+  
 </style>
 
 <div style="padding-left: 10px;">
   <h1>フォローしているユーザー一覧</h1>
 
   <% if @followings.present? %>
-    <% @followings.each do |user| %>
-      <p><%= link_to user.name, public_user_path(user) %></p>
-    <% end %>
+    <table>
+      <thead>
+        <tr>
+        </tr>
+      </thead>
+      <tbody>
+        <% @followings.each do |user| %>
+          <tr>
+            <td>
+              <% if user.profile_image.attached? %>
+                <%= image_tag user.profile_image.variant(resize_to_fill: [50, 50]), style: "border-radius: 50%;" %>
+              <% else %>
+                <%= image_tag url_for(user.default_profile_image), style: "border-radius: 50%; width: 50px; height: 50px;" %>
+              <% end %>
+            </td>
+            <td><%= link_to user.name, public_user_path(user) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% else %>
     <p>フォローしているユーザーはいません</p>
   <% end %>
 </div>
+

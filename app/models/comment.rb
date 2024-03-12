@@ -8,7 +8,7 @@ class Comment < ApplicationRecord
   
 
   private
-
+      # 通知を作成
   def create_comment_notification
     Notification.create(
       visitor_id: user_id,

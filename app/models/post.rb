@@ -60,7 +60,7 @@ class Post < ApplicationRecord
   
 
   private
-
+      # 通知を作成
   def create_notifications_for_followers
     followers = user.followers
     followers.each do |follower|

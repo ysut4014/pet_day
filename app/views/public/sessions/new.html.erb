@@ -2,14 +2,14 @@
 <html>
 
 <body class="d-flex flex-column vh-100">
-  <main class="container">
+  <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-6">
         <h5 class="p-5">ログイン</h5>
 
         <% if flash[:alert] %>
           <div class="alert alert-danger">
-            <%= flash[:alert] %>
+            メールアドレスまたはパスワードが無効です。
           </div>
         <% end %>
 
@@ -39,6 +39,6 @@
         <a href="<%= new_user_registration_path %>">新規登録はこちら</a>
       </div>
     </div>
-  </main>
+  </div>
 </body>
 </html>

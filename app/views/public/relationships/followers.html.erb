@@ -6,11 +6,27 @@
 
 <div style="padding-left: 10px;">
   <h1>フォロワー一覧</h1>
-
   <% if @followers.present? %>
-    <% @followers.each do |user| %>
-      <p><%= link_to user.name, public_user_path(user) %></p>
-    <% end %>
+    <table>
+      <thead>
+        <tr>
+        </tr>
+      </thead>
+      <tbody>
+        <% @followers.each do |user| %>
+          <tr>
+            <td>
+              <% if user.profile_image.attached? %>
+                <%= image_tag user.profile_image.variant(resize_to_fill: [50, 50]), style: "border-radius: 50%;" %>
+              <% else %>
+                <%= image_tag url_for(user.default_profile_image), style: "border-radius: 50%; width: 50px; height: 50px;" %>
+              <% end %>
+            </td>
+            <td><%= link_to user.name, public_user_path(user) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% else %>
     <p>フォローしているユーザーはいません</p>
   <% end %>

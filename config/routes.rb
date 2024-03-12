@@ -34,7 +34,9 @@ namespace :public do
     get 'delete', on: :member # 退会用のルート
     delete 'destroy', on: :member # 退会アクション用のルート
   end
-  
+  resources :users do
+    patch 'update_image', on: :member
+  end
 resources :users do
   member do
     get 'edit_image'

@@ -85,6 +85,32 @@
     max-height: 90%;
     z-index: 10000;
   }
+/* ページネーションリンクのスタイル */
+.pagination a {
+    color: #333;
+    padding: 3px 8px;
+    margin: 0 4px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+}
+
+/* アクティブなページのスタイル */
+
+
+/* 無効なリンク（先頭や最後のページ）のスタイル */
+.pagination .disabled {
+    color: #aaa;
+    pointer-events: none;
+}
+
+/* ページネーションのコンテナのスタイル */
+.pagination {
+    margin: 10px 0;
+    text-align: center;
+}
+  
+  
+  
 </style>
 
 </head>
@@ -93,58 +119,68 @@
 <div class="post-container">
   <!-- 投稿のタイトル表示 -->
   <h1><%= @post.title %></h1>
-  <!-- 投稿の作成日時表示 -->
-  <p><strong>作成日時:</strong> <%= @post.created_at %></p>
   <!-- 投稿者名へのリンク -->
-  <p><strong>投稿者:</strong> <%= link_to @post.user.name, public_user_path(@post.user) %></p>
+  <div class="post-author">
+    <% if @post.user.profile_image.attached? %>
+      <%= image_tag @post.user.profile_image.variant(resize_to_fill: [50, 50]), style: "border-radius: 50%; float: left; margin-right: 10px;" %>
+    <% else %>
+      <!-- プロフィール画像がない場合のデフォルト画像 -->
+      <%= image_tag "212979.jpg", style: "border-radius: 50%; width: 50px; height: 50px; float: left; margin-right: 10px;" %>
+    <% end %>
+    <p><strong>投稿者:</strong> <%= link_to @post.user.name, public_user_path(@post.user) %></p>
+  </div>
+  <!-- 投稿の作成日時表示 -->
+  <p style="font-size: 0.8em; color: gray;"><%= @post.user.created_at.strftime('%Y-%m-%d %H:%M') %><p><br>
 
   <!-- 投稿内容表示 -->
-  <div class="post-content">
-    <!-- 投稿された画像がある場合、画像を表示 -->
-  <div style="max-width: 700px; margin: 0 auto; float: left; margin-right: 10px;">
-   <% if @post.image.attached? %>
-    <% begin %>
-      <% variant = @post.image.variant(resize: "700x700") %>
-      <% if variant.present? %>
-        <%= link_to url_for(@post.image), target: "_blank" do %>
-          <%= image_tag variant, class: "post-image", data: { original_image: url_for(@post.image) } %>
-        <% end %>
-      <% end %>
-    <% rescue ActiveStorage::InvariableError %>
-      <%= image_tag @post.image, class: "post-image" %>
-    <% end %>
-   <% end %>
-  </div>
-
-
-
+  <div class="post-content" style="clear: both;"> <!-- clear: both を追加 -->
     <!-- 投稿のテキスト表示 -->
     <div class="post-text">
-      <p><strong>投稿文</strong></p>
       <%= @post.content %>
+    </div>    
+
+    <!-- 投稿された画像がある場合、画像を表示 -->
+    <div style="max-width: 700px; margin: 0 auto; float: left; margin-right: 10px;">
+     <% if @post.image.attached? %>
+      <% begin %>
+        <% variant = @post.image.variant(resize: "500x500") %>
+        <% if variant.present? %>
+          <%= link_to url_for(@post.image), target: "_blank" do %>
+            <%= image_tag variant, class: "post-image", data: { original_image: url_for(@post.image) } %>
+          <% end %>
+        <% end %>
+      <% rescue ActiveStorage::InvariableError %>
+        <%= image_tag @post.image, class: "post-image" %>
+      <% end %>
+     <% end %>
     </div>
+    <div style="clear: both;"></div> <!-- clear: both を追加 -->
+    <br>
+    <% if current_user %>
+      <!-- いいねボタン -->
+      <br><%= render 'likes/like_button', post: @post %>
+
+      <!-- フォローボタン -->
+      <%= render 'follows/follow', post: @post %><br>
+    <% end %>
+    <br>
   </div>
 </div>
 
-<% if current_user %>
-  <!-- いいねボタン -->
-  <br><%= render 'likes/like_button', post: @post %>
-
-  <!-- フォローボタン -->
-  <%= render 'follows/follow', post: @post %><br>
-<% end %>
 
 <!-- コメント欄 -->
 <h5>コメント</h5>
 <div class="comment-box">
-  <% @post.comments.each do |comment| %>
+  <% @post.comments.order(created_at: :desc).each do |comment| %>
     <% if comment.user %>
+    
       <!-- コメントの表示 -->
-      <div class="comment <%= 'own-comment' if comment.user == @post.user %>">
-        <!-- コメントの投稿者名表示 -->
-        <span class="comment-author"><%= comment.user.name %>:</span>
-        <!-- コメント内容表示 -->
-        <span><%= comment.posted_text %></span>
+      <div class="comment" style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; margin-bottom: 10px;">
+        <p style="font-size: smaller; color: #999;"><%= comment.user.name %>さん：<%= comment.created_at.strftime("%Y年%m月%d日 %H:%M:%S") %></p>
+        <p style="<%= comment.user == comment.post.user ? 'background-color: #f2f2f2; padding: 5px;' : '' %>">
+          <%= comment.posted_text %>
+        </p>
+        
         <!-- 自分のコメントまたは投稿者のコメントの場合、削除リンク表示 -->
         <% if comment.user == current_user || @post.user == current_user %>
           <%= link_to '削除', public_comment_path(comment), method: :delete, data: { confirm: '本当に削除しますか？' } %>
@@ -152,23 +188,25 @@
       </div>
     <% end %>
   <% end %>
+  <%= will_paginate @comments %>
 </div>
+
 <% if current_user %>
-<!-- コメント投稿フォーム -->
-<%= form_with(model: [@post, @post.comments.build], url: public_comments_path, local: true) do |form| %>
-  <%= form.hidden_field :post_id, value: @post.id %>
-  <div class="field">
-    <%= form.text_area :posted_text, rows: 4 %>
-  </div>
-  <div class="actions">
-    <%= form.submit "コメントする" %>
-  </div>
+  <!-- コメント投稿フォーム -->
+  <%= form_with(model: [@post, @post.comments.build], url: public_comments_path, local: true) do |form| %>
+    <%= form.hidden_field :post_id, value: @post.id %>
+    <div class="field">
+      <%= form.text_area :posted_text, rows: 4 %>
+    </div>
+    <div class="actions">
+      <%= form.submit "コメントする" %>
+    </div>
+  <% end %>
 <% end %>
-<% end %>
+
 <!-- 投稿削除リンク -->
 <% if @post.user == current_user %>
-<%= link_to '投稿を削除', public_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'margin-left: 10px;' %>
-<!-- 投稿編集ページ -->
-<%= link_to '編集する', edit_public_post_path(@post) %>
-
+  <%= link_to '投稿を削除', public_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'margin-left: 10px;' %>
+  <!-- 投稿編集ページ -->
+  | <%= link_to '編集する', edit_public_post_path(@post) %>
 <% end %>

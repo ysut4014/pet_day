@@ -3,7 +3,7 @@ class Public::LikesController < ApplicationController
   before_action :set_post, only: [:create, :destroy]
 
   def index
-    @likes = current_user.likes.includes(:post).paginate(page: params[:page], per_page: 10)
+    @likes = current_user.likes.includes(:post).order(created_at: :desc).paginate(page: params[:page], per_page: 30)
   end
   
   def create

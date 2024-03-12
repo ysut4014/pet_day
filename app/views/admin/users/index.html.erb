@@ -1,11 +1,35 @@
-<!-- app/views/admin/users/index.html.erb -->
+<style>
+  @media only screen and (max-width: 600px) {
+    table {
+      width: 100%;
+    }
+    table th, table td {
+      display: block;
+    }
+    table thead {
+      display: none;
+    }
+    table tbody tr {
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+    }
+    table tbody td {
+      text-align: left;
+      padding: 10px;
+    }
+    table tbody td:first-child {
+      font-weight: bold;
+    }
+    table tbody td:last-child {
+      font-size: 12px;
+      color: #666;
+    }
+  }
+</style>
 
 <h1>ユーザー一覧</h1>
 
-<style>
-  @media only screen and (max-width: 600px) {
 
-</style>
 
 <%= form_tag admin_users_path, method: :get do %>
   <%= text_field_tag :search, params[:search], placeholder: 'ユーザーを検索...' %>
@@ -26,7 +50,13 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= user.id %></td>
-        <td><%= user.name %></td>
+        <td>
+        <% if user.profile_image.attached? %>
+          <%= image_tag user.profile_image.variant(resize_to_fill: [50, 50]), style: "border-radius: 50%; float: left; margin-right: 10px;" %>
+        <% else %>
+          <%= image_tag url_for(user.default_profile_image), style: "border-radius: 50%; width: 50px; height: 50px; float: left; margin-right: 10px;" %>
+        <% end %>          
+          <%= user.name %></td>
         <td><%= user.email %></td>
         <td><%= user.is_active? ? '有効会員' : '退会済み' %></td>
         <td><%= link_to '詳細', admin_user_path(user) %></td>

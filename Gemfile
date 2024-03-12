@@ -58,4 +58,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 gem 'will_paginate'
 gem 'acts_as_follower', '~> 0.2.0'
+gem "active_storage_validations"
+gem 'rspec', '~> 3.0'
 

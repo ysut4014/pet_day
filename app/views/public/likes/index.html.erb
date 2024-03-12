@@ -1,32 +1,68 @@
 <style>
+  /* スクリーン幅が600px以下の場合のみ適用されるスタイル */
   @media only screen and (max-width: 600px) {
-    /* ここにCSSルールを追加 */
+    table {
+      width: 100%; /* テーブルを横いっぱいに広げる */
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center; /* 中央に配置 */
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+.pagination {
+  display: inline-block;
+}
   }
 </style>
 
-
-
-<h1>あなたがいいねした投稿一覧</h1>
+<h1 style="text-align: center;">あなたがいいねした投稿一覧</h1>
 
 <% if @likes.any? %>
-  <ul>
-    <% @likes.each do |like| %>
-      <li>
-        <% if like.post.image.attached? %>
-          <%= link_to image_tag(like.post.image.variant(resize: "100x100")), public_post_path(like.post) %>
-        <% else %>
-          <%= link_to image_tag("no_image.jpg", width: 100, height: 100), public_post_path(like.post) %>
-        <% end %>
-        <%= link_to like.post.user.name, public_user_path(like.post.user) %>
-        <%= link_to like.post.title, public_post_path(like.post) %>
-      </li>
-    <% end %>
-  </ul>
+  <table style="margin: 20px auto; width: 90%; border: 1px solid #ccc; border-collapse: collapse;"> <!-- 中央に配置 -->
+    <thead>
+      <tr>
+        <th style="padding: 8px;">画像</th>
+        <th style="padding: 8px;">投稿者</th>
+        <th style="padding: 8px;">タイトル</th>
+        <th style="padding: 8px;">投稿文</th>
+        <th style="padding: 8px;">いいね数</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @likes.each do |like| %>
+        <tr>
+          <td style="border: 1px solid #ccc; padding: 8px;">
+            <% if like.post.image.attached? %>
+              <%= link_to image_tag(like.post.image.variant(resize: "100x100")), public_post_path(like.post) %>
+            <% else %>
+              <%= link_to image_tag("no_image.jpg", width: 100, height: 100), public_post_path(like.post) %>
+            <% end %>
+          </td>
+          <td style="border: 1px solid #ccc; padding: 8px;"><%= link_to like.post.title, public_post_path(like.post) %></td>
+          <td style="border: 1px solid #ccc; padding: 8px;">
+          <% if like.post.user.profile_image.attached? %>
+            <%= image_tag like.post.user.profile_image.variant(resize_to_fill: [50, 50]), style: "border-radius: 50%;" %>
+          <% else %>
+            <%= image_tag url_for(like.post.user.default_profile_image), style: "border-radius: 50%; width: 50px; height: 50px;" %>
+          <% end %>               
+            <%= link_to like.post.user.name, public_user_path(like.post.user) %></td>
+          <td style="border: 1px solid #ccc; padding: 8px;"><%= truncate(like.post.content, length: 50) %></td>
+          <td style="border: 1px solid #ccc; padding: 8px;"><%= like.post.likes.count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% else %>
-  <p>いいねした投稿はありません。</p>
+  <p style="text-align: center;">いいねした投稿はありません。</p>
 <% end %>
 
-
-<% if @likes.present? && @likes.any? %>
+<div class="pagination-container">
   <%= will_paginate @likes %>
-<% end %>
+</div>

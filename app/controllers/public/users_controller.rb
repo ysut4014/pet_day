@@ -7,6 +7,15 @@ class Public::UsersController < ApplicationController
     @posts = @user.posts.order(created_at: :desc).paginate(page: params[:page], per_page: 10) # ページネーションしてユーザーの投稿一覧を取得
   end
 
+  def create
+    @user = User.new(user_params)
+    @user.profile_image.attach(params[:user][:profile_image])
+    if @user.save
+      redirect_to public_user_path(@user), notice: 'プロフィールが更新されました。'
+    else
+      render "new", status: :unprocessable_entity
+    end
+  end
   # 自分自身のプロフィールを表示するアクション
   def index
     @user = current_user
@@ -15,6 +24,7 @@ class Public::UsersController < ApplicationController
 
   # ユーザーのプロフィールを更新するアクション
   def update
+    @user.profile_image.attach(params[:user][:profile_image]) if @user.profile_image.blank?
     if @user.update(user_params)
       bypass_sign_in(@user) # ログインを保持したまま更新成功時にログインし直す
       redirect_to public_user_path(@user), notice: 'プロフィールが更新されました。'
@@ -23,18 +33,8 @@ class Public::UsersController < ApplicationController
     end
   end
 
-  # ユーザーのプロフィール画像を更新する画像フォームを表示するアクション
-  def edit_image
-  end
 
-  # ユーザーのプロフィール画像を更新するアクション
-  def update_image
-    if @user.update(profile_image_params)
-      redirect_to public_user_path(@user), notice: 'プロフィール画像が更新されました。'
-    else
-      render :edit_image
-    end
-  end
+
 
   # ユーザーを削除するアクション
   def destroy
@@ -46,12 +46,27 @@ class Public::UsersController < ApplicationController
   def search
     @query = params[:query]
     @posts = Post.joins(:user).where("posts.title LIKE ? OR posts.content LIKE ? OR users.name LIKE ?", "%#{@query}%", "%#{@query}%", "%#{@query}%")
-                 .paginate(page: params[:page], per_page: 10)
+               .order(created_at: :desc)
+               .paginate(page: params[:page], per_page: 10)
   end
+
 
   def delete
     @user = User.find(params[:id])
   end
+  
+  def edit_image
+    @user = current_user
+  end
+
+def update_image
+  @user = User.find(params[:id])
+  if @user.update(user_params)
+    redirect_to public_user_path(@user), notice: 'プロフィールイメージが更新されました。'
+  else
+    render :edit_image
+  end
+end
   
   private
   

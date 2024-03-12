@@ -23,6 +23,7 @@ class Public::PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @post.update(viewed: true) unless @post.viewed # 投稿が閲覧されたことを更新
+    @comments = @post.comments.order(created_at: :desc).paginate(page: params[:page], per_page: 15)
   end    
 
   # 投稿の一覧を表示するためのアクション

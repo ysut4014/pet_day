@@ -97,13 +97,47 @@
       display: block;
       margin: 0 auto;
     }
+/* ページネーションリンクのスタイル */
+.pagination a {
+    color: #333;
+    padding: 3px 8px;
+    margin: 0 4px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+}
+
+/* アクティブなページのスタイル */
+
+
+/* 無効なリンク（先頭や最後のページ）のスタイル */
+.pagination .disabled {
+    color: #aaa;
+    pointer-events: none;
+}
+
+/* ページネーションのコンテナのスタイル */
+.pagination {
+    margin: 10px 0;
+    text-align: center;
+}
+    
   </style>
 </head>
 <body>
   
 <!-- ユーザー情報の表示 -->
+
+
+<h1>
 <div style="padding-left: 10px;">
-  <h1><%= @user.name %>さんのページ</h1>
+  <% if @user.profile_image.attached? %>
+    <%= image_tag @user.profile_image.variant(resize_to_fill: [50, 50]), style: "border-radius: 50%;" %>
+  <% else %>
+    <%= image_tag url_for(@user.default_profile_image), style: "border-radius: 50%; width: 50px; height: 50px;" %>
+  <% end %>    
+    <%= @user.name %>さんのページ
+</h1>
+
   <div class="table-container">
     <table class="user-info-table">
       <tr>
@@ -136,8 +170,8 @@
     <%= link_to "いいね一覧", public_post_likes_path(@user), class: "transparent-btn" %>
     <%= link_to "フォロワー一覧", public_user_followers_path(@user), class: "transparent-btn" %>
     <%= link_to "フォロー一覧", public_user_followings_path(@user), class: "transparent-btn" %>
-    <%= link_to "編集", edit_public_user_path(@user), class: "transparent-btn" %>
-    <%= link_to "投稿消去", public_users_path(@user), class: "transparent-btn" %>
+    <%= link_to "プロフィール編集", edit_public_user_path(@user), class: "transparent-btn" %>
+    <%= link_to 'プロフィール画像設定', edit_image_public_user_path(@user), class: "transparent-btn" %>
     <%= link_to "退会", delete_public_user_path(@user), class: "transparent-btn" %>
   <% end %>
 </div>

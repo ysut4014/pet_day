@@ -61,9 +61,10 @@ class User < ApplicationRecord
   # フォロワーに通知を作成するメソッド
 def create_notification_for_followers
   followers.each do |follower|
-    follower.notifications.create(visitor: self)
+    follower.notifications.create(visitor: self) unless follower == self
   end
 end
+
 
   def admin?
     admin

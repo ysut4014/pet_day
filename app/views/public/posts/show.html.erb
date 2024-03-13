@@ -56,6 +56,12 @@
     max-width: calc( 700px ); 
     word-wrap: break-word; /* テキストがはみ出た場合に改行 */
   }
+    .post-text{
+      word-break: break-all;
+      max-width: 24em;
+      text-align: left;
+    }
+  
   .comment-author {
     font-weight: bold;
   }
@@ -130,6 +136,9 @@
       <!-- プロフィール画像がない場合のデフォルト画像 -->
       <%= image_tag "212979.jpg", style: "border-radius: 50%; width: 50px; height: 50px; float: left; margin-right: 10px;" %>
     <% end %>
+    
+    
+    
     <p><strong>投稿者:</strong> <%= link_to @post.user.name, public_user_path(@post.user) %></p>
   </div>
   <!-- 投稿の作成日時表示 -->
@@ -140,7 +149,7 @@
     <!-- 投稿のテキスト表示 -->
     <div class="post-text">
       <%= @post.content %>
-    </div>    
+    </div>    <br>
 
     <!-- 投稿された画像がある場合、画像を表示 -->
 <div style="max-width: 700px; margin: 0 auto; float: left; margin-right: 10px;">
@@ -156,6 +165,10 @@
       <%= image_tag @post.image, class: "post-image", style: "max-width: 100%;" %>
     <% end %>
   <% end %>
+  
+  
+  
+  
 </div>
    <div style="clear: both;"></div> <!-- clear: both を追加 -->
     <% if current_user %>

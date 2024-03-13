@@ -9,8 +9,6 @@ def create
 
   # コメントが保存された場合の処理
   if @comment.save
-    # 投稿に対するコメントが作成されたことを通知します
-    @post.create_notification_comment!(current_user, @comment.id)
 
     # 投稿の詳細ページを表示します
     redirect_to public_post_path(@post)

@@ -10,6 +10,11 @@
       margin: 10px 0; /* 通知の間のマージンを追加 */
     }
   }
+
+  /* 背景画像を固定 */
+  #cork {
+    background-attachment: fixed;
+  }
 </style>
 
 <div class="plate mx-auto" id="cork" style="background-image: url('/assets/chubby-domestic-cat-leaning-brown-puppy-lying-white-surface.jpg'); background-size: cover; background-position: center; text-align: center; height: 100vh;">
@@ -32,14 +37,17 @@
       <% if current_user %>
     <%= button_to '全ての通知を削除', delete_all_notifications_path, method: :delete, data: { confirm: '本当に全ての通知を削除しますか？' }, class: 'btn btn-danger mb-3' %>
 
-    <!-- 通知を表示する部分 -->
-<% if @notifications.present? %>
-  <% @notifications.each do |notification| %>
-    <%= render partial: 'shared/notification', locals: { notification: notification } %>
+<!-- 通知ボックス -->
+<div style="max-height: 400px; overflow-y: auto; margin-top: 10px; background-color: rgba(255, 255, 255, 0.5); width: 40%;">
+  <% if @notifications.present? %>
+    <% @notifications.each do |notification| %>
+      <%= render partial: 'shared/notification', locals: { notification: notification } %>
+    <% end %>
+  <% else %>
+    <p>通知はありません。</p>
   <% end %>
-<% else %>
-  <p>通知はありません。</p>
-<% end %>
+</div>
+
 <% end %>
 
   </div>

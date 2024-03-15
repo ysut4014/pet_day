@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>通報内容</title>
+</head>
+<body>
+  <h1>通報内容</h1>
+  <div>
+    <p><strong>通報ID:</strong> <%= @report.id %></p>
+    <p><strong>通報者:</strong> <%= @report.reporter.username %></p>
+    <p><strong>通報されたユーザーID:</strong> <%= @report.reported_id %></p>
+    <p><strong>通報の理由:</strong> <%= @report.reason %></p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<%= form_with(model: @report, url: public_reports_path, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :reported_id, "通報されたユーザーID" %>
+    <%= form.number_field :reported_id, placeholder: "通報されたユーザーのIDを入力してください" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :reason, "通報の理由" %>
+    <%= form.text_area :reason, placeholder: "通報の理由を入力してください" %>
+  </div>
+
+  <%= form.submit "通報する" %>
+<% end %>

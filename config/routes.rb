@@ -1,6 +1,8 @@
 # config/routes.rb
 Rails.application.routes.draw do
   
+  get 'reports/new'
+  get 'reports/create'
   get 'relationships/followings'
   get 'relationships/followers'
   # 顧客用
@@ -65,6 +67,7 @@ end
     end
   end
   
+   resources :reports, only: [:new, :create]
 
 
   # 'homes' コントローラー内の 'about' ルートを追加
@@ -108,12 +111,11 @@ end
     resources :comments, only: [:create, :destroy] do
       resources :comment_replies, only: [:create, :destroy], shallow: true
     end
-
+    resources :reports, only: [:index, :show]
     # 通知関連
     resources :notifications, only: [:index, :destroy, :show]
   end
   
-  # その他のルートも追加...
 
   # public/registrationsに対するコントローラを生成する場合
   get 'admin/registrations', to: 'admin/registrations#index'

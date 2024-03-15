@@ -1,0 +1,21 @@
+<h1>通報一覧</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>通報ID</th>
+      <th>通報者</th>
+      <th>通報の理由</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @reports.each do |report| %>
+      <tr>
+        <td><%= report.id %></td>
+        <td><%= report.reporter.username if report.reporter %></td>
+        <td><%= report.reported_id %></td>
+        <td><%= report.reason %></td> <!-- 通報の理由を追加 -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>

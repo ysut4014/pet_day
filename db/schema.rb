@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_11_172620) do
+ActiveRecord::Schema.define(version: 2024_03_15_194429) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -127,6 +127,16 @@ ActiveRecord::Schema.define(version: 2024_03_11_172620) do
     t.index ["user_id"], name: "index_replies_on_user_id"
   end
 
+  create_table "reports", force: :cascade do |t|
+    t.integer "reporter_id"
+    t.integer "reported_id"
+    t.text "reason"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_reports_on_user_id"
+  end
+
   create_table "user_notifications", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "sender_id", null: false
@@ -178,6 +188,7 @@ ActiveRecord::Schema.define(version: 2024_03_11_172620) do
   add_foreign_key "posts", "users"
   add_foreign_key "replies", "comments"
   add_foreign_key "replies", "users"
+  add_foreign_key "reports", "users"
   add_foreign_key "user_notifications", "posts"
   add_foreign_key "user_notifications", "senders"
   add_foreign_key "user_notifications", "users"

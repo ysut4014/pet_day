@@ -276,9 +276,8 @@ DEPENDENCIES
   dotenv-rails
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
-  listen (~> 3.3)
+  listen
   mysql2
-  net-imap
   net-pop
   net-smtp
   puma (~> 3.11)

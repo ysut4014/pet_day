@@ -1,15 +1,11 @@
-# db/migrate/[timestamp]_change_notifications_table.rb
-
-class ChangeNotificationsTable < ActiveRecord::Migration[5.2]
+class ChangeNotificationsTable < ActiveRecord::Migration[6.1]
   def change
-    change_table :notifications do |t|
-      t.remove :post_id
-      t.remove :follower_id
-      t.remove :viewed
+    # カラムを明示的に追加する
+    add_column :notifications, :new_column_name, :data_type
 
-      t.integer :like_id unless column_exists?(:notifications, :like_id)
-      t.boolean :is_checked, default: false, null: false unless column_exists?(:notifications, :is_checked)
-      t.text :memo unless column_exists?(:notifications, :memo)
-    end
+    # 既存のカラムを削除する
+    remove_column :notifications, :follower_id
+
+    # 他の変更があれば、ここに記述する
   end
 end

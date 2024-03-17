@@ -97,8 +97,8 @@ ActiveRecord::Schema.define(version: 2024_03_16_184806) do
   end
 
   create_table "relationships", force: :cascade do |t|
-    t.bigint "follower_id"
-    t.bigint "followed_id"
+    t.integer "follower_id"
+    t.integer "followed_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -119,14 +119,13 @@ ActiveRecord::Schema.define(version: 2024_03_16_184806) do
     t.boolean "read"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index "\"sender_id\"", name: "index_user_notifications_on_sender_id"
     t.index ["post_id"], name: "index_user_notifications_on_post_id"
     t.index ["user_id"], name: "index_user_notifications_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
-    t.text "introduction", default: ""
+    t.text "introduction"
     t.string "email", null: false
     t.string "encrypted_password", null: false
     t.string "profile_image_path", default: ""
@@ -148,4 +147,6 @@ ActiveRecord::Schema.define(version: 2024_03_16_184806) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
+  add_foreign_key "relationships", "users", column: "followed_id"
+  add_foreign_key "relationships", "users", column: "follower_id"
 end

@@ -10,9 +10,19 @@
       margin: 10px 0; /* 通知の間のマージンを追加 */
     }
   }
+  
+  /* 背景画像を固定 */
+  #cork {
+        background-attachment: fixed;
+        background-image: url('<%= asset_path 'chubby-domestic-cat-leaning-brown-puppy-lying-white-surface.jpg' %>');
+        background-size: cover;
+        background-position: center;
+        text-align: center;
+        height: 100vh;
+       }  
 </style>
 
-<div class="plate mx-auto" id="cork" style="background-image: url('/assets/chubby-domestic-cat-leaning-brown-puppy-lying-white-surface.jpg'); background-size: cover; background-position: center; text-align: center; height: 100vh;">
+<div class="plate mx-auto" id="cork">
   <div style="display: inline-block; text-align: left;">
     
     

@@ -13,7 +13,7 @@
 
   /* 背景画像を固定 */
   #cork {
-       
+        background-attachment: fixed;
         background-image: url('<%= asset_path 'chubby-domestic-cat-leaning-brown-puppy-lying-white-surface.jpg' %>');
         background-size: cover;
         background-position: center;
@@ -24,11 +24,6 @@
 
 <div class="plate mx-auto" id="cork">
   <div style="display: inline-block; text-align: left;">
-        <% if flash[:alert] %>
-          <div class="alert alert-danger">
-            <%= flash[:alert] %>
-          </div>
-        <% end %>    
     <span style="font-size: 36px;">Welcome!!</span>
     <div class="home-box mx-auto my-3" style="text-align: left;">
       <p class="home-text">ようこそ、PET DAYへ！<br>

@@ -1,4 +1,8 @@
 # app/lib/custom_renderer.rb
+
+require 'will_paginate/view_helpers/action_view'
+require 'will_paginate/view_helpers/link_renderer'
+
 class CustomRenderer < WillPaginate::ActionView::LinkRenderer
   protected
 

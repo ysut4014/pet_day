@@ -2,7 +2,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
   def change
     create_table :users do |t|
       t.string :name, null: false
-      t.text :introduction, default: ""
+      t.text :introduction
       t.string :email, null: false
       t.string :encrypted_password, null: false
       t.string :profile_image_path, default: ""

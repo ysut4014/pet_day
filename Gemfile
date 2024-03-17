@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.2'
+ruby '3.0.6'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.7', '>= 6.1.7.6'
@@ -55,7 +55,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
-gem 'will_paginate'#, '~> 3.1.0'
+gem 'will_paginate', '~> 3.1.0'
 gem 'acts_as_follower', '~> 0.2.0'
 gem "active_storage_validations"
 gem 'rspec', '~> 3.0'

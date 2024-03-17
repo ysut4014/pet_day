@@ -9,7 +9,7 @@ class CreateUserNotifications < ActiveRecord::Migration[6.1]
       t.datetime :updated_at, precision: 6, null: false
 
       t.index :post_id, name: "index_user_notifications_on_post_id"
-      t.index :sender_id, name: "index_user_notifications_on_sender_id"
+      #t.index :sender_id, name: "index_user_notifications_on_sender_id"
       t.index :user_id, name: "index_user_notifications_on_user_id"
     end
   end

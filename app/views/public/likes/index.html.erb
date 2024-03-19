@@ -26,16 +26,12 @@
         display: inline-block;
       }
     }
-    
-    /* ページ内の背景色を変更 */
-    body {
-      background-color: #f4ede6;; /* ページの背景色を設定 */
-    }
+
   </style>
 </head>
 <body>
 
-<h1 style="text-align: center;">あなたがいいねした投稿一覧</h1>
+<h1 style="text-align: center; padding-top: 10px;">あなたがいいねした投稿一覧</h1>
 
 <% if @likes.any? %>
   <table style="margin: 20px auto; width: 90%; border: 1px solid #ccc; border-collapse: collapse; background-color: #fff;">

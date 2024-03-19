@@ -11,66 +11,68 @@
   <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-  <style>
-    /* 既存のスタイル */
-    /* ボタンのデフォルトスタイル */
-    .nav-link {
-      transition: background-color 0.3s ease;
-      font-family: 'Pop', sans-serif;
-      font-size: 20px;
-      line-height: 40px;
-      box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-    }
+ <style>
+  /* 既存のスタイル */
+  /* ボタンのデフォルトスタイル */
+  .nav-link {
+    transition: background-color 0.3s ease;
+    font-family: 'Pop', sans-serif;
+    font-size: 20px;
+    line-height: 40px;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
 
-    /* ボタンのホバー時のスタイル */
+  /* ボタンのホバー時のスタイル */
+  .nav-link:hover {
+    background-color: white;
+  }
+
+  /* スマートフォンのタッチ操作時のスタイル */
+  @media (hover: none) and (pointer: coarse) {
     .nav-link:hover {
       background-color: white;
     }
-    
-    /* スマートフォンのタッチ操作時のスタイル */
-    @media (hover: none) and (pointer: coarse) {
-      .nav-link:hover {
-        background-color: white;
-      }
     .nav-link {
       background-color: rgba(240, 240, 240, 0.5);
     }
-    }
+  }
 
-    .navbar-brand span {
-      font-family: 'Indie Flower', cursive;
-      font-size: 3.5rem;
-      font-weight: bold;
-      text-shadow: 2px 2px 5px white;
-    }
+  .navbar-brand span {
+    font-family: 'Indie Flower', cursive;
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px white;
+  }
 
-    .header-bg {
-      background-image: url(<%= asset_path '696668.jpg' %>);
-      background-size: cover;
-      background-position: center;
-      height: 120px; /* ヘッダーの高さを固定値に設定 */
-    }
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000; /* 必要に応じて z-index を調整 */
-      width: 100%;
-    }
-    body {
-      background-color: #f4ede6; /* ページの背景色を設定 */
-    }    
-    
-    main {
-      
-      padding-top: 130px; /* ヘッダーの高さに基づいて値を調整 */
-      background-color: #f4ede6;
-    }    
-  </style>
+  .header-bg {
+    background-image: url(<%= asset_path '696668.jpg' %>);
+    background-size: cover;
+    background-position: center;
+    height: 120px; /* ヘッダーの高さを固定値に設定 */
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* 必要に応じて z-index を調整 */
+    width: 100%;
+  }
+
+  body {
+    background-color: #f4ede6; /* ページの背景色を設定 */
+  }
+
+  main {
+    padding-top: 120px; /* ヘッダーの高さに基づいて値を調整 */
+    background-color: #f4ede6;
+  }
+</style>
+
 </head>
 <body class="d-flex flex-column vh-100">
   <header class="shadow-sm header-bg">

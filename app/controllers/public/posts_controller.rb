@@ -1,5 +1,5 @@
 class Public::PostsController < ApplicationController
-  # 新しい投稿フォームを表示するためのアクション
+  before_action :authenticate_user!, except: [:index, :show]
   def new
     @post = Post.new
   end
@@ -24,9 +24,10 @@ class Public::PostsController < ApplicationController
     @post = Post.find(params[:id])
     @post.update(viewed: true) unless @post.viewed # 投稿が閲覧されたことを更新
     @comments = @post.comments.order(created_at: :desc).paginate(page: params[:page], per_page: 15)
-  # コメントのフォームにユーザーIDと名前を渡す
-    @reported_id = current_user.id
-    @reported_name = current_user.name
+   if current_user
+     @reported_id = current_user.id
+     @reported_name = current_user.name
+   end
   end    
 
   # 投稿の一覧を表示するためのアクション

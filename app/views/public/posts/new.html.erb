@@ -34,10 +34,10 @@
       <%= form.text_field :title, maxlength: 35, size: 35, placeholder: "35文字以内で入力してください", style: "color: #777;" %>
     </p>
 
-    <p>
-      <%= form.label :content, "投稿文" %><br>
-      <%= form.text_area :content, rows: 5, cols: 30 %>
-    </p>
+<p>
+  <%= form.label :content, "投稿文" %><br>
+  <%= form.text_area :content, rows: 5, cols: 30 %>
+</p>
 
     <p>
       <%= form.hidden_field :user_id, value: current_user.id %>

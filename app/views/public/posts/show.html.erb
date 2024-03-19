@@ -72,11 +72,8 @@
 
         <!-- 投稿内容 -->
         <pre style="white-space: pre-wrap; word-wrap: break-word;">
-         <% @post.content.chars.each_slice(30) do |slice| %>
-           <p><%= slice.join %></p>
-         <% end %>
+          <p><%= @post.content %></p>
         </pre>
-  
 
         <% if @post.image.attached? %>
           <!-- 画像が添付されている場合の表示 -->

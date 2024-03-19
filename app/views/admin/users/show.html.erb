@@ -38,7 +38,7 @@
           <% @posts.each do |post| %>
             <tr>
               <td><%= link_to truncate(post.title, length: 24), admin_post_path(post) %></td>
-              <td><%= truncate(post.content, length: 24) %></td>
+              <pre><td><%= truncate(post.content, length: 24) %></td></pre>
               <td><%= post.likes.count %></td>
             </tr>
           <% end %>

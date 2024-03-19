@@ -26,11 +26,6 @@
       margin-bottom: 20px; /* フォームの下 */
     }
 
-    input[type="text"] {
-      padding: 8px;
-      width: 60%;
-    }
-
     .like-count {
       margin-left: 10px;
       color: #777;
@@ -157,7 +152,7 @@
           <% end %>
 
           <!-- 投稿内容表示 -->
-          <p><%= post.content %></p>
+          <pre><p><%= post.content %></p></pre>
 
           <!-- いいねボタン -->
           <%= render 'likes/like_button', post: post %>

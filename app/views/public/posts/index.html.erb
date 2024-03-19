@@ -5,8 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>投稿一覧</title>
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+  
     .post-container {
-      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center; 
     }
    .post {
      border: 1px solid #ccc;
@@ -115,7 +124,7 @@
 
 
     <!-- 投稿内容 -->
-    <p><%= post.content %></p>
+    <pre><p><%= post.content %></p></pre>
     
     <% if post.image.attached? %>
       <!-- 画像が添付されている場合の表示 -->
@@ -129,8 +138,8 @@
       <!-- フォローボタン -->
       <%= render 'follows/follow', post: post %>
     <% end %>
-    <!-- コメントボタン -->
-    <%= render 'posts/comment', post: post %>
+     <!-- コメントボタン -->
+     <%= render 'posts/comment', post: post %>
   </div>
 <% end %>
 

@@ -25,10 +25,11 @@
       </div>
     <% end %>
 
-    <p>
-      <%= form.label :title, "タイトル" %><br>
-      <%= form.text_field :title %>
-    </p>
+<p>
+  <%= form.label :title, "タイトル" %><br>
+  <%= form.text_field :title, maxlength: 24, size: 24, placeholder: "24文字以内で入力してください", style: "color: #777;" %>
+</p>
+
 
     <p>
       <%= form.label :content, "投稿文" %><br>

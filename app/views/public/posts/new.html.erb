@@ -31,7 +31,7 @@
 
 <p>
   <%= form.label :title, "タイトル" %><br>
-  <%= form.text_field :title, maxlength: 24, size: 24, placeholder: "24文字以内で入力してください", style: "color: #777;" %>
+  <%= form.text_field :title, maxlength: 100  %>
 </p>
 
 
@@ -54,3 +54,24 @@
     </p>
   <% end %>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var input = document.querySelector('input[name="title"]');
+  var maxWidth = 400; // ピクセル単位での最大幅
+  var fontSize = parseInt(window.getComputedStyle(input).fontSize); // フォントサイズを取得
+
+  input.addEventListener("input", function() {
+    var canvas = document.createElement("canvas");
+    var context = canvas.getContext("2d");
+    context.font = fontSize + "px Arial"; // フォントを設定
+    var width = context.measureText(input.value).width; // テキストの幅を計算
+
+    // テキストの幅が最大幅を超えた場合、テキストを切り詰める
+    if (width > maxWidth) {
+      var characters = Math.floor((maxWidth / width) * input.value.length);
+      input.value = input.value.slice(0, characters);
+    }
+  });
+});
+</script>

@@ -219,7 +219,7 @@
 <% @posts.order(created_at: :desc).each do |post| %>
   <div class="post">
     <div class="post-header">
-      <h2><%= link_to post.title, public_post_path(post) %></h2>
+      <strong><p><%= link_to post.title, public_post_path(post) %></p></strong>
       <p class="post-date">投稿日時: <%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
     </div>
     <pre><p><%= post.content %></p></pre>

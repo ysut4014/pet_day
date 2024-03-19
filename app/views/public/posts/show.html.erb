@@ -127,7 +127,7 @@
 <!-- 投稿内容のコンテナ -->
 <div class="post-container" style="margin: 0 auto; margin-bottom: 50px;" >
   <!-- 投稿のタイトル表示 -->
-  <h1><%= @post.title %></h1>
+  <strong><p><%= @post.title %></p></strong>
   <!-- 投稿者名へのリンク -->
   <div class="post-author">
     <% if @post.user.profile_image.attached? %>

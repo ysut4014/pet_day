@@ -57,9 +57,9 @@
             <strong>作成日時:</strong> <%= post.created_at %><br>
             
             <strong>投稿文:</strong> 
-            <div class="content">
-              <pre><%= post.content %></pre>
-            </div>        
+   <div style="max-width: 300px; word-wrap: break-word;">
+  <pre><%= post.content %></pre>
+</div>     
             <br>
 
             <strong>コメント数:</strong> <%= post.comments.count %>　|　<strong>いいね数:</strong> <%= post.likes.count %><br>

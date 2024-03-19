@@ -1,4 +1,4 @@
-<style>
+<%= content_tag :style do %>
   @media only screen and (max-width: 600px) {
     .plate {
       width: 100%; /* 幅を100%に設定 */
@@ -11,25 +11,24 @@
     }
   }
   p {
-    background-color: rgba(240, 240, 240, 0.5);
     padding: 10px;
   }
 
   /* 背景画像を固定 */
   #cork {
-        background-attachment: fixed;
-        background-image: url('<%= asset_path 'chubby-domestic-cat-leaning-brown-puppy-lying-white-surface.jpg' %>');
-        background-size: cover;
-        background-position: center;
-        text-align: center;
-        height: 100vh;
-       }
-</style>
+    background-attachment: fixed;
+    background-image: url('<%= asset_path 'chubby-domestic-cat-leaning-brown-puppy-lying-white-surface.jpg' %>');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    height: 100vh;
+  }
+<% end %>
 
 <div class="plate mx-auto" id="cork">
   <div style="display: inline-block; text-align: left;">
     <span style="font-size: 36px;">Welcome!!</span>
-    <div class="home-box mx-auto my-3" style="text-align: left;">
+    <div class="home-box mx-auto my-3" style="text-align: left;     background-color: rgba(240, 240, 240, 0.5);">
      <p class="home-text">
         ようこそ、PET DAYへ！<br>
         このサイトは、ペット向けのSNSサイトになります。

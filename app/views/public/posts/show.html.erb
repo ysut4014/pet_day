@@ -115,19 +115,205 @@
 .pagination {
     margin: 10px 0;
     text-align: center;
+  @media (max-width: 600px) {
+    .plate {
+      width: 100%;
+    }
+    .home-box {
+      padding: 0 10px;
+    }
+    .notification {
+      margin: 10px 0;
+    }
+  }
+  body {
+    margin: 0;
+    text-align: left; /* すべてのテキストを左揃えにする */
+  }
+
+  /* 投稿のタイトルや作成日時、投稿者などの要素のスタイル */
+  h1, p, strong {
+    margin-left: 0;
+  }
+  h5 {
+    margin-left: 10px; 
+  }
+  form {
+    margin-left: 10px;
+  }
+  /* 投稿内容のコンテナのスタイル */
+  .post-container {
+    max-width: 700px; /* 最大幅を設定 */
+    text-align: left; 
+    padding: 0 10px; 
+    margin-bottom: 100px;
+  }
+
+  /* コメント欄のスタイル */
+  .comment-box {
+    margin-top: 20px;
+    margin-left: 0; 
+  }
+  .comment {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 0 10px; 
+    max-width: calc( 700px ); 
+    word-wrap: break-word; /* テキストがはみ出た場合に改行 */
+  }
+    .post-text{
+      word-break: break-all;
+      max-width: 24em;
+      text-align: left;
+    }
+  
+  .comment-author {
+    font-weight: bold;
+  }
+  .own-comment {
+    background-color: #f2f2f2; /* 自分のコメントの背景色 */
+  }
+  .like {
+    margin-left: 10px; 
+  }
+
+  /* 画像ポップアップ用のスタイル */
+  .popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* オーバーレイの背景色 */
+    z-index: 9999;
+  }
+  .popup-img {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    z-index: 10000;
+  }
+/* ページネーションリンクのスタイル */
+.pagination a {
+    color: #333;
+    padding: 3px 8px;
+    margin: 0 4px;
+    border: 1px solid #ccc;
+    text-decoration: none;
 }
+
+/* アクティブなページのスタイル */
+
+
+/* 無効なリンク（先頭や最後のページ）のスタイル */
+.pagination .disabled {
+    color: #aaa;
+    pointer-events: none;
+}
+
+/* ページネーションのコンテナのスタイル */
+.pagination {
+    margin: 10px 0;
+    text-align: center;
+}
+  
+  @media (max-width: 600px) {
+    .plate {
+      width: 100%;
+    }
+    .home-box {
+      padding: 0 10px;
+    }
+    .notification {
+      margin: 10px 0;
+    }
+  }
+  body {
+    margin: 0;
+    text-align: left; /* すべてのテキストを左揃えにする */
+  }
+
+  form {
+    margin-left: 10px;
+  }
+  /* 投稿内容のコンテナのスタイル */
+  .post-container {
+    max-width: 700px; /* 最大幅を設定 */
+    text-align: left; 
+    padding: 0 10px; 
+    margin-bottom: 100px;
+  }
+
+  /* コメント欄のスタイル */
+  .comment-box {
+    margin-top: 20px;
+    margin-left: 0; 
+  }
+  .comment {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 0 10px; 
+    max-width: calc( 700px ); 
+    word-wrap: break-word; /* テキストがはみ出た場合に改行 */
+  }
+    .post-text{
+      word-break: break-all;
+      max-width: 24em;
+      text-align: left;
+    }
+  
+  .comment-author {
+    font-weight: bold;
+  }
+  .own-comment {
+    background-color: #f2f2f2; /* 自分のコメントの背景色 */
+  }
+  .like {
+    margin-left: 10px; 
+  }
+
+  /* 画像ポップアップ用のスタイル */
+  .popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* オーバーレイの背景色 */
+    z-index: 9999;
+  }
+  .popup-img {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    z-index: 10000;
+  }
+
   
   
   
 </style>
 
-</head>
-<body>
-  
 <!-- 投稿内容のコンテナ -->
-<div class="post-container" style="margin: 0 auto; margin-bottom: 50px;" >
+<div class="post-container" style="margin: 0 auto; margin-bottom: 50px; " >
   <!-- 投稿のタイトル表示 -->
-  <strong><p><%= @post.title %></p></strong>
+  <strong><p style="padding-top: 5px"><%= @post.title %></p></strong>
   <!-- 投稿者名へのリンク -->
   <div class="post-author">
     <% if @post.user.profile_image.attached? %>
@@ -136,9 +322,6 @@
       <!-- プロフィール画像がない場合のデフォルト画像 -->
       <%= image_tag "212979.jpg", style: "border-radius: 50%; width: 50px; height: 50px; float: left; margin-right: 10px;" %>
     <% end %>
-    
-    
-    
     <p><strong>投稿者:</strong> <%= link_to @post.user.name, public_user_path(@post.user) %></p>
   </div>
   <!-- 投稿の作成日時表示 -->
@@ -152,25 +335,21 @@
     </div>    <br>
 
     <!-- 投稿された画像がある場合、画像を表示 -->
-<div style="max-width: 700px; margin: 0 auto; float: left; margin-right: 10px;">
-  <% if @post.image.attached? %>
-    <% begin %>
-      <% variant = @post.image.variant(resize: "500x500") %>
-      <% if variant.present? %>
-        <%= link_to url_for(@post.image), target: "_blank" do %>
-          <%= image_tag variant, class: "post-image", data: { original_image: url_for(@post.image) }, style: "max-width: 100%;" %>
+    <div style="max-width: 700px; margin: 0 auto; float: left; margin-right: 10px;">
+      <% if @post.image.attached? %>
+        <% begin %>
+          <% variant = @post.image.variant(resize: "500x500") %>
+          <% if variant.present? %>
+            <%= link_to url_for(@post.image), target: "_blank" do %>
+              <%= image_tag variant, class: "post-image", data: { original_image: url_for(@post.image) }, style: "max-width: 100%;" %>
+            <% end %>
+          <% end %>
+        <% rescue ActiveStorage::InvariableError %>
+          <%= image_tag @post.image, class: "post-image", style: "max-width: 100%;" %>
         <% end %>
       <% end %>
-    <% rescue ActiveStorage::InvariableError %>
-      <%= image_tag @post.image, class: "post-image", style: "max-width: 100%;" %>
-    <% end %>
-  <% end %>
-  
-  
-  
-  
-</div>
-   <div style="clear: both;"></div> <!-- clear: both を追加 -->
+    </div>
+    <div style="clear: both;"></div> <!-- clear: both を追加 -->
     <% if current_user %>
       <!-- いいねボタン -->
       <br><%= render 'likes/like_button', post: @post %>
@@ -181,28 +360,26 @@
     <br>
   </div>
 
-
-<!-- コメント欄 -->
-<h5>コメント</h5>
-<div class="comment-box" style="margin: 0 auto;">
-  <% @post.comments.order(created_at: :desc).each do |comment| %>
-    <% if comment.user %>
-    
-      <!-- コメントの表示 -->
-       <div class="comment" style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; margin-bottom: 10px; background-color: white;">
-         <p style="font-size: smaller; color: #999;"><%= comment.user.name %>さん：<%= comment.created_at.strftime("%Y年%m月%d日 %H:%M:%S") %></p>
-         <p style="<%= comment.user == comment.post.user ? 'background-color: #f2f2f2; padding: 5px;' : '' %>">
-           <%= comment.posted_text %>
-         </p>
-        <!-- 自分のコメントまたは投稿者のコメントの場合、削除リンク表示 -->
-        <% if comment.user == current_user || @post.user == current_user %>
-         <%= link_to '削除', public_comment_path(comment), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'font-size: 0.8em;' %>
-        <% end %>
-       </div>
-        <% end %>
-        <% end %>
+  <!-- コメント欄 -->
+  <h5>コメント</h5>
+  <div class="comment-box" style="margin: 0 auto;">
+    <% @post.comments.order(created_at: :desc).each do |comment| %>
+      <% if comment.user %>
+        <!-- コメントの表示 -->
+        <div class="comment" style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; margin-bottom: 10px; background-color: white;">
+          <p style="font-size: smaller; color: #999;"><%= comment.user.name %>さん：<%= comment.created_at.strftime("%Y年%m月%d日 %H:%M:%S") %></p>
+          <p style="<%= comment.user == comment.post.user ? 'background-color: #f2f2f2; padding: 5px;' : '' %>">
+            <%= comment.posted_text %>
+          </p>
+          <!-- 自分のコメントまたは投稿者のコメントの場合、削除リンク表示 -->
+          <% if comment.user == current_user || @post.user == current_user %>
+            <%= link_to '削除', public_comment_path(comment), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'font-size: 0.8em;' %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
     <%= will_paginate @comments %>
-</div>
+  </div>
 
   <% if current_user %>
     <!-- コメント投稿フォーム -->
@@ -223,10 +400,6 @@
     <!-- 投稿編集ページ -->
     | <%= link_to '編集する', edit_public_post_path(@post) %> 
   <% end %>
-<%# unless current_user == @post.user %>
-  <!-- <%#= 通報のリンク %> -->
-  <%# <%= link_to "通報する", new_public_report_path(user_id: @post.user.id), style: "margin-left: 10px;" %> 
-<%# end %>
-
-
 </div>
+</body>
+</html>

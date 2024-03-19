@@ -25,9 +25,11 @@
      width: 80%;
      margin-left: auto;
      margin-right: auto;
-     max-width: 600px;
-     background-color: white; /* Set background color to white */
+     width: 100%;
+     background-color: white; 
+     box-sizing: border-box; /* paddingを含めた全体の幅と高さを調整 */
     }
+
     .like-count {
       margin-left: 10px;
       color: #777;
@@ -88,7 +90,14 @@
   display: inline-block;
 }
 
-  </style>
+  </style>  
+  
+  
+  
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 <body>
 
@@ -96,52 +105,49 @@
   <h1>投稿一覧</h1>
 
 <!-- ユーザー検索フォーム -->
-<form action="/users/search" method="GET">
-  <input type="text" name="query" placeholder="ユーザーを検索">
-  <button type="submit">検索</button>
-</form>
+<%= form_tag(users_search_path, method: :get) do %>
+  <%= text_field_tag :query, nil, placeholder: 'ユーザーを検索' %>
+  <%= submit_tag '検索' %>
+<% end %>
 <!-- ユーザー検索フォーム終わり -->
 
 <% @posts.each do |post| %>
-  <div class="post">
-    <div class="post-header">
+  <div class="post-container">
+    <div class="post">
       <!-- 記事のタイトル -->
       <strong><p><%= link_to post.title, public_post_path(post) %></p></strong>
       
       <!-- 投稿者情報とプロフィール画像 -->
       <div class="user-info">
-      <% if post.user.profile_image.attached? %>
-       <%= image_tag post.user.profile_image.variant(resize_to_fill: [50, 50]), style: "border-radius: 50%; float: left; margin-right: 10px;" %>
-      <% else %>
-       <%= image_tag url_for(post.user.default_profile_image), style: "border-radius: 50%; width: 50px; height: 50px; float: left; margin-right: 10px;" %>
+        <% if post.user.profile_image.attached? %>
+          <%= image_tag post.user.profile_image.variant(resize_to_fill: [50, 50]), style: "border-radius: 50%; float: left; margin-right: 10px;" %>
+        <% else %>
+          <%= image_tag url_for(post.user.default_profile_image), style: "border-radius: 50%; width: 50px; height: 50px; float: left; margin-right: 10px;" %>
+        <% end %>
+        <p>投稿者: <%= post.user.name %></p>
+        <!-- 投稿日時 -->
+        <p style="font-size: 0.8em; color: gray;"><%= post.created_at.strftime('%Y-%m-%d %H:%M') %></p>
+      </div>
+
+      <!-- 投稿内容 -->
+      <pre style="white-space: pre-wrap; word-wrap: break-word; font-family: Arial, sans-serif;">
+        <p><%= post.content %></p>
+      </pre>
+
+      <% if post.image.attached? %>
+        <!-- 画像が添付されている場合の表示 -->
+        <%= link_to image_tag(post.image), post.image, target: "_blank" %>
       <% end %>
 
-        <p>投稿者: <%= post.user.name %></p>
-      <!-- 投稿日時 -->
-      <p style="font-size: 0.8em; color: gray;"><%= post.created_at.strftime('%Y-%m-%d %H:%M') %><p><br>
-      </div>
+      <% if current_user %>
+        <!-- いいねボタン -->
+        <%= render 'likes/like_button', post: post %>
+        <!-- フォローボタン -->
+        <%= render 'follows/follow', post: post %>
+      <% end %>
+      <!-- コメントボタン -->
+      <%= render 'posts/comment', post: post %>
     </div>
-
-
-    <!-- 投稿内容 -->
-     <pre style="white-space: pre-wrap; word-wrap: break-word; font-family: Arial, sans-serif;">
-      <p><%= post.content %></p>
-     </pre>
-        
-    <% if post.image.attached? %>
-      <!-- 画像が添付されている場合の表示 -->
-      <%= link_to image_tag(post.image), post.image, target: "_blank" %>
-    <% end %>
-    
-    
-    <% if current_user %>
-      <!-- いいねボタン -->
-      <%= render 'likes/like_button', post: post %>
-      <!-- フォローボタン -->
-      <%= render 'follows/follow', post: post %>
-    <% end %>
-     <!-- コメントボタン -->
-     <%= render 'posts/comment', post: post %>
   </div>
 <% end %>
 

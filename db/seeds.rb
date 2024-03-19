@@ -1,5 +1,5 @@
 
 Admin.create!(
   email: 'yshkhhu4014@gmail.com',
-  password: '000000'
+  password: '19920104'
 )

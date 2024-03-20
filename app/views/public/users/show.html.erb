@@ -211,6 +211,12 @@
       margin: 0 auto; 
       text-align: left;
     }
+  .post img {
+    max-width: 90%;
+    height: auto; 
+    display: block;
+    margin: 0 auto; 
+  }      
   </style>
 
   <div class="post-container">
@@ -221,7 +227,10 @@
       <strong><p><%= link_to post.title, public_post_path(post) %></p></strong>
       <p class="post-date">投稿日時: <%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
     </div>
-    <pre><p><%= post.content %></p></pre>
+      <pre style="white-space: pre-wrap; word-wrap: break-word; font-family: Arial, sans-serif;">
+        <p><%= @post.content %></p>
+      </pre>
+
     <% if post.image.attached? %>
       <%= link_to image_tag(post.image), post.image, target: "_blank" %>
     <% end %>

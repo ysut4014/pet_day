@@ -14,13 +14,13 @@
     }
 
     .container {
-      padding: 20px;
+      padding: 10px;
     }
 
     .post {
       border: 1px solid #ccc;
       border-radius: 10px;
-      padding: 20px;
+      padding: 10px;
       margin-bottom: 20px;
       background-color: #fff;
     }
@@ -90,7 +90,7 @@
         <% else %>
           <%= image_tag url_for(@post.user.default_profile_image), style: "border-radius: 50%; width: 50px; height: 50px; float: left; margin-right: 10px;" %>
         <% end %>
-        <p>投稿者: <%= @post.user.name %></p>
+        <p>投稿者: <%= link_to @post.user.name, public_user_path(@post.user) %></p>
         <!-- 投稿日時 -->
         <p style="font-size: 0.8em; color: gray;"><%= @post.created_at.strftime('%Y-%m-%d %H:%M') %></p>
       </div>
@@ -119,12 +119,12 @@
 
 
     <!-- コメント欄 -->
-    <h5 class style="margin-left: 300px;">コメント</h5>
+    <h5 class style="margin-left: 10px;">コメント</h5>
     <div class="comment-box">
       <% @post.comments.order(created_at: :desc).each do |comment| %>
         <% if comment.user %>
           <!-- コメントの表示 -->
-          <div class="comment" style="margin-left: 300px; margin-right: 300px;">
+          <div class="comment" style="margin-left: 10px; margin-right: 10px;">
             <p style="font-size: smaller; color: #999;"><%= comment.user.name %>さん：<%= comment.created_at.strftime("%Y年%m月%d日 %H:%M:%S") %></p>
             <p style="<%= comment.user == comment.post.user ? 'background-color: #f2f2f2; padding: 5px;' : '' %>">
               <%= comment.posted_text %>
@@ -145,10 +145,10 @@
       <!-- コメント投稿フォーム -->
       <%= form_with(model: [@post, @post.comments.build], url: public_comments_path, local: true) do |form| %>
         <%= form.hidden_field :post_id, value: @post.id %>
-        <div class="field" style="margin-left: 300px;">
-          <%= form.text_area :posted_text, rows: 3, cols: 50 %>
+        <div class="field" style="margin-left: 10px;">
+          <%= form.text_area :posted_text, rows: 3, cols: 43 %>
         </div>
-        <div class="actions" style="margin-left: 300px;">
+        <div class="actions"  style="margin-left: 10px;"">
           <%= form.submit "コメントする" %>
         </div>
       <% end %>
@@ -156,7 +156,7 @@
 
     <!-- 投稿削除リンク -->
     <% if @post.user == current_user %>
-      <%= link_to '投稿を削除', public_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'margin-left: 300px;' %>
+      <%= link_to '投稿を削除', public_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'margin-left:10px;' %>
       <!-- 投稿編集ページ -->
       | <%= link_to '編集する', edit_public_post_path(@post) %> 
     <% end %>

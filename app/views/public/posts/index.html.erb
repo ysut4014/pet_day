@@ -12,7 +12,7 @@
     }
   
     .post-container {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 20px;
       text-align: center; 
@@ -21,8 +21,7 @@
      border: 1px solid #ccc;
      border-radius: 5px;
      padding: 10px;
-     margin-bottom: 20px;
-     width: 80%;
+     width: 90%;
      margin-left: auto;
      margin-right: auto;
      width: 100%;
@@ -52,12 +51,12 @@
     
     @media only screen and (max-width: 600px) {
       .post {
-        width: 90%;
+        width: 100%;
         padding: 8px;
       }
     }
   .post img {
-    max-width: 50%;
+    max-width: 90%;
     height: auto; 
     display: block;
     margin: 0 auto; 
@@ -102,7 +101,6 @@
 <body>
 
 <div class="post-container">
-  <h1>投稿一覧</h1>
 
 <!-- ユーザー検索フォーム -->
 <%= form_tag(users_search_path, method: :get) do %>
@@ -115,7 +113,7 @@
   <div class="post-container">
     <div class="post">
       <!-- 記事のタイトル -->
-      <strong><p><%= link_to post.title, public_post_path(post) %></p></strong>
+      <strong><p style="margin-bottom: 10px;"><%= link_to post.title, public_post_path(post) %></p></strong>
       
       <!-- 投稿者情報とプロフィール画像 -->
       <div class="user-info">

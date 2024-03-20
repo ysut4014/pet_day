@@ -5,77 +5,139 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>あなたがいいねした投稿一覧</title>
   <style>
-    /* スクリーン幅が600px以下の場合のみ適用されるスタイル */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      padding-top: 10px;
+    }
+  
+    .post-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center; 
+    }
+   .post {
+     border: 1px solid #ccc;
+     border-radius: 5px;
+     padding: 10px;
+     width: 90%;
+     margin-left: auto;
+     margin-right: auto;
+     width: 100%;
+     background-color: white; 
+     box-sizing: border-box; /* paddingを含めた全体の幅と高さを調整 */
+    }
+
+    .like-count {
+      margin-left: 10px;
+      color: #777;
+    }
+    .like-button {
+      display: inline-block;
+      padding: 5px 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .post p {
+      word-break: break-all;
+      max-width: 24em;
+      margin: 0 auto;
+      text-align: left;
+    }
+    
     @media only screen and (max-width: 600px) {
-      table {
-        width: 100%; /* テーブルを横いっぱいに広げる */
-        border-collapse: collapse;
-      }
-      th, td {
-        border: 1px solid #ddd;
+      .post {
+        width: 100%;
         padding: 8px;
-        text-align: center; /* 中央に配置 */
-      }
-      th {
-        background-color: #f2f2f2;
-      }
-      tr:nth-child(even) {
-        background-color: #f2f2f2;
-      }
-      .pagination {
-        display: inline-block;
       }
     }
+  .post img {
+    max-width: 90%;
+    height: auto; 
+    display: block;
+    margin: 0 auto; 
+  }  
+ /* ページネーションリンクのスタイル */
+  .pagination a {
+    color: #333;
+    padding: 3px 8px;
+    margin: 0 4px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+  }
+
+/* アクティブなページのスタイル */
+
+
+/* 無効なリンク（先頭や最後のページ）のスタイル */
+.pagination .disabled {
+    color: #aaa;
+    pointer-events: none;
+}
+
+/* ページネーションのコンテナのスタイル */
+.pagination {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.pagination {
+  display: inline-block;
+}
 
   </style>
 </head>
 <body>
 
-<h1 style="text-align: center; padding-top: 10px;">あなたがいいねした投稿一覧</h1>
-
+<h1>あなたがいいねした投稿一覧</h1>
 <% if @likes.any? %>
-  <table style="margin: 20px auto; width: 90%; border: 1px solid #ccc; border-collapse: collapse; background-color: #fff;">
+<% @likes.each do |like| %>
+  <div class="post-container">
+    <div class="post">
+      <!-- 記事のタイトル -->
+      <strong><p style="margin-bottom: 10px;"><%= link_to like.post.user.name, public_user_path(like.post.user) %></p></strong>
+      
+      <!-- 投稿者情報とプロフィール画像 -->
+      <div class="user-info">
+        <% if like.user.profile_image.attached? %>
+          <%= image_tag like.user.profile_image.variant(resize_to_fill: [50, 50]), style: "border-radius: 50%; float: left; margin-right: 10px;" %>
+        <% else %>
+          <%= image_tag url_for(like.user.default_profile_image), style: "border-radius: 50%; width: 50px; height: 50px; float: left; margin-right: 10px;" %>
+        <% end %>
+        <p>投稿者: <%= like.user.name %></p>
+        <!-- 投稿日時 -->
+        <p style="font-size: 0.8em; color: gray;"><%= like.created_at.strftime('%Y-%m-%d %H:%M') %></p>
+      </div>
 
-    <thead>
-      <tr>
-        <th style="padding: 8px;">投稿画像</th>
-        <th style="padding: 8px;">投稿者</th>
-        <th style="padding: 8px;">タイトル</th>
-        <th style="padding: 8px;">投稿文</th>
-        <th style="padding: 8px;">いいね数</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @likes.each do |like| %>
-        <tr>
-          <td style="border: 1px solid #ccc; padding: 8px;">
-            <% if like.post.image.attached? %>
-              <%= link_to image_tag(like.post.image.variant(resize: "100x100")), public_post_path(like.post) %>
-            <% else %>
-              <%= link_to image_tag("no_image.jpg", width: 100, height: 100), public_post_path(like.post) %>
-            <% end %>
-          </td>
-          <td style="border: 1px solid #ccc; padding: 8px;">
-          <% if like.post.user.profile_image.attached? %>
-            <%= image_tag like.post.user.profile_image.variant(resize_to_fill: [50, 50]), style: "border-radius: 50%;" %>
-          <% else %>
-            <%= image_tag url_for(like.post.user.default_profile_image), style: "border-radius: 50%; width: 50px; height: 50px;" %>
-          <% end %>               
-            <%= link_to like.post.user.name, public_user_path(like.post.user) %></td>
-          <td style="border: 1px solid #ccc; padding: 8px;"><%= link_to like.post.title, public_post_path(like.post) %></td>
-          <td style="border: 1px solid #ccc; padding: 8px;"><%= truncate(like.post.content, length: 50) %></td>
-          <td style="border: 1px solid #ccc; padding: 8px;"><%= like.post.likes.count %></td>
-        </tr>
+      <!-- 投稿内容 -->
+      <pre style="white-space: pre-wrap; word-wrap: break-word; font-family: Arial, sans-serif;">
+        <p><%= truncate(like.post.content, length: 50) %></p>
+      </pre>
+
+      <% if like.post.image.attached? %>
+        <!-- 画像が添付されている場合の表示 -->
+        <%= link_to image_tag(like.post.image.variant(resize: "100x100")), public_post_path(like.post) %>
       <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p style="text-align: center;">いいねした投稿はありません。</p>
+
+      <% if current_user %>
+        <!-- いいねボタン -->
+        <%= render 'likes/like_button', post: like.post %>
+        <!-- フォローボタン -->
+        <%= render 'follows/follow', post: like%>
+      <% end %>
+        <!-- コメントボタン -->
+        <%= render 'posts/comment', post: like.post %>
+    </div>
+  </div>
 <% end %>
-
-<div class="pagination-container">
-  <%= will_paginate @likes %>
-</div>
-
+<% end %>
 </body>
 </html>

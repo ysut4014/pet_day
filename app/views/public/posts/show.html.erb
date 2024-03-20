@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -12,11 +12,11 @@
       margin: 0;
       padding: 0;
     }
+
     .container {
-      max-width: 800px;
-      margin: 0 auto;
       padding: 20px;
     }
+
     .post {
       border: 1px solid #ccc;
       border-radius: 10px;
@@ -24,18 +24,19 @@
       margin-bottom: 20px;
       background-color: #fff;
     }
-    .post-container {
-      margin-bottom: 20px;
-    }
+
     .user-info {
       margin-bottom: 10px;
     }
+
     .user-info p {
       margin: 0;
     }
+
     .comment-box {
       margin: 0 auto;
     }
+
     .comment {
       border: 1px solid #ccc;
       border-radius: 10px;
@@ -43,62 +44,87 @@
       margin-bottom: 10px;
       background-color: #fff;
     }
+
     .comment p {
       margin: 0;
     }
+
     .actions {
       margin-top: 10px;
+    }
+
+    /* スマートフォン用のスタイル */
+    @media only screen and (max-width: 767px) {
+      .container {
+        max-width: 100%; /* 100%の幅 */
+      }
+    }
+
+    /* デスクトップ用のスタイル */
+    @media only screen and (min-width: 768px) {
+      .container {
+        max-width: 880px; /* 800pxの幅 */
+        margin: 0 auto; /* 中央揃え */
+      }
+    }
+
+    /* 画像のスタイル */
+    img {
+      max-width: 100%; /* 画像が枠からはみ出さないように自動でリサイズ */
+      height: auto;
     }
   </style>
 </head>
 <body>
+  
   <div class="container">
-    <div class="post-container">
-      <div class="post">
-        <!-- 記事のタイトル -->
-        <strong><p><%= link_to @post.title, public_post_path(@post) %></p></strong>
+  <h1 class style="text-align: center;"></h1>
+    <div class="post">
+      <!-- 記事のタイトル -->
+      <strong><p><%= link_to @post.title, public_post_path(@post) %></p></strong>
 
-        <!-- 投稿者情報とプロフィール画像 -->
-        <div class="user-info">
-          <% if @post.user.profile_image.attached? %>
-            <%= image_tag @post.user.profile_image.variant(resize_to_fill: [50, 50]), style: "border-radius: 50%; float: left; margin-right: 10px;" %>
-          <% else %>
-            <%= image_tag url_for(@post.user.default_profile_image), style: "border-radius: 50%; width: 50px; height: 50px; float: left; margin-right: 10px;" %>
-          <% end %>
-          <p>投稿者: <%= @post.user.name %></p>
-          <!-- 投稿日時 -->
-          <p style="font-size: 0.8em; color: gray;"><%= @post.created_at.strftime('%Y-%m-%d %H:%M') %></p>
-        </div>
-
-        <!-- 投稿内容 -->
-        <pre style="white-space: pre-wrap; word-wrap: break-word; font-family: Arial, sans-serif;">
-          <p><%= @post.content %></p>
-        </pre>
-
-        <% if @post.image.attached? %>
-          <!-- 画像が添付されている場合の表示 -->
-          <%= link_to image_tag(@post.image), @post.image, target: "_blank" %>
+      <!-- 投稿者情報とプロフィール画像 -->
+      <div class="user-info">
+        <% if @post.user.profile_image.attached? %>
+          <%= image_tag @post.user.profile_image.variant(resize_to_fill: [50, 50]), style: "border-radius: 50%; float: left; margin-right: 10px;" %>
+        <% else %>
+          <%= image_tag url_for(@post.user.default_profile_image), style: "border-radius: 50%; width: 50px; height: 50px; float: left; margin-right: 10px;" %>
         <% end %>
-        <div style="clear: both;"></div>
-
-        <% if current_user %>
-          <!-- いいねボタン -->
-          <br><%= render 'likes/like_button', post: @post %>
-
-          <!-- フォローボタン -->
-          <%= render 'follows/follow', post: @post %><br>
-        <% end %>
-        <br>
+        <p>投稿者: <%= @post.user.name %></p>
+        <!-- 投稿日時 -->
+        <p style="font-size: 0.8em; color: gray;"><%= @post.created_at.strftime('%Y-%m-%d %H:%M') %></p>
       </div>
+
+      <!-- 投稿内容 -->
+      <pre style="white-space: pre-wrap; word-wrap: break-word; font-family: Arial, sans-serif;">
+        <p><%= @post.content %></p>
+      </pre>
+
+     <% if @post.image.attached? %>
+        <!-- 画像が添付されている場合の表示 -->
+        <%= link_to image_tag(@post.image), @post.image, target: "_blank" %>
+      <% end %>
+      <div style="clear: both;"></div>
+
+      <% if current_user %>
+        <!-- いいねボタン -->
+        <br><%= render 'likes/like_button', post: @post %>
+
+        <!-- フォローボタン -->
+        <%= render 'follows/follow', post: @post %><br>
+      <% end %>
+      <br>
     </div>
+  </div>
+
 
     <!-- コメント欄 -->
-    <h5>コメント</h5>
+    <h5 class style="margin-left: 300px;">コメント</h5>
     <div class="comment-box">
       <% @post.comments.order(created_at: :desc).each do |comment| %>
         <% if comment.user %>
           <!-- コメントの表示 -->
-          <div class="comment">
+          <div class="comment" style="margin-left: 300px; margin-right: 300px;">
             <p style="font-size: smaller; color: #999;"><%= comment.user.name %>さん：<%= comment.created_at.strftime("%Y年%m月%d日 %H:%M:%S") %></p>
             <p style="<%= comment.user == comment.post.user ? 'background-color: #f2f2f2; padding: 5px;' : '' %>">
               <%= comment.posted_text %>
@@ -113,14 +139,16 @@
       <%= will_paginate @comments %>
     </div>
 
+
+
     <% if current_user %>
       <!-- コメント投稿フォーム -->
       <%= form_with(model: [@post, @post.comments.build], url: public_comments_path, local: true) do |form| %>
         <%= form.hidden_field :post_id, value: @post.id %>
-        <div class="field">
-          <%= form.text_area :posted_text, rows: 4 %>
+        <div class="field" style="margin-left: 300px;">
+          <%= form.text_area :posted_text, rows: 3, cols: 50 %>
         </div>
-        <div class="actions">
+        <div class="actions" style="margin-left: 300px;">
           <%= form.submit "コメントする" %>
         </div>
       <% end %>
@@ -128,7 +156,7 @@
 
     <!-- 投稿削除リンク -->
     <% if @post.user == current_user %>
-      <%= link_to '投稿を削除', public_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'margin-left: 10px;' %>
+      <%= link_to '投稿を削除', public_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'margin-left: 300px;' %>
       <!-- 投稿編集ページ -->
       | <%= link_to '編集する', edit_public_post_path(@post) %> 
     <% end %>

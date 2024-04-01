@@ -1,4 +1,6 @@
                                   Prefix Verb   URI Pattern                                                                                       Controller#Action
+                             reports_new GET    /reports/new(.:format)                                                                            reports#new
+                          reports_create GET    /reports/create(.:format)                                                                         reports#create
                 relationships_followings GET    /relationships/followings(.:format)                                                               relationships#followings
                  relationships_followers GET    /relationships/followers(.:format)                                                                relationships#followers
                         new_user_session GET    /users/sign_in(.:format)                                                                          public/sessions#new
@@ -29,7 +31,7 @@
                  edit_admin_registration GET    /admins/edit(.:format)                                                                            devise/registrations#edit
                       admin_registration PATCH  /admins(.:format)                                                                                 devise/registrations#update
                                          PUT    /admins(.:format)                                                                                 devise/registrations#update
-                                         DELETE /admins(.:format)                                                                                 devise/reg strations#destroy
+                                         DELETE /admins(.:format)                                                                                 devise/registrations#destroy
                                          POST   /admins(.:format)                                                                                 devise/registrations#create
                                     root GET    /                                                                                                 public/homes#top
                             users_search GET    /users/search(.:format)                                                                           public/users#search
@@ -46,9 +48,29 @@
                                          PATCH  /public/users/:id(.:format)                                                                       public/users#update
                                          PUT    /public/users/:id(.:format)                                                                       public/users#update
                       delete_public_user GET    /public/users/:id/delete(.:format)                                                                public/users#delete
+                                         DELETE /public/users/:id/destroy(.:format)                                                               public/users#destroy
                                          GET    /public/users(.:format)                                                                           public/users#index
                                          POST   /public/users(.:format)                                                                           public/users#create
                          new_public_user GET    /public/users/new(.:format)                                                                       public/users#new
+                                         GET    /public/users/:id/edit(.:format)                                                                  public/users#edit
+                                         GET    /public/users/:id(.:format)                                                                       public/users#show
+                                         PATCH  /public/users/:id(.:format)                                                                       public/users#update
+                                         PUT    /public/users/:id(.:format)                                                                       public/users#update
+                                         DELETE /public/users/:id(.:format)                                                                       public/users#destroy
+                update_image_public_user PATCH  /public/users/:id/update_image(.:format)                                                          public/users#update_image
+                                         GET    /public/users(.:format)                                                                           public/users#index
+                                         POST   /public/users(.:format)                                                                           public/users#create
+                                         GET    /public/users/new(.:format)                                                                       public/users#new
+                                         GET    /public/users/:id/edit(.:format)                                                                  public/users#edit
+                                         GET    /public/users/:id(.:format)                                                                       public/users#show
+                                         PATCH  /public/users/:id(.:format)                                                                       public/users#update
+                                         PUT    /public/users/:id(.:format)                                                                       public/users#update
+                                         DELETE /public/users/:id(.:format)                                                                       public/users#destroy
+                  edit_image_public_user GET    /public/users/:id/edit_image(.:format)                                                            public/users#edit_image
+                                         PATCH  /public/users/:id/update_image(.:format)                                                          public/users#update_image
+                                         GET    /public/users(.:format)                                                                           public/users#index
+                                         POST   /public/users(.:format)                                                                           public/users#create
+                                         GET    /public/users/new(.:format)                                                                       public/users#new
                                          GET    /public/users/:id/edit(.:format)                                                                  public/users#edit
                                          GET    /public/users/:id(.:format)                                                                       public/users#show
                                          PATCH  /public/users/:id(.:format)                                                                       public/users#update
@@ -72,10 +94,22 @@
                          public_comments GET    /public/comments(.:format)                                                                        public/comments#index
                                          POST   /public/comments(.:format)                                                                        public/comments#create
                           public_comment DELETE /public/comments/:id(.:format)                                                                    public/comments#destroy
+                                         GET    /public/users/:id/delete(.:format)                                                                public/users#delete
+                                         DELETE /public/users/:id/destroy(.:format)                                                               public/users#destroy
+                                         GET    /public/users(.:format)                                                                           public/users#index
+                                         POST   /public/users(.:format)                                                                           public/users#create
+                                         GET    /public/users/new(.:format)                                                                       public/users#new
+                                         GET    /public/users/:id/edit(.:format)                                                                  public/users#edit
+                                         GET    /public/users/:id(.:format)                                                                       public/users#show
+                                         PATCH  /public/users/:id(.:format)                                                                       public/users#update
+                                         PUT    /public/users/:id(.:format)                                                                       public/users#update
+                                         DELETE /public/users/:id(.:format)                                                                       public/users#destroy
         destroy_all_public_notifications DELETE /public/notifications/destroy_all(.:format)                                                       public/notifications#destroy_all
                     public_notifications GET    /public/notifications(.:format)                                                                   public/notifications#index
                                          POST   /public/notifications(.:format)                                                                   public/notifications#create
                      public_notification DELETE /public/notifications/:id(.:format)                                                               public/notifications#destroy
+                          public_reports POST   /public/reports(.:format)                                                                         public/reports#create
+                       new_public_report GET    /public/reports/new(.:format)                                                                     public/reports#new
                         user_homes_about GET    /home/about(.:format)                                                                             homes#about
                 delete_all_notifications DELETE /notifications/delete_all(.:format)                                                               notifications#delete_all
                               admin_root GET    /admin(.:format)                                                                                  admin/homes#top
@@ -104,10 +138,22 @@
                                          PATCH  /admin/posts/:id(.:format)                                                                        admin/posts#update
                                          PUT    /admin/posts/:id(.:format)                                                                        admin/posts#update
                                          DELETE /admin/posts/:id(.:format)                                                                        admin/posts#destroy
+                     admin_admin_comment DELETE /admin/admin_comments/:id(.:format)                                                               admin/admin_comments#destroy
+                                         DELETE /admin/posts/:post_id/comments/:id(.:format)                                                      admin/comments#destroy
+                                         GET    /admin/posts(.:format)                                                                            admin/posts#index
+                                         POST   /admin/posts(.:format)                                                                            admin/posts#create
+                                         GET    /admin/posts/new(.:format)                                                                        admin/posts#new
+                                         GET    /admin/posts/:id/edit(.:format)                                                                   admin/posts#edit
+                                         GET    /admin/posts/:id(.:format)                                                                        admin/posts#show
+                                         PATCH  /admin/posts/:id(.:format)                                                                        admin/posts#update
+                                         PUT    /admin/posts/:id(.:format)                                                                        admin/posts#update
+                                         DELETE /admin/posts/:id(.:format)                                                                        admin/posts#destroy
            admin_comment_comment_replies POST   /admin/comments/:comment_id/comment_replies(.:format)                                             admin/comment_replies#create
                      admin_comment_reply DELETE /admin/comment_replies/:id(.:format)                                                              admin/comment_replies#destroy
                           admin_comments POST   /admin/comments(.:format)                                                                         admin/comments#create
                            admin_comment DELETE /admin/comments/:id(.:format)                                                                     admin/comments#destroy
+                           admin_reports GET    /admin/reports(.:format)                                                                          admin/reports#index
+                            admin_report GET    /admin/reports/:id(.:format)                                                                      admin/reports#show
                      admin_notifications GET    /admin/notifications(.:format)                                                                    admin/notifications#index
                       admin_notification GET    /admin/notifications/:id(.:format)                                                                admin/notifications#show
                                          DELETE /admin/notifications/:id(.:format)                                                                admin/notifications#destroy

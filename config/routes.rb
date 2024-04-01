@@ -84,8 +84,6 @@ end
     
     get 'top', to: 'homes#top', as: 'top'
 
-    # フォロー関連
-    resources :follows, only: [:create, :destroy]
 
     # ユーザー関連
     resources :users do
@@ -96,8 +94,6 @@ end
     # いいね関連
     resources :posts do
       delete :delete_all, on: :collection
-      resources :likes, only: [:create, :destroy]
-      resources :comments, only: [:create, :destroy]
     end
     
     
@@ -111,9 +107,6 @@ end
     resources :comments, only: [:create, :destroy] do
       resources :comment_replies, only: [:create, :destroy], shallow: true
     end
-    resources :reports, only: [:index, :show]
-    # 通知関連
-    resources :notifications, only: [:index, :destroy, :show]
   end
   
 

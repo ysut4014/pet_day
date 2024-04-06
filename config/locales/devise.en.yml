@@ -55,6 +55,8 @@ ja:
       unlocked: "アカウントが正常にロック解除されました。続行するにはサインインしてください。"
   errors:
     messages:
+      taken: "はすでに使用されています"
+      too_long: "は50文字以内で入力してください"    
       already_confirmed: "はすでに確認されています。サインインしてください。"
       confirmation_period_expired: "は%{period}以内に確認される必要があります。新しい確認メールをリクエストしてください。"
       expired: "は期限切れです。新しいリクエストをしてください。"

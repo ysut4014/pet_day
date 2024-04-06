@@ -1,42 +1,38 @@
 <div class="row justify-content-center">
   <div class="col-md-6">
-    <% if alert %>
+    <% if flash[:alert] %>
       <div class="alert alert-danger" role="alert">
-        <%= alert %>
+        <%= flash[:alert] %>
       </div>
     <% end %>
     <h5 class="p-5">新規会員登録</h5>
 
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { id: "registration-form" }) do |f| %>      <div class="form-group">
+        <%= f.label :name, "ネーム" %>
+        <%= f.text_field :name, class: "form-control", placeholder: "ニックネーム", required: true %>
+      </div>
 
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-        <div class="form-group">
-          <%= f.label :name, "ネーム" %>
-          <%= f.text_field :name, class: "form-control", placeholder: "ニックネーム", required: true %>
-        </div>
+      <div class="form-group">
+        <%= f.label :email, "メールアドレス" %>
+        <%= f.email_field :email, class: "form-control", placeholder: "sample@example.com", required: true %>
+      </div>
 
-        <div class="form-group">
-          <%= f.label :name, "メールアドレス" %>
-          <%= f.email_field :email, class: "form-control", placeholder: "sample@example.com", required: true %>
-        </div>
+      <div class="form-group">
+        <%= f.label :password, "パスワード（６文字以上）" %>
+        <%= f.password_field :password, class: "form-control", required: true %>
+      </div>
 
+      <div class="form-group">
+        <%= f.label :password_confirmation, "パスワード（確認用）" %>
+        <%= f.password_field :password_confirmation, class: "form-control", required: true %>
+      </div>
 
-        <div class="form-group">
-          <%= f.label :name, "パスワード（６文字以上）" %>
-          <%= f.password_field :password, class: "form-control", required: true %>
-        </div>
+      <div class="form-group">
+        <%= f.submit "新規登録", class: "btn btn-primary" %>
+      </div>
+    <% end %>
 
-        <div class="form-group">
-          <%= f.label :name, "パスワード（確認用）" %>
-          <%= f.password_field :password_confirmation, class: "form-control", required: true %>
-        </div>
-
-        <div class="form-group">
-          <%= f.button "新規登録", class: "btn btn-primary" %>
-        </div>
-      <% end %>
-
-      <h5 class="p-3">既に登録済みの方</h5>
-      <a href="<%= user_session_path %>">こちら</a>からログインしてください.
-    </div>
+    <h5 class="p-3">既に登録済みの方</h5>
+    <a href="<%= user_session_path %>">こちら</a>からログインしてください.
   </div>
-</main>
+</div>

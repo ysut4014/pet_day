@@ -11,6 +11,7 @@ module PetDay
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
+    config.i18n.default_locale = :ja
     #config.autoload_paths += Dir[Rails.root.join('app', 'controllers', '**/')]
     # Configuration for the application, engines, and railties goes here.
     #

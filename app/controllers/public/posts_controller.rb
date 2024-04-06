@@ -17,6 +17,10 @@ class Public::PostsController < ApplicationController
   
   def edit
     @post = Post.find(params[:id])
+    unless @post.user == current_user
+      redirect_to root_path, alert: "他のユーザーの投稿を編集する権限がありません。"
+    end    
+    
   end  
 
   # 特定の投稿を表示するためのアクション
@@ -53,6 +57,8 @@ class Public::PostsController < ApplicationController
     else
       render :edit
     end
+    
+    
   end  
   
   # ユーザーをフォローするためのアクション

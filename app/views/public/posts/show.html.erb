@@ -118,41 +118,60 @@
   </div>
 
 
-    <!-- コメント欄 -->
-    <h5 class style="margin-left: 10px;">コメント</h5>
-    <div class="comment-box">
-      <% @post.comments.order(created_at: :desc).each do |comment| %>
-        <% if comment.user %>
-          <!-- コメントの表示 -->
-          <div class="comment" style="margin-left: 10px; margin-right: 10px;">
-            <p style="font-size: smaller; color: #999;"><%= comment.user.name %>さん：<%= comment.created_at.strftime("%Y年%m月%d日 %H:%M:%S") %></p>
-            <p style="<%= comment.user == comment.post.user ? 'background-color: #f2f2f2; padding: 5px;' : '' %>">
-              <%= comment.posted_text %>
-            </p>
-            <!-- 自分のコメントまたは投稿者のコメントの場合、削除リンク表示 -->
-            <% if comment.user == current_user || @post.user == current_user %>
-              <%= link_to '削除', public_comment_path(comment), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'font-size: 0.8em;' %>
-            <% end %>
-          </div>
-        <% end %>
-      <% end %>
-      <%= will_paginate @comments %>
+<!-- コメント欄 -->
+<h5 class style="margin-left: 10px;">コメント</h5>
+
+<div class="comment-box">
+<% if flash[:alert] %>
+  <div class="alert-container">
+    <div class="alert alert-danger" role="alert">
+      <%= flash[:alert] %>
     </div>
+  </div>
+<% end %>
+
+  <% @post.comments.order(created_at: :desc).each do |comment| %>
+    <% if comment.user %>
+      <!-- コメントの表示 -->
+      <div class="comment" style="margin-left: 10px; margin-right: 10px;">
+        <p style="font-size: smaller; color: #999;"><%= comment.user.name %>さん：<%= comment.created_at.strftime("%Y年%m月%d日 %H:%M:%S") %></p>
+        <p style="<%= comment.user == comment.post.user ? 'background-color: #f2f2f2; padding: 5px;' : '' %>">
+          <%= comment.posted_text %>
+        </p>
+        <!-- 自分のコメントまたは投稿者のコメントの場合、削除リンク表示 -->
+        <% if comment.user == current_user || @post.user == current_user %>
+          <%= link_to '削除', public_comment_path(comment), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'font-size: 0.8em;' %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+  <%= will_paginate @comments %>
+</div>
 
 
 
-    <% if current_user %>
-      <!-- コメント投稿フォーム -->
-      <%= form_with(model: [@post, @post.comments.build], url: public_comments_path, local: true) do |form| %>
-        <%= form.hidden_field :post_id, value: @post.id %>
-        <div class="field" style="margin-left: 10px;">
-          <%= form.text_area :posted_text, rows: 3, cols: 43 %>
-        </div>
-        <div class="actions"  style="margin-left: 10px;"">
-          <%= form.submit "コメントする" %>
-        </div>
-      <% end %>
-    <% end %><br>
+<% if current_user %>
+  <!-- コメント投稿フォーム -->
+  <%= form_with(model: [@post, @post.comments.build], url: public_comments_path, local: true) do |form| %>
+    <%= form.hidden_field :post_id, value: @post.id %>
+    <div class="field" style="margin-left: 10px;">
+      <%= form.text_area :posted_text, rows: 3, cols: 43 %>
+    </div>
+    <div class="actions" style="margin-left: 10px;">
+      <%= form.submit "コメントする" %>
+    </div>
+    <% if @post.comments.build.errors.any? %>
+      <div id="error_explanation">
+        <ul>
+          <% @post.comments.build.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
 
     <!-- 投稿削除リンク -->
     <% if @post.user == current_user %>

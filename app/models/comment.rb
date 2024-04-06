@@ -4,7 +4,7 @@ class Comment < ApplicationRecord
   belongs_to :post 
   belongs_to :parent_comment, class_name: "Comment", optional: true
   has_many :notifications, dependent: :destroy
-
+  validates :posted_text, presence: true
   private
 
   # 通知を作成

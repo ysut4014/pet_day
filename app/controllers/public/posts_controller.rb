@@ -1,4 +1,5 @@
 class Public::PostsController < ApplicationController
+  before_action :set_post, only: [:edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
   def new
     @post = Post.new
@@ -9,7 +10,7 @@ class Public::PostsController < ApplicationController
     @post = Post.new(post_params)
     if @post.save
       create_notifications_for_followers(@post) # 新しい投稿をフォロワーに通知
-      redirect_to public_posts_path
+      redirect_to posts_path
     else
       render 'new'
     end
@@ -47,13 +48,13 @@ class Public::PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
-    redirect_to public_posts_path, notice: "投稿が削除されました"
+    redirect_to posts_path, notice: "投稿が削除されました"
   end
   
   def update
     @post = Post.find(params[:id])
     if @post.update(post_params)
-      redirect_to public_posts_path, notice: '投稿が更新されました'
+      redirect_to posts_path, notice: '投稿が更新されました'
     else
       render :edit
     end

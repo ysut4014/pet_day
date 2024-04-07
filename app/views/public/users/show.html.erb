@@ -154,12 +154,12 @@
   <!-- User Links -->
   <div class="user-links" style="padding:0 10px 0 10px; background" >
     <% if current_user == @user %>
-      <%= link_to "いいね一覧", public_post_likes_path(@user), class: "transparent-btn" %>
-      <%= link_to "フォロワー一覧", public_user_followers_path(@user), class: "transparent-btn" %>
-      <%= link_to "フォロー一覧", public_user_followings_path(@user), class: "transparent-btn" %>
-      <%= link_to "プロフィール編集", edit_public_user_path(@user), class: "transparent-btn" %>
-      <%= link_to 'プロフィール画像設定', edit_image_public_user_path(@user), class: "transparent-btn" %>
-      <%= link_to "退会", delete_public_user_path(@user), class: "transparent-btn" %>
+      <%= link_to "いいね一覧", post_likes_path(@user), class: "transparent-btn" %>
+      <%= link_to "フォロワー一覧", user_followers_path(@user), class: "transparent-btn" %>
+      <%= link_to "フォロー一覧", user_followings_path(@user), class: "transparent-btn" %>
+      <%= link_to "プロフィール編集", edit_user_path(@user), class: "transparent-btn" %>
+      <%= link_to 'プロフィール画像設定', edit_image_user_path(@user), class: "transparent-btn" %>
+      <%= link_to "退会", delete_user_path(@user), class: "transparent-btn" %>
     <% end %>
   </div>
 
@@ -226,7 +226,7 @@
 <% @posts.order(created_at: :desc).each do |post| %>
   <div class="post">
     <div class="post-header">
-      <strong><p><%= link_to post.title, public_post_path(post) %></p></strong>
+      <strong><p><%= link_to post.title, post_path(post) %></p></strong>
       <p class="post-date">投稿日時: <%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
     </div>
       <pre style="white-space: pre-wrap; word-wrap: break-word; font-family: Arial, sans-serif;">

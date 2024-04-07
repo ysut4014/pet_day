@@ -11,10 +11,10 @@ def create
   if @comment.save
 
     # 投稿の詳細ページを表示します
-    redirect_to public_post_path(@post)
+    redirect_to post_path(@post)
   else
     # コメントが保存されなかった場合は、投稿の詳細ページを再表示します
-    redirect_to public_post_path(@post), alert: 'コメントの投稿に失敗しました。'
+    redirect_to post_path(@post), alert: 'コメントの投稿に失敗しました。'
   end
 end
 

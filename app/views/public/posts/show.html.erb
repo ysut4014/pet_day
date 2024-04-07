@@ -81,7 +81,7 @@
   <h1 class style="text-align: center;"></h1>
     <div class="post">
       <!-- 記事のタイトル -->
-      <strong><p><%= link_to @post.title, public_post_path(@post) %></p></strong>
+      <strong><p><%= link_to @post.title, post_path(@post) %></p></strong>
 
       <!-- 投稿者情報とプロフィール画像 -->
       <div class="user-info">
@@ -90,7 +90,7 @@
         <% else %>
           <%= image_tag url_for(@post.user.default_profile_image), style: "border-radius: 50%; width: 50px; height: 50px; float: left; margin-right: 10px;" %>
         <% end %>
-        <p>投稿者: <%= link_to @post.user.name, public_user_path(@post.user) %></p>
+        <p>投稿者: <%= link_to @post.user.name, user_path(@post.user) %></p>
         <!-- 投稿日時 -->
         <p style="font-size: 0.8em; color: gray;"><%= @post.created_at.strftime('%Y-%m-%d %H:%M') %></p>
       </div>
@@ -140,7 +140,7 @@
         </p>
         <!-- 自分のコメントまたは投稿者のコメントの場合、削除リンク表示 -->
         <% if comment.user == current_user || @post.user == current_user %>
-          <%= link_to '削除', public_comment_path(comment), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'font-size: 0.8em;' %>
+          <%= link_to '削除', comment_path(comment), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'font-size: 0.8em;' %>
         <% end %>
       </div>
     <% end %>
@@ -152,7 +152,7 @@
 
 <% if current_user %>
   <!-- コメント投稿フォーム -->
-  <%= form_with(model: [@post, @post.comments.build], url: public_comments_path, local: true) do |form| %>
+  <%= form_with(model: [@post, @post.comments.build], url: comments_path, local: true) do |form| %>
     <%= form.hidden_field :post_id, value: @post.id %>
     <div class="field" style="margin-left: 10px;">
       <%= form.text_area :posted_text, rows: 3, cols: 43 %>
@@ -175,9 +175,9 @@
 
     <!-- 投稿削除リンク -->
     <% if @post.user == current_user %>
-      <%= link_to '投稿を削除', public_post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'margin-left:10px;' %>
+      <%= link_to '投稿を削除', post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'margin-left:10px;' %>
       <!-- 投稿編集ページ -->
-      | <%= link_to '編集する', edit_public_post_path(@post) %> 
+      | <%= link_to '編集する', edit_post_path(@post) %> 
     <% end %>
   </div>
 </body>

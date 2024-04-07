@@ -21,7 +21,7 @@ class Public::LikesController < ApplicationController
     like = current_user.likes.find_by(post: @post)
     like.destroy
     flash[:notice] = 'いいねを取り消しました。'
-    redirect_back fallback_location: public_post_path(@post)
+    redirect_back fallback_location: post_path(@post)
   end
 
   private

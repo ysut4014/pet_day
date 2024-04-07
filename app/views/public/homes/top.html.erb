@@ -39,7 +39,9 @@
 
     <a href="https://jp.freepik.com/free-photo/chubby-domestic-cat-leaning-on-a-brown-puppy-lying-on-a-white-surface_17247032.htm#fromView=search&page=3&position=14&uuid=4ad9b7de-9abd-4957-af8b-82b73e041311">背景 著作者：wirestock／出典：Freepik</a>
       <% if current_user %>
-    <%= button_to '全ての通知を削除', delete_all_notifications_path, method: :delete, data: { confirm: '本当に全ての通知を削除しますか？' }, class: 'btn btn-danger mb-3' %>
+<% if @notifications.present? %>
+  <%= button_to '全ての通知を削除', destroy_all_notifications_path, method: :delete, data: { confirm: '本当に全ての通知を削除しますか？' }, class: 'btn btn-danger mb-3' %>
+<% end %>
 
 <!-- 通知ボックス -->
 <div style="max-height: 400px; overflow-y: auto; margin-top: 10px; background-color: rgba(255, 255, 255, 0.5); width: 40%;">

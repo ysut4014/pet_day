@@ -18,7 +18,7 @@
 <div style="text-align: center;">
   <h1>新しい投稿をする</h1>
 
-  <%= form_with model: @post, url: public_posts_path, multipart: true do |form| %>
+<%= form_with model: @post, url: posts_path, multipart: true do |form| %>
     <% if @post.errors.any? %>
       <div class="notification">
         <ul>

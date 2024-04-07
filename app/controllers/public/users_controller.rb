@@ -12,7 +12,7 @@ class Public::UsersController < ApplicationController
     @user = User.new(user_params)
     @user.profile_image.attach(params[:user][:profile_image])
     if @user.save
-      redirect_to public_user_path(@user), notice: 'プロフィールが更新されました。'
+      redirect_to user_path(@user), notice: 'プロフィールが更新されました。'
     else
       render "new", status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class Public::UsersController < ApplicationController
       @user.profile_image.attach(params[:user][:profile_image]) if @user.profile_image.blank?
       if @user.update(user_params)
         bypass_sign_in(@user) # ログインを保持したまま更新成功時にログインし直す
-        redirect_to public_user_path(@user), notice: 'プロフィールが更新されました。'
+        redirect_to user_path(@user), notice: 'プロフィールが更新されました。'
       else
         render :edit
       end
@@ -68,7 +68,7 @@ class Public::UsersController < ApplicationController
   def update_image
     @user = User.find(params[:id])
     if @user.update(user_params)
-      redirect_to public_user_path(@user), notice: 'プロフィールイメージが更新されました。'
+      redirect_to user_path(@user), notice: 'プロフィールイメージが更新されました。'
     else
       render :edit_image
     end

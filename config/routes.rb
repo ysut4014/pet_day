@@ -20,7 +20,7 @@ devise_for :admins, controllers: {
 
 get '/users/search', to: 'public/users#search'
   
-namespace :public do
+scope module: :public do
   # フォロー関連
   resources :relationships, only: [:create, :destroy]
   # ユーザー関連
@@ -56,10 +56,8 @@ end
     delete 'destroy', on: :member # 退会アクション用のルート
   end
   # 通知関連
-  resources :notifications, only: [:index, :destroy, :create] do
-    collection do
-      delete :destroy_all
-    end
+  resources :notifications do
+    delete :destroy_all, on: :collection
   end
   
    resources :reports, only: [:new, :create]

@@ -21,7 +21,7 @@
     <div class="form-container">
       <h1>投稿を編集する</h1>
         
-      <%= form_with(model: @post, url: public_post_path(@post), method: :patch) do |form| %>
+      <%= form_with(model: @post, url: post_path(@post), method: :patch) do |form| %>
         <!-- タイトルの編集 -->
         <div class="field">
           <%= form.label :title, "タイトル" %>

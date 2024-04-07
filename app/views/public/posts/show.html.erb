@@ -174,11 +174,9 @@
 
 
     <!-- 投稿削除リンク -->
-    <% if @post.user == current_user %>
-      <%= link_to '投稿を削除', post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'margin-left:10px;' %>
-      <!-- 投稿編集ページ -->
-      | <%= link_to '編集する', edit_post_path(@post) %> 
-    <% end %>
+<%= link_to '投稿を削除', post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？' }, style: 'margin-left:10px;' if @post.user == current_user %>
+| <%= link_to '編集する', edit_post_path(@post) if @post.user == current_user %>
+
   </div>
 </body>
 </html>

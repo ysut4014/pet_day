@@ -25,17 +25,18 @@ class Public::UsersController < ApplicationController
 
   # ユーザーのプロフィールを更新するアクション
   def update
-    @user.profile_image.attach(params[:user][:profile_image]) if @user.profile_image.blank?
-    if @user.update(user_params)
-      bypass_sign_in(@user) # ログインを保持したまま更新成功時にログインし直す
-      redirect_to public_user_path(@user), notice: 'プロフィールが更新されました。'
+    if @user == current_user # ログイン中のユーザーが編集しようとしているプロフィールが自分のものであるかを確認
+      @user.profile_image.attach(params[:user][:profile_image]) if @user.profile_image.blank?
+      if @user.update(user_params)
+        bypass_sign_in(@user) # ログインを保持したまま更新成功時にログインし直す
+        redirect_to public_user_path(@user), notice: 'プロフィールが更新されました。'
+      else
+        render :edit
+      end
     else
-      render :edit
+      redirect_to root_path
     end
   end
-
-
-
 
   # ユーザーを削除するアクション
   def destroy
@@ -73,7 +74,10 @@ end
   
   # リクエストされたユーザーを取得するメソッド
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find_by(id: params[:id])
+    unless @user
+      redirect_to root_path
+    end
   end
   
   # プロフィール画像の更新に使用するストロングパラメータ

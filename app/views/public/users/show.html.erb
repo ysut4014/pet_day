@@ -117,7 +117,7 @@
 </style>
 </head>
 <body>
-  <!-- User Information Display -->
+
   <h1>
     <div style="padding-left: 10px; padding-top: 10px;">
       <%= image_tag @user.profile_image.variant(resize_to_fill: [50, 50]), style: "border-radius: 50%;" if @user.profile_image.attached? %>
@@ -125,6 +125,8 @@
       <%= @user.name %>さんのページ
     </div>
   </h1>
+
+  
   <div class="table-container" style="padding-left: 10px;">
     <table class="user-info-table">
       <tr>

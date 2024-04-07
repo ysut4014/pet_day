@@ -25,7 +25,7 @@ class Public::UsersController < ApplicationController
 
   # ユーザーのプロフィールを更新するアクション
   def update
-    if @user == current_user # ログイン中のユーザーが編集しようとしているプロフィールが自分のものであるかを確認
+    if @user == current_user 
       @user.profile_image.attach(params[:user][:profile_image]) if @user.profile_image.blank?
       if @user.update(user_params)
         bypass_sign_in(@user) # ログインを保持したまま更新成功時にログインし直す
@@ -58,17 +58,21 @@ class Public::UsersController < ApplicationController
   end
   
   def edit_image
-    @user = current_user
+    @user = User.find_by(id: params[:id])
+    unless @user && @user == current_user
+      redirect_to root_path
+    end
   end
 
-def update_image
-  @user = User.find(params[:id])
-  if @user.update(user_params)
-    redirect_to public_user_path(@user), notice: 'プロフィールイメージが更新されました。'
-  else
-    render :edit_image
+
+  def update_image
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to public_user_path(@user), notice: 'プロフィールイメージが更新されました。'
+    else
+      render :edit_image
+    end
   end
-end
   
   private
   

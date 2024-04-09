@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>アカウントの削除</title>
-  <style>
+<style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
@@ -26,13 +20,10 @@
     .btn.cancel {
       background-color: #6c757d;
     }
-  </style>
-</head>
-<body>
+</style>
+
 
 <h1>アカウントを削除しますか？</h1>
 <%= link_to " 退会する", user_path(@user), method: :delete, data: { confirm: "本当に退会しますか？" }, class: "btn btn-danger" %>
 <%= link_to "キャンセル", user_path(@user), class: "btn cancel" %>
 
-</body>
-</html>

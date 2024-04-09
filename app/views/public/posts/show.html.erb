@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= @post.title %></title>
 
-  <!-- スタイルの定義 -->
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -74,8 +67,6 @@
       height: auto;
     }
   </style>
-</head>
-<body>
   
   <div class="container">
   <h1 class style="text-align: center;"></h1>
@@ -178,5 +169,4 @@
 | <%= link_to '編集する', edit_post_path(@post) if @post.user == current_user %>
 
   </div>
-</body>
-</html>
+

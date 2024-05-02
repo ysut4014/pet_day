@@ -2,9 +2,14 @@ ja:
   activerecord:
     errors:
       models:
-        user:
+        admin: # モデル名をAdminに変更しました
           attributes:
             email:
               taken: "は既に登録されています"
-            name:
-              too_long: "は50文字以内で入力してください"
+            password:
+              blank: "パスワードを入力してください"
+      models:
+        your_model_name_here: # ここにモデル名を指定してください
+          attributes:
+            your_attribute_name_here: # ここに属性名を指定してください
+              record_invalid: "無効なレコードです" # エラーメッセージを指定してください

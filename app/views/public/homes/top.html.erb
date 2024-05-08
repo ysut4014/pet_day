@@ -1,13 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Floating Background</title>
 <style>
+  /* ここにCSSスタイルを記述 */
   @media only screen and (max-width: 600px) {
     .plate {
-      width: 100%; /* 幅を100%に設定 */
+      width: 100%;
     }
     .home-box {
-      padding: 0 10px; /* 左右のパディングを追加 */
+      padding: 0 10px;
     }
     .notification {
-      margin: 10px 0; /* 通知の間のマージンを追加 */
+      margin: 10px 0;
     }
   }
   p {
@@ -22,20 +29,24 @@
     background-position: center;
     text-align: center;
     height: 100vh;
+    opacity: 0; /* 初期状態は透明に */
+    transition: opacity 3.5s ease; /* opacityの変化を2秒かけて行う */
   }
 </style>
+</head>
+<body>
+  <div class="plate mx-auto" id="cork" style="padding-left: 10px; padding-right: 10px;">
+    <div style="display: inline-block; text-align: left;">
+      <span style="font-size: 36px;">Welcome!!</span>
+      <div class="home-box mx-auto my-3" style="text-align: left; background-color: rgba(240, 240, 240, 0.5);">
+        <p class="home-text">
+          ようこそ、PET DAYへ！<br>
+          このサイトは、ペット向けのSNSサイトになります。
+          自分のペットの投稿をしたり、他のユーザーと共有したりしてください。<br>
+          投稿には会員登録が必要になります。
+        </p>
+      </div>
 
-<div class="plate mx-auto" id="cork" style="padding-left: 10px; padding-right: 10px;">
-  <div style="display: inline-block; text-align: left;">
-    <span style="font-size: 36px;">Welcome!!</span>
-    <div class="home-box mx-auto my-3" style="text-align: left;     background-color: rgba(240, 240, 240, 0.5);">
-     <p class="home-text">
-        ようこそ、PET DAYへ！<br>
-        このサイトは、ペット向けのSNSサイトになります。
-        自分のペットの投稿をしたり、他のユーザーと共有したりしてください。<br>
-        投稿には会員登録が必要になります。
-      </p>
-    </div>
 
     <a href="https://jp.freepik.com/free-photo/chubby-domestic-cat-leaning-on-a-brown-puppy-lying-on-a-white-surface_17247032.htm#fromView=search&page=3&position=14&uuid=4ad9b7de-9abd-4957-af8b-82b73e041311">背景 著作者：wirestock／出典：Freepik</a>
       <% if current_user %>
@@ -58,3 +69,11 @@
 
   </div>
 </div>
+
+<script>
+  // ページが読み込まれたら背景を浮かび上がるようにする
+  window.onload = function() {
+    var cork = document.getElementById('cork');
+    cork.style.opacity = '1'; // 背景を透明度1に変更（浮かび上がる）
+  };
+</script>

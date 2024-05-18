@@ -17,7 +17,7 @@
 - 出来事を記録する時
 - いい写真が撮れた時
 ## 設計書
-
+- https://docs.google.com/spreadsheets/d/1SRt7bLNXr0ymWXep_Dt4gERLgIm-LI6G/edit#gid=549108681
 
 ## 開発環境
 - OS：Linux(CentOS)
